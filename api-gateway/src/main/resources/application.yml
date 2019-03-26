@@ -1,0 +1,31 @@
+server:
+  port: 80
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: CONFIG
+      profile: dev
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+zuul:
+  #全部服务忽略敏感头(全部服务都可以传递cookie)
+  sensitive-headers:
+  routes:
+    ticket:
+      serviceId: ticket
+      path: /ticketSlae/**
+    #路由规则：service-id: 请求的url
+#    ticket: /ticketSlae/**
+  #不使用zuul路由的url
+#  ignored-patterns:
+#    - /**/user/login
+
