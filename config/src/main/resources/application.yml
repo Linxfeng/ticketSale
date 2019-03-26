@@ -23,3 +23,8 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
+#暴露bus-refresh接口，实现配置动态刷新
+management:
+  endpoints:
+    web:
+      expose: "*"
