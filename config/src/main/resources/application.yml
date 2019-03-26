@@ -4,11 +4,21 @@ server:
 spring:
   application:
     name: config
+  #profiles:
+    #active: dev,git
   cloud:
     config:
       server:
         git:
-          uri: https://github.com/Linxfeng/config-repo/
+          uri: https://github.com/Linxfeng/config-repo.git
+          search-paths: /
+          #username: xxx
+          #password: xxx
+  rabbitmq:
+    host: localhost
+    #username: xxx
+    #password: xxx
+    port: 5672
 eureka:
   client:
     service-url:
