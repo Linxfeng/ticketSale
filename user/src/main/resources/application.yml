@@ -1,0 +1,15 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: user
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306/ticketsale?characterEncoding=utf-8&useSSL=false
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        enable_lazy_load_no_trans: true
