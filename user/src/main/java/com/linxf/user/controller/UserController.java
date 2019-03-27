@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -49,7 +48,7 @@ public class UserController {
             userInfoService.createUser(userInfo);
         } catch (Exception e) {
             log.error("【用户注册】失败, {}", userVo);
-            log.error("UserController.register ERROR: ", e.getMessage());
+            log.error("UserController.register ERROR:{}", e.getMessage());
             return ResponseVo.success(e.getMessage(), userVo);
         }
         Map<String, String> resultMap = new HashMap<>();
