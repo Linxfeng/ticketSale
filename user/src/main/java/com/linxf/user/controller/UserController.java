@@ -49,7 +49,7 @@ public class UserController {
         } catch (Exception e) {
             log.error("【用户注册】失败, {}", userVo);
             log.error("UserController.register ERROR:{}", e.getMessage());
-            return ResponseVo.success(e.getMessage(), userVo);
+            return ResponseVo.failed(e.getMessage());
         }
         Map<String, String> resultMap = new HashMap<>();
         resultMap.put("uid", userInfo.getUid());
