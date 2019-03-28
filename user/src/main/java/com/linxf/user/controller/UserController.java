@@ -5,6 +5,7 @@ import com.linxf.common.vo.ResponseVo;
 import com.linxf.user.dataobject.UserInfo;
 import com.linxf.user.enums.UserTypeEnum;
 import com.linxf.user.service.UserInfoService;
+import com.linxf.user.utils.RedisCacheUtil;
 import com.linxf.user.utils.VerifyParamsUtil;
 import com.linxf.user.vo.UserVo;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,13 +31,16 @@ public class UserController {
     @Autowired
     private UserInfoService userInfoService;
 
+    @Autowired
+    private RedisCacheUtil redisCacheUtil;
+
     /**
      * 用户注册
      * @param userVo
      * @return
      */
     @PostMapping("/register")
-    public ResponseVo register(UserVo userVo) {
+    public ResponseVo register(UserVo userVo, HttpServletResponse response) {
         UserInfo userInfo = new UserInfo();
         try {
             VerifyParamsUtil.validUserVo(userVo); //校验参数
@@ -53,6 +58,9 @@ public class UserController {
         }
         Map<String, String> resultMap = new HashMap<>();
         resultMap.put("uid", userInfo.getUid());
+        String token = UUIDUtil.get32UUID();
+        redisCacheUtil.setValue(userInfo.getUid(), token);//用户信息写入redis
+        response.addHeader("u_token", token);//认证信息token写入浏览器
         return ResponseVo.success("注册成功！", resultMap);
     }
 
