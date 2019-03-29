@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author lintao
@@ -51,17 +49,16 @@ public class UserController {
             userInfo.setUid(UUIDUtil.get16UUID());
             userInfo.setUserType(UserTypeEnum.ORDINARY.getCode());
             userInfoService.createUser(userInfo);
+            String uid = userInfo.getUid();
+            String token = redisCacheUtil.setAndReturnUUID(uid);//用户信息写入redis
+            response.addHeader("uid", uid);//用户信息uid写入浏览器响应头
+            response.addHeader("u_token", token);//认证信息token写入浏览器响应头
         } catch (Exception e) {
             log.error("【用户注册】失败, {}", userVo);
             log.error("UserController.register ERROR:{}", e.getMessage());
             return ResponseVo.failed(e.getMessage());
         }
-        Map<String, String> resultMap = new HashMap<>();
-        resultMap.put("uid", userInfo.getUid());
-        String token = UUIDUtil.get32UUID();
-        redisCacheUtil.setValue(userInfo.getUid(), token);//用户信息写入redis
-        response.addHeader("u_token", token);//认证信息token写入浏览器
-        return ResponseVo.success("注册成功！", resultMap);
+        return ResponseVo.success("注册成功！");
     }
 
 }
