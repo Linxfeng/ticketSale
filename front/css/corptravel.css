@@ -1,0 +1,227 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*
+* @description: 商旅系统公用
+* @author: SXL
+* @update: SXL (2015-12-28 16:09)
+*/
+
+body { background-color:#F9F9F9; font-family: "Microsoft YaHei", Arial, Helvetica, sans-serif; color: #000; line-height: 22px; font-size: 14px; }
+body {font-family: "Microsoft YaHei","iconfont"  !important;}
+.checkbox { vertical-align:middle; }
+ul, ol, li { list-style: none outside none; margin:0; padding:0; }
+/* 登录页样式 */
+.banner-login { margin:0 0 15px; height:360px; position:relative; }
+.banner-login-box { margin:0 auto; mix-width:980px; max-width:1170px; position:relative; }
+.login-box { width:360px; height:360px; padding:8px 20px; color:#FFF; position:absolute; top:0; left:10px; background: rgba(0, 0, 0, 0.5); z-index:999; }
+.login-box a { color:#FFF; text-decoration:none; }
+.login-box a:hover { color: #0CF; text-decoration: underline; }
+/*.login-box input { vertical-align:sub; }*/
+.input-account { width:100%; height:40px; line-height:40px; padding-left:45px; margin-bottom:20px; font-size: 14px; line-height: 1.42857143; color: #555; border: none; background: #fff url(../img/login-ico1.png) no-repeat 0px 0px; }
+.input-password { width:100%; height:40px; line-height:40px; padding-left:45px; margin-bottom:20px; font-size: 14px; line-height: 1.42857143; color: #555; border: none; background: #fff url(../img/login-ico2.png) no-repeat 0px 0px; }
+.input-code { width:185px; height:40px; line-height:40px; padding-left:45px; margin-bottom:5px; font-size: 14px; line-height: 1.42857143; color: #555; border: none; background: #fff url(../img/login-ico3.png) no-repeat 0px 0px; }
+
+/* 轮播图样式 */
+#full-screen-slider { width:100%; height:360px; float:left; position:relative; }
+#slides { display:block; width:100%; height:360px; list-style:none; padding:0; margin:0; position:relative }
+#slides li { display:block; width:100%; height:100%; list-style:none; padding:0; margin:0; position:absolute; }
+#slides li a { display:block; width:100%; height:100%; text-indent:-9999px }
+#pagination { display:block; list-style:none; position:absolute; left:50%; top:340px; z-index:9900; padding:5px 15px 5px 0; margin:0 }
+#pagination li { display:block; list-style:none; width:10px; height:10px; float:left; margin-left:15px; border-radius:5px; background:#FFF }
+#pagination li a { display:block; width:100%; height:100%; padding:0; margin:0; text-indent:-9999px; }
+#pagination li.current { background:#0092CE; }
+
+/* 登录页介绍图标 */
+/*.ico-1 { width:140px; height:140px; line-height:140px; text-align:center; border-radius: 100px; font-size:75px; color:#FFF; margin:0 auto;}*/
+.ico-1 { width:110px; height:110px; line-height:110px; text-align:center; border-radius: 100px; font-size:60px; color:#FFF; margin:0 auto; }
+.bg-cc99cc { background-color:#CC99CC; }
+.bg-9999CC { background-color:#9999CC; }
+.bg-669999 { background-color:#669999; }
+.bg-cc9999 { background-color:#CC9999; }
+.bg-cc9966 { background-color:#CC9966; }
+.bg-cccc99 { background-color:#CCCC99; }
+
+/* 登录页底部 */
+.footer { background-color:#232728; padding-top:20px; padding-bottom:20px; color:#ACADB0; }
+.footer a { color:#ACADB0; text-decoration:none; }
+.footer a:hover { color: #0CF; text-decoration: underline; }
+.footer ul { margin:0; padding: 0; list-style-type: none; }
+.orange-fcab53 { color:#FCAB53; }
+.gray-bbb { color:#BBB; }
+.gray-696969 { color:#696969; }
+
+/* 登录页底部简化版 */
+.footer-2 { background-color:#232728; padding-top:15px; padding-bottom:15px; color:#ACADB0; }
+.footer-2 a { color:#ACADB0; text-decoration:none; }
+.footer-2 a:hover { color: #0CF; text-decoration: underline; }
+.footer-2 ul { margin:0; padding: 0; list-style-type: none; }
+
+/* 导航 */
+.nav-menu-2 { float:right; }
+.nav-menu-2 ul { padding:0; margin:0; }
+.nav-menu-2 ul li { float:left; }
+.nav-menu-2 a { display: block; float:left; width:90px; padding-top: 5px; padding-bottom: 5px; font: 14px/34px "microsoft yahei"; text-align: center; color:#737383; text-decoration:none; }
+.nav-menu-2 a:hover { color:#0093dd; }
+.nav-menu-2 a.active { color:#0093dd; }
+.nav-menu-2 a i { display: block; width: 32px; height: 32px; margin: 0 auto; }
+
+/* 差旅管理 */
+.nav-menu { width:135px; float:left; position:absolute; top:0; left:0; }
+.nav-menu ul { padding:0; margin:0; }
+/*.nav-menu a { display: block; width: 100%; padding-top: 15px; padding-bottom: 15px; font: 14px/34px "microsoft yahei"; text-align: center; color:#737383; text-decoration:none; }*/
+.nav-menu a { display:block; width:135px; padding-top: 5px; padding-bottom: 5px; padding-right:15px; font: 14px/34px "microsoft yahei"; text-align: right; color:#737383; text-decoration:none; }
+.nav-menu a:hover { color:#FFF; background-color:#737383; }
+.nav-menu a.active { color:#FFF; background-color:#AA1A1A; }
+/*.nav-menu a i { display: block; width: 32px; height: 32px; margin: 0 auto; }
+.rightCon { margin-left: 135px; background-color: #fff; padding:15px; min-height:570px; }*/
+.rightCon { background-color: #fff; padding:15px; min-height:570px; }
+.rightCon-left { width:245px; float:left; border-right:1px solid #EBEBEB; min-height:485px; }
+.rightCon-right { margin-left:260px; }
+/*.rightCon-right table th { border-top:none!important;}*/
+.chakan { padding:20px; font-size:14px; }
+.chakan dt { line-height:35px; width:80px; }
+.chakan dd { line-height:35px; margin-left:100px; }
+/* 代客下单 */
+.daike-zimu ul { margin-left:-7px; }
+.daike-zimu li { float:left; margin-right:5px; margin-bottom:5px; }
+.daike-zimu li a { display:inline-block; width:35px; }
+.daike label { margin-right:10px; width: 158px; overflow:hidden; word-break:keep-all; word-wrap:normal; white-space:nowrap; }
+.title-blue { padding: 7px 14px; background-color: #E8F8FF; color: #0080C0; border-left: 3px solid #0080C0; margin: 30px 0 10px; }
+
+/* 总概数字样式 */
+.fontTimes { font-family: Times; font-weight: bold; }
+
+/* 账务中心信息列表 */
+.zhangwu { line-height:30px; margin-bottom:30px; }
+.zhangwu ul li { float:left; margin-right:25px; }
+
+/* 账户管理 */
+.bank-block-list .header { color: #0096de; background: #fbfbfb; padding-left: 15px; margin-top: 10px; line-height: 36px; border-left: 2px solid #0096de; }
+.line-bottom { border-bottom:#D5D5D5 1px dotted; }
+.bank-block-list { padding:10px; padding-top:0px; padding-bottom:0px; overflow:hidden; }
+.bank-block-list ul { margin-bottom:20px; margin-top:20px; }
+.bank-block-list ul li { float:left; cursor:pointer; width:265px; margin-right:30px; margin-bottom:20px; border:#DBDBDB 1px dotted; padding:6px; line-height:25px; position:relative; }
+.bank-block-list ul li .ico-bank-change { width:29px; height:29px; background:url(../img/wallet/ico-bank-change.png) no-repeat; position:absolute; bottom:0; right:0; display:block; }
+.bank-block-list ul li .title { font-size:18px; color:#3a87ad; line-height:35px; margin-bottom:5px; border-bottom:#DBDBDB 1px dotted; }
+.bank-block-list ul p a { float:left; border:#0096de 1px dotted; height:160px; text-align:center; line-height:160px; font-size:20px; display:block; width:265px; }
+.bank-block-list ul p a:hover { background:#21bbf4; color:#fff; }
+.bank-block-list .header { color:#0096de; background:#fbfbfb; padding-left:15px; margin-top:10px; line-height:36px; border-left:2px solid #0096de; }
+.bank-block-list2 { padding:10px; padding-left:0; padding-top:0px; padding-bottom:0px; overflow:hidden; }
+.bank-block-list2 ul { width:105%; }
+.bank-block-list2 ul li { float:left; cursor:pointer; width:150px; margin-right:15px; margin-bottom:15px; border:#DBDBDB 1px dotted; padding:8px 12px 10px; text-align:center; line-height:25px; position:relative; }
+.bank-block-list2 ul li .ico-bank-change { width:20px; height:20px; background:url(../img/wallet/ico-bank-change2.png) no-repeat left top; position:absolute; bottom:0; right:0; display:block; }
+
+/* 搜索列表 */
+.huan { width: 18px; color: #fff; text-align: center; font-size: 12px; line-height: 18px; font-family: simsum; }
+.huan:hover { color: #fff; background-color: #F90; text-decoration: none; }
+/*.arrow-left { display:block!important; width:40px; height:67px; line-height:67px; background:#ebebeb url(../img/arrow_left.gif) no-repeat 50% 50%; float:left; cursor:pointer; }
+.arrow-right { display:block!important; width:40px; height:67px; line-height:67px; background:#ebebeb url(../img/arrow_right.gif) no-repeat 50% 50%; float:right; cursor:pointer; }*/
+.arrow-left { display:block!important; width:40px; height:62px; line-height:62px; background:#ebebeb url(../img/arrow_left.gif) no-repeat 50% 50%; float:left; cursor:pointer; }
+.arrow-right { display:block!important; width:40px; height:62px; line-height:62px; background:#ebebeb url(../img/arrow_right.gif) no-repeat 50% 50%; float:right; cursor:pointer; }
+.rmb { font-style: normal; font-family: arial; }
+.time { font-size: 20px; line-height: 20px; font-family: Tahoma, Arial, sans-serif; }
+.hangbanlist { padding:10px; background-color:#FFF; border:1px solid #EBEBEB; }
+.hangbanlist ul { margin:0; padding:10px; position:relative; }
+.hangbanlist ul:hover { background-color:#EBEBEB; cursor:pointer; }
+.hangbanlist-body ul { margin:0; padding:0 15px; position:relative; border-bottom: 1px solid #EBEBEB; }
+.hangbanlist-body ul:hover { background-color:#EBEBEB; cursor:pointer; }
+.hangbanlist-body li { line-height:40px; }
+
+/* 政策选择 */
+.table-air-td-lh25 td, th { line-height:25px!important; }
+.table-air-td-lh30 td, th { line-height:30px!important; }
+.tip-ico { display: inline-block; width: 14px; height: 14px; line-height: 14px; text-align: center; color: #FFF; background-color: #0099E3; font-style: normal; border-radius: 7px; }
+.bubbleinfo { position: relative; }
+.bubbleinfo a:hover { text-decoration: none }
+.trigger { }
+
+/* Bubble pop-up */
+.popup { position: absolute; display: none; z-index: 50; border-collapse: collapse; border: 3px #bbdfff solid; /*	width: 300px;*/ background-color: #FFF; box-shadow: 0 1px 3px #bbdfff; }
+.popup h2 { font-size: 14px; line-height: 30px; border-bottom: 1px #bbdfff solid; background-color: #eef7ff; padding-left: 10px; margin: 0px; text-align: left; }
+.popup h2 i { width: 12px; height: 5px; position: absolute; right: 50px; top: -8px; background: url(../img/sprite.png) no-repeat 0px -499px; }
+.popup p { padding: 10px; line-height: 20px; margin: 0px; text-align: left; }
+.popup p b { font-size: 12px; }
+.passenger-info { }
+.passenger-info li { padding:15px 0; border-bottom:1px dotted #CCCCCC; height:25px; }
+.passenger-info input { line-height:22px; height:22px; border:#CCC 1px solid; vertical-align:top; font-family:"微软雅黑"; padding:2px 3px }
+.passenger-info .name { width:290px; float:left; padding-left:10px; }
+.passenger-info .credential { width:320px; float:left; }
+.passenger-info .insurance { width:340px; float:left; text-align:right }
+.passenger-info .insurance-info { float:right; background-color:#FFFFEC; border:#FFDC73 1px solid; padding:10px; margin:10px 0 0 0; }
+
+/* 机票标签 */
+.data-price { width: 60px; border: #F60 1px solid; margin: 0px auto; font-family: "微软雅黑"; line-height: 18px; font-size: 12px; }
+.data-price dt { background-color: #F60; text-align: center; color: #FFF; font-weight: bold; }
+.data-price dd { padding:0; height: 18px; margin:0; text-align: center; color: #F60; background-color: #FFF; }
+
+/* 支付 */
+.tishibox { width:600px; padding:10px; margin:30px auto; position:relative; }
+.tishibox p { line-height:30px; text-indent:100px; }
+.tishibox a { margin-right:15px; }
+.tishibox .title { font-size:16px; font-weight:bold; }
+.img_fudong { position:absolute; top:13px; left:30px; }
+
+/* 销售规则选择用户 */
+.yonghu-box { border:1px solid #EBEBEB; padding:10px; overflow-x:hidden; width:100%; height:415px; margin-top:15px;}
+.yonghu-box ul { margin:0; padding:0; }
+.yonghu-box li { line-height:25px; cursor:pointer;}
+.yonghu-box li:hover { color:#0093dd;}
+.yonghu-box .active { color:#F00; text-decoration:none; }
+
+
+/* 黑屏样式 */
+.mrbianma { color: lime; background-color: black; height: 280px; width:99%; margin-top: 2px; font-size: 12px; padding-left: 1%; }
+
+/* 右侧浮动菜单 */
+.float-menu-right { position: fixed; top:0; right:0;  color:#FFF; background-color:#000;   z-index:999999; width:35px; height:100%; visibility:visible; }
+.float-menu-right-box { position:absolute; top:50%; right:0; margin-top:-100px; }
+.mui-mbar { width:35px; height:35px; display:block; line-height:35px;  vertical-align:middle;  margin:10px 0;  cursor:pointer; position:relative;text-align:center; padding-top:3px; padding-bottom:3px;  }
+.mui-mbar:hover { color:#FFF; background-color:#1876BB;  }
+.mui-mbar a { color:#FFF;}
+.mui-mbar a:hover { text-decoration:none;}
+.mui-mbar-menu-up { position:absolute; bottom:0; right:0;}
+
+
+.r-company-box { display: none; position: absolute; right: 35px; top: 0;  text-align:left; padding:10px; color: #fff; background-color: #494949;-webkit-box-shadow: 0 0 5px rgba(0,0,0,.2); -moz-box-shadow: 0 0 5px rgba(0,0,0,.2); box-shadow: 0 0 5px rgba(0,0,0,.2);   }
+.r-company-box dt { overflow:hidden; word-break:keep-all;word-wrap:normal; white-space:nowrap;}
+.r-company-box dd { overflow:hidden; word-break:keep-all;word-wrap:normal; white-space:nowrap;}
+
+.r-tel-box { display: none; position: absolute; right: 35px; top: 0; width:175px; text-align: center; color: #fff; background-color: #494949; -webkit-box-shadow: 0 0 5px rgba(0,0,0,.2); -moz-box-shadow: 0 0 5px rgba(0,0,0,.2); box-shadow: 0 0 5px rgba(0,0,0,.2);   }
+
+.r-qq-box { display: none; position: absolute; right: 35px; top: 0; width:175px; text-align: center; color: #fff; background-color: #494949; -webkit-box-shadow: 0 0 5px rgba(0,0,0,.2); -moz-box-shadow: 0 0 5px rgba(0,0,0,.2); box-shadow: 0 0 5px rgba(0,0,0,.2);   }
+
+/* IE11 滚动条问题解决 */
+html, body { -ms-overflow-style: scrollbar; }
+
+
+/* 保险下拉菜单美化  */
+.nice-select{
+	padding: 0 3px;
+	height: 26px;
+	border: 1px solid #ccc;
+	position: relative;
+	background: #fff ;
+	display:inline-block;
+}
+.nice-select input{display: block;width: 90%;height: 24px;line-height: 24px ;border: 0;outline: 0;background: none; }
+.nice-select ul{
+	width:260px;
+	text-align:left;
+	display: none;
+	position: absolute;
+	left: -1px;
+	top: 0;
+	overflow: hidden;
+	background-color: #fff;
+	max-height: 200px;
+	overflow-y: auto;
+	border: 1px solid #ccc;
+	border-top: 0;
+	box-shadow: 0 1px 3px #ccc;
+	z-index: 9999;
+}
+.nice-select ul li{line-height: 30px;overflow: hidden;padding: 0 6px;cursor: pointer; border-bottom:1px dashed #ccc; }
+.nice-select ul li div{ line-height:20px; padding:10px 0;}
+.nice-select ul li.on{background-color: #e0e0e0;}
+.nice-select ul li.last{ border:none}

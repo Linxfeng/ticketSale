@@ -1,0 +1,83 @@
+
+.header {
+	height: 66px;
+	background-position: 0 0;
+}
+
+.logo {
+	float: left;
+	width: 423px;
+	height: 58px;
+	padding: 8px 0 0 12px;
+	text-indent: -9999px;
+}
+
+.header-bd {
+	width: 1000px;
+	height: 66px;
+	margin: 0 auto;
+	position: relative;
+}
+
+.login-info {
+	height: 30px;
+	line-height: 30px;
+	float: right;
+	padding-right: 5px;
+	margin-bottom: 2px;
+}
+
+.menu {
+	float: right;
+	width: 80px;
+	height: 30px;
+	margin-left: 35px;
+	position: relative;
+	z-index: 2999;
+	text-align: left;
+}
+
+.menu-bd {
+	display: block;
+	width: 80px;
+	height: 30px;
+	line-height: 30px;
+}
+
+.nav1 {
+	width: 483px;
+	height: 34px;
+	padding: 0 0 0 63px;
+	float: right;
+	position: relative;
+	border: 0;
+	list-style: none;
+	margin: 0;
+	font-size: 12px;
+	font-family: Tahoma, "宋体";
+}
+
+.crumbs {
+	margin:5px 115px 15px;
+	width: 980px;
+	height: 32px;
+	line-height: 32px;
+}
+
+.nav1 li a {
+	display: block;
+	height: 28px;
+	line-height: 28px;
+	color: #fff;
+	font-size: 14px;
+	text-align: center;
+}
+
+.nav1 li {
+	float: left;
+	width: 70px;
+	height: 30px;
+	text-align: center;
+	margin-right: 10px;
+	margin-top: 4px;
+}

@@ -1,0 +1,63 @@
+.tabs {
+	width: 35px;
+	padding: 3px;;
+	background-color: #db514f;
+	color: #fff;
+	text-align: center;
+	margin-top: 2px;
+	margin-bottom: 2px;
+	border-radius: 3px;
+}
+
+.startbox {
+	overflow: hidden;
+	margin-bottom: 5px;
+}
+
+.start {
+	float: left;
+	background-color: #f9a60a;
+	padding: 2px;
+	color: #fff;
+	border-radius: 2px;
+	margin-right: 5px;
+}
+
+.destination {
+	float: left;
+	background-color: #0096de;
+	padding: 2px;
+	color: #fff;
+	border-radius: 2px;
+	margin-right: 5px;
+}
+
+.startcity {
+	float: left;
+	font-size: 12px;
+	color: #666;
+}
+
+.startcity span {
+	font-size: 14px;
+	color: #000;
+	font-weight: bold;
+}
+
+.destination1 {
+	float: left;
+	background-color: #0096de;
+	padding: 2px;
+	color: #fff;
+	border-radius: 2px;
+	margin-right: 5px;
+}
+
+.destination2 {
+	float: left;
+	background-color: #0096de;
+	padding: 2px;
+	color: #fff;
+	border-radius: 2px;
+	margin-right: 5px;
+}

@@ -1,0 +1,50 @@
+.err_text{
+
+	position:absolute;
+	margin-top:-159px;
+	
+	top:50%;
+	left:50%;
+	margin-left:-247px;
+	width:495px;
+	height:282px;
+
+
+
+}
+#error{
+	width:495px;
+	margin-left:auto;
+	margin-right:auto;
+	list-style:none;
+
+}
+#error li{
+	list-style:none;
+}
+#err_top{
+	background:url('../images/err_top.gif') no-repeat;
+	height:78px;
+	line-height:78px;
+	width:495px;
+	
+}
+#err_bot{
+	background:url('../images/err_bot.gif') no-repeat;
+	height:204px;
+	padding-top:50px;
+
+	width:495px;	
+	text-align:center;
+	font-size:14px;
+	font-weight:bold;
+
+}
+.time{
+margin-top: 104px;
+margin-right: 40px;
+font-size: 12px;
+font-weight: 100;
+color: rgb(73, 73, 73);
+text-align:right;
+}
