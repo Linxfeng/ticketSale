@@ -1,5 +1,6 @@
 package com.linxf.user.utils;
 
+import com.linxf.common.utils.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,17 @@ public class RedisCacheUtil {
 
     public void setValue(String key, String value){
         stringRedisTemplate.opsForValue().set(key, value);
+    }
+
+    /**
+     * 为key生成32位uuid并set到redis中，返回该uuid
+     * @param key
+     * @return uuid
+     */
+    public String setAndReturnUUID(String key){
+        String value = UUIDUtil.get32UUID();
+        stringRedisTemplate.opsForValue().set(key, value);
+        return value;
     }
 
     public String getValue(String key){
