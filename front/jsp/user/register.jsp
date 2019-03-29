@@ -95,18 +95,19 @@ $(document).ready(function() { //页面加载执行
 	//提交表单
 	$('#submit').click(function() {
 		if (checkName() && checkPwd() && checkPhone()) {
-			$.ajax({  
-				type: "POST",
-				url:"http://localhost:8081/user/register",
-				data:$('#form1').serialize(),
-				error: function(data) {
-					alert(data.message);  
-				},
-				success: function(data) {
-					alert(data.message);
-					// window.location.href="跳转页面"  
-				}
-			});
+            $.ajax({
+                type: "POST",
+                url:"http://localhost:8081/user/register",
+                data:$('#form1').serialize(),
+                error: function(data) {
+                    alert(data.message);
+                    $('#phone').focus();
+                },
+                success: function(data) {
+                    alert(data.message);
+                    window.location.href="../main/main.jsp"
+                }
+            });
 		}
 	});
 })
