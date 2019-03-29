@@ -25,14 +25,6 @@
     <script src="${pageContext.request.contextPath}/js/supersized-init.js"></script>
     <script type="text/javascript">
         $(document).ready(function() { //页面加载执行
-            var msg = "${msgpass}";
-            if(msg != ""){
-                alert(msg);
-            }
-            var msg2 = "${msg}";
-            if(msg2 != ""){
-                alert(msg2);
-            }
             function checkName() {
                 var name = $("#username").val();
                 if(name == null || "" == name){
@@ -63,15 +55,33 @@
                     return true;
                 }
             }
+            function checkPhone() {
+                var phone = $("#phone").val();
+                if(phone == null || "" == phone){
+                    $("#phone1").html("手机号码不能为空!");
+                    $('#phone').focus();
+                    return false;
+                } else if(phone.length != 11){
+                    $("#phone1").html("请正确输入11位手机号码!");
+                    $('#phone').focus();
+                    return false;
+                } else {
+                    $("#phone1").html("");
+                    return true;
+                }
+            }
             $('#username').blur(function() {
                 checkName();
             });
             $('#password').blur(function() {
                 checkPwd();
             });
+            $('#phone').blur(function() {
+                checkPhone();
+            });
             //提交表单
             $('#submit').click(function() {
-                if (checkName() && checkPwd()) {
+                if (checkName() && checkPwd() && checkPhone()) {
                     $.ajax({
                         type: "POST",
                         url:"http://localhost:8081/user/login",
@@ -81,7 +91,6 @@
                             $('#username').focus();
                         },
                         success: function(data) {
-                            alert(data.message);
                             window.location.href="../main/main.jsp"
                         }
                     });
@@ -92,8 +101,6 @@
             $(".connect p").eq(0).animate({"left":"0%"}, 600);
             $(".connect p").eq(1).animate({"left":"0%"}, 400);
         }
-        function is_hide(){ $(".alert").animate({"top":"-40%"}, 300) }
-        function is_show(){ $(".alert").show().animate({"top":"45%"}, 300) }
     </script>
 </head>
 
@@ -102,30 +109,22 @@
     <h1>欢&nbsp;迎&nbsp;登&nbsp;录</h1>
     <form id="form1">
         <div>
-            <input type="text" name="userName" class="username" id="username"
-                   placeholder="用户名" value="${userName}"/>
+            <input type="text" name="username" class="username" id="username" placeholder="用户名"/>
         </div>
-        <div><span id="name1" style="color: red;font: 12px;text-align: left;">${msg}</span>
+        <div><span id="name1" style="color: red;font: 12px;text-align: left;"></span>
         </div>
         <div>
-            <input type="password" name="password" class="password" id="password"
-                   placeholder="密码" value="${password}"/>
+            <input type="password" name="password" class="password" id="password" placeholder="密码"/>
         </div><span id="pwd" style="color: red;font: 12px;text-align: left;"></span>
+        <div>
+            <input type="text" name="phone" class="phone" id="phone" placeholder="电话号码必填"/>
+        </div><span id="phone1" style="color: red;font: 12px;text-align: left;"></span>
         <button id="submit" type="button">登&nbsp;录</button>
     </form>
     <div class="connect">
         <p style="color:#ef4300;font:16px;">one man ,&nbsp;&nbsp;one bag
             ,&nbsp;&nbsp;one ticket , &nbsp;&nbsp;take you home &nbsp;</p>
         <p style="margin-top: 20px; color: #ef4300;">一个人，一个包，一张火车票，带你回家。</p>
-    </div>
-</div>
-<div class="alert" style="display: none">
-    <h2>消息</h2>
-    <div class="alert_con">
-        <p id="ts"></p>
-        <p style="line-height: 70px">
-            <a class="btn">确定</a>
-        </p>
     </div>
 </div>
 </body>
