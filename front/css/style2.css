@@ -40,7 +40,7 @@ h2{font-weight:normal;}
 .loginbox ul li label a{color:#687f92;}
 .loginbox ul li label a:hover{color:#3d96c9;}
 .loginbox ul li label input{margin-right:5px;}
-.loginuser{width:299px; height:48px; background:url(../images/loginuser.png) no-repeat; border:none; line-height:48px; padding-left:44px; font-size:14px; font-weight:bold;}
+.loginuser{width:299px; height:48px; background:url(../images/loginuser.png) no-repeat; border:none; line-height:48px; padding-left:44px; font-size:14px;}
 .loginpwd{width:299px; height:48px; background:url(../images/loginpassword.png) no-repeat; border:none;line-height:48px; padding-left:44px; font-size:14px; color:#90a2bc;}
 .loginbtn{width:111px;height:35px; background:url(../images/buttonbg.png) repeat-x; font-size:14px; font-weight:bold; color:#fff;cursor:pointer; line-height:35px;}
 .loginbm{height:50px; line-height:50px; text-align:center; background:url(../images/loginbg2.png) repeat-x;position:absolute; bottom:0; width:100%; color:#0b3a58;}
@@ -228,7 +228,7 @@ h2{font-weight:normal;}
 .comtitle h2{font-size:14px; display:block; float:left;color:#2a3e93; background:#fff; padding-left:5px; padding-right:8px;}
 .rline{border-bottom:solid 1px #e5ecf0; height:10px; margin-left:50px;}
 .disklist{padding-left:20px; padding-right:20px;}
-.disklist li{width:275px;_width:270px;float:left; margin-right:10px;px;height:70px; cursor:pointer; margin-bottom:5px;border:solid 1px #fff;}
+.disklist li{width:275px;_width:270px;float:left; margin-right:10px;height:70px; cursor:pointer; margin-bottom:5px;border:solid 1px #fff;}
 .disklist li a{color:#000;}
 .disklist li:hover{background:#fcfcfc; border:solid 1px #e5ecf0;}
 .dleft{background:url(../images/c02.png) no-repeat; height:50px; margin-left:12px; float:left; width:50px; margin-top:15px;}
