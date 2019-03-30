@@ -25,4 +25,16 @@ public class UserInfoServiceImplTest extends UserApplicationTests {
         userInfoServiceImpl.createUser(userInfo);
     }
 
+    @Test
+    public void findUser() {
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUsername("测试");
+        userInfo.setPassword(MD5Util.md5("123456"));
+//        userInfo.setPhone("13312341234");
+//        userInfo.setAddress("浙江省杭州市");
+        userInfo.setUserType(UserTypeEnum.ADMIN.getCode());
+        UserInfo user = userInfoServiceImpl.findByUser(userInfo);
+        System.out.println(user);
+    }
+
 }
