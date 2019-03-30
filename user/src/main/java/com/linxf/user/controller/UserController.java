@@ -1,5 +1,6 @@
 package com.linxf.user.controller;
 
+import com.linxf.common.utils.MD5Util;
 import com.linxf.common.utils.UUIDUtil;
 import com.linxf.common.vo.ResponseVo;
 import com.linxf.user.dataobject.UserInfo;
@@ -47,6 +48,8 @@ public class UserController {
             UserInfo user = userInfoService.findByPhone(userVo.getPhone());
             if (user != null)
                 return ResponseVo.failed("注册失败！该号码已被注册，用户名："+user.getUsername());
+            String pwd = userVo.getPassword();
+            userVo.setPassword(MD5Util.md5(pwd));//密码MD5加密
             BeanUtils.copyProperties(userVo, userInfo);
             userInfo.setUid(UUIDUtil.get16UUID());
             userInfo.setUserType(UserTypeEnum.ORDINARY.getCode());
@@ -73,6 +76,8 @@ public class UserController {
         response.addHeader("Access-Control-Allow-Origin", "*");//CORS跨域
         try {
             VerifyParamsUtil.validUserVo(userVo); //校验参数
+            String pwd = userVo.getPassword();
+            userVo.setPassword(MD5Util.md5(pwd));//密码MD5加密
             UserInfo userInfo = userInfoService.findByPhone(userVo.getPhone());
             if (userInfo == null)
                 return ResponseVo.failed("登陆失败！号码" + userInfo.getPhone() + "未注册");

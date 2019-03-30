@@ -1,5 +1,6 @@
 package com.linxf.user.controller;
 
+import com.linxf.common.utils.MD5Util;
 import com.linxf.common.vo.ResponseVo;
 import com.linxf.user.dataobject.UserInfo;
 import com.linxf.user.enums.UserTypeEnum;
@@ -45,6 +46,8 @@ public class AdminController {
             Assert.notNull(userVo, "参数不能为空！");
             Assert.notNull(userVo.getUsername(), "用户名不能为空！");
             Assert.notNull(userVo.getPassword(), "密码不能为空！");
+            String pwd = userVo.getPassword();
+            userVo.setPassword(MD5Util.md5(pwd));//密码MD5加密
             UserInfo user = new ConvertUtil().convertUser(userVo, UserTypeEnum.ADMIN.getCode());
             UserInfo userInfo = userInfoService.findByUser(user);
             if (userInfo == null)
