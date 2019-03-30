@@ -4,7 +4,10 @@ import com.linxf.user.dataobject.UserInfo;
 import com.linxf.user.repository.UserInfoRepository;
 import com.linxf.user.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * 用户服务实现类
@@ -20,7 +23,6 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     /**
      * 创建用户
-     *
      * @param userInfo
      * @return
      */
@@ -31,13 +33,26 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     /**
      * 根据电话号码查找用户--号码唯一
-     *
      * @param phone
      * @return
      */
     @Override
     public UserInfo findByPhone(String phone) {
         return userInfoRepository.findByPhone(phone);
+    }
+
+    /**
+     * 根据User各参数查找用户
+     * @param userInfo
+     * @return
+     */
+    @Override
+    public UserInfo findByUser(UserInfo userInfo) {
+        Example<UserInfo> userExample = Example.of(userInfo);
+        Optional<UserInfo> optional = userInfoRepository.findOne(userExample);
+        if (!optional.isPresent()) return null;
+        UserInfo user = optional.get();
+        return user;
     }
 
 }

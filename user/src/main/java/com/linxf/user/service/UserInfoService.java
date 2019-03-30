@@ -24,4 +24,11 @@ public interface UserInfoService {
      */
     UserInfo findByPhone(String phone);
 
+    /**
+     * 根据User各参数查找用户
+     * @param userInfo
+     * @return
+     */
+    UserInfo findByUser(UserInfo userInfo);
+
 }
