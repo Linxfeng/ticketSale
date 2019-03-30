@@ -43,7 +43,7 @@
 				if (check()) {
 					$.ajax({
 						type: "POST",
-						url:"http://localhost:8081/user/login",
+						url:"http://localhost:8081/admin/login",
 						data:$('#form1').serialize(),
 						error: function(data) {
 							alert(data.message);
