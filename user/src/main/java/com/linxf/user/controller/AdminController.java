@@ -1,12 +1,12 @@
 package com.linxf.user.controller;
 
 import com.linxf.common.utils.MD5Util;
+import com.linxf.common.utils.RedisCacheUtil;
 import com.linxf.common.vo.ResponseVo;
 import com.linxf.user.dataobject.UserInfo;
 import com.linxf.user.enums.UserTypeEnum;
 import com.linxf.user.service.UserInfoService;
 import com.linxf.user.utils.ConvertUtil;
-import com.linxf.user.utils.RedisCacheUtil;
 import com.linxf.user.vo.UserVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
