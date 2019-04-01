@@ -3,6 +3,9 @@ package com.linxf.advert.dataobject;
 import lombok.Data;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import java.util.Date;
 
 /**
  * 广告
@@ -13,6 +16,16 @@ import javax.persistence.Entity;
 @Entity
 @Data
 public class Advert {
+
+    @Id
+    @GeneratedValue
+    private Integer id;
+
+    private String title;//标题
+
+    private String content;//内容
+
+    private Date createTime;//创建时间
 
     Integer del = 0; //是否有效，0有效，1失效
 }
