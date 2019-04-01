@@ -13,3 +13,22 @@ spring:
     properties:
       hibernate:
         enable_lazy_load_no_trans: true
+  cloud:
+    config:
+      discovery:
+        service-id: CONFIG
+        enabled: true
+  rabbitmq:
+    host: localhost
+    username: xxx
+    password: xxx
+    port: 5672
+  redis:
+    host: localhost
+    port: 6379
+    password: xxx
+    timeout: 300
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
