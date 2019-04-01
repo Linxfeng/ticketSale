@@ -17,9 +17,9 @@ public class UserInfoServiceImplTest extends UserApplicationTests {
     public void createUser() {
         UserInfo userInfo = new UserInfo();
         userInfo.setUid(UUIDUtil.get16UUID());
-        userInfo.setUsername("测试");
+        userInfo.setUsername("123");
         userInfo.setPassword(MD5Util.md5("123456"));
-        userInfo.setPhone("13312341234");
+        userInfo.setPhone("13312341231");
         userInfo.setAddress("浙江省杭州市");
         userInfo.setUserType(UserTypeEnum.ORDINARY.getCode());
         userInfoServiceImpl.createUser(userInfo);
@@ -28,7 +28,7 @@ public class UserInfoServiceImplTest extends UserApplicationTests {
     @Test
     public void findUser() {
         UserInfo userInfo = new UserInfo();
-        userInfo.setUsername("测试");
+        userInfo.setUsername("admin");
         userInfo.setPassword(MD5Util.md5("123456"));
 //        userInfo.setPhone("13312341234");
 //        userInfo.setAddress("浙江省杭州市");
