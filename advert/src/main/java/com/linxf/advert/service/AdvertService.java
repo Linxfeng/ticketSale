@@ -16,4 +16,11 @@ public interface AdvertService {
      * @return
      */
     List<Advert> getAllAdvert(Integer del);
+
+    /**
+     * 根据id查询
+     * @param id
+     * @return
+     */
+    Advert getAdvertById(Integer id);
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 广告服务
@@ -28,4 +29,17 @@ public class AdvertServiceImpl implements AdvertService {
     public List<Advert> getAllAdvert(Integer del) {
         return advertRepository.findAllByDel(del);
     }
+
+    /**
+     * 根据id查询
+     * @param id
+     * @return
+     */
+    @Override
+    public Advert getAdvertById(Integer id) {
+        Optional<Advert> optional = advertRepository.findById(id);
+        if (!optional.isPresent()) return null;
+        return optional.get();
+    }
+
 }
