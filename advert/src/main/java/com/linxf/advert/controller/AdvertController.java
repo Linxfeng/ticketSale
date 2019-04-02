@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -59,20 +60,21 @@ public class AdvertController {
      * 查询单个advert信息
      * @param id
      */
-    @GetMapping("/advertInfo")
+    @PostMapping("/advertInfo")
     public ResponseVo getAdvert(Integer id, HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");//CORS跨域
         if (id == null || id == 0)
             return ResponseVo.failed("参数不能为空");
-        Advert advertInfo = null;
+        Advert advert = null;
         String value = redisCacheUtil.getValue(ADVERTID+id);
         if (StringUtils.isNotBlank(value)) {
-            advertInfo = (Advert) JsonUtil.jsonToObject(value, new TypeReference<Advert>() {});
+            advert = (Advert) JsonUtil.jsonToObject(value, new TypeReference<Advert>() {});
         } else {
-            advertInfo = advertService.getAdvertById(id);
-            redisCacheUtil.setValue(ADVERTID+id, JsonUtil.toJson(advertInfo));
+            advert = advertService.getAdvertById(id);
+            redisCacheUtil.setValue(ADVERTID+id, JsonUtil.toJson(advert));
         }
-        return ResponseVo.success("查询成功", advertInfo);
+        if (advert == null) return ResponseVo.noDataFailed("未查询到当前公告信息");
+        return ResponseVo.success("查询成功", advert);
     }
 
 }
