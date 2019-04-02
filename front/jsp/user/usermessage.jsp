@@ -200,7 +200,7 @@
             <a href="order.jsp">我的订单</a>&nbsp;|&nbsp; <a href="new.html">新闻动态</a>&nbsp;|&nbsp;
             <a href="login.html">会员中心</a>&nbsp;|&nbsp; <a href="help.htmll">帮助中心</a>
         </p>
-        <div class="foot">浙ICP备 201709 .com  鸿程定制班 版权所有</div>
+        <div class="foot">京ICP备15003716号-3 版权所有© 2017售票系统.com</div>
     </div>
     <!--footer/-->
 </div>
