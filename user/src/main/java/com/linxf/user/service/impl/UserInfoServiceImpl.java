@@ -55,4 +55,16 @@ public class UserInfoServiceImpl implements UserInfoService {
         return user;
     }
 
+    /**
+     * 根据uid查询用户信息
+     * @param uid
+     * @return
+     */
+    @Override
+    public UserInfo findById(String uid) {
+        Optional<UserInfo> optional = userInfoRepository.findById(uid);
+        if (!optional.isPresent()) return null;
+        return optional.get();
+    }
+
 }

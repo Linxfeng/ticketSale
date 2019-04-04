@@ -31,4 +31,11 @@ public interface UserInfoService {
      */
     UserInfo findByUser(UserInfo userInfo);
 
+    /**
+     * 根据uid查询用户信息
+     * @param uid
+     * @return
+     */
+    UserInfo findById(String uid);
+
 }
