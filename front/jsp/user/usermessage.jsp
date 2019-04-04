@@ -51,6 +51,27 @@
         })
 
     </script>
+    <script type="text/javascript">
+        $(document).ready(function() { //页面加载执行
+            $.ajax({//加载用户信息
+                url : "http://localhost:8081/user/getUserInfo",
+                type : "GET",
+                success : function(returnData) {
+                    if (returnData.data != null) {
+                        user  = returnData.data
+                        $("#username").text(user.username);
+                        $("#phone").text(user.phone);
+                        $("#address").text(user.address);
+                    } else {
+                        alert(returnData.message);
+                    }
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    alert("出错了，请重试！");
+                }
+            });
+        })
+    </script>
 </head>
 
 <body>
@@ -131,9 +152,9 @@
 
                 </tr>
                 <tr>
-                    <td id="userName">${sessionScope.loginUser.userName}</td>
-                    <td>${sessionScope.loginUser.phone}</td>
-                    <td>${sessionScope.loginUser.address}</td>
+                    <td id="username"></td>
+                    <td id="phone"></td>
+                    <td id="address"></td>
 
                 </tr>
             </table>
