@@ -37,4 +37,10 @@ public class UserInfoServiceImplTest extends UserApplicationTests {
         System.out.println(user);
     }
 
+    @Test
+    public void findUserById() {
+        UserInfo user = userInfoServiceImpl.findById("15540865369668641");
+        System.out.println(user);
+    }
+
 }
