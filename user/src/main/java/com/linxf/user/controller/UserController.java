@@ -13,10 +13,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -94,6 +97,26 @@ public class UserController {
             return ResponseVo.failed(e.getMessage());
         }
         return ResponseVo.success("登陆成功！");
+    }
+
+    /**
+     * 获取用户信息
+     * @param request
+     * @param response
+     * @return
+     */
+    @GetMapping("/getUserInfo")
+    public ResponseVo getUserInfo(HttpServletRequest request, HttpServletResponse response) {
+        response.addHeader("Access-Control-Allow-Origin", "*");//CORS跨域
+        try {
+            String uid = request.getHeader("uid");
+            Assert.notNull(uid, "登陆失效，请重新登录");
+            UserInfo userInfo = userInfoService.findById(uid);
+            return ResponseVo.success("查询用户信息成功！", userInfo);
+        } catch (Exception e) {
+            log.error("UserController.getUserInfo ERROR:{}", e.getMessage());
+            return ResponseVo.failed(e.getMessage());
+        }
     }
 
 }
