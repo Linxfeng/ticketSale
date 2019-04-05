@@ -18,7 +18,7 @@
                             alert(data.message);
                         }
                     },
-                    error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    error: function() {
                         alert("出错了，请重试！");
                     }
                 });
@@ -29,9 +29,9 @@
 <body>
 <div id="page" class="clearfix">
     <div id="top">
-        <a href="${pageContext.request.contextPath}/"> <img
-                src="${pageContext.request.contextPath}/images/logo-main.jpg"
-                style="width: 960px; height: 149px,"></a>
+        <a href="${pageContext.request.contextPath}/">
+            <img src="${pageContext.request.contextPath}/images/logo-main.jpg"
+                style="width: 960px; height: 149px;"></a>
     </div>
     <div id="menu">
         <ul class="menubg">
