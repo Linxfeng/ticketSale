@@ -14,7 +14,7 @@
     <link rel="icon" type="image/x-icon"
           href="${pageContext.request.contextPath}/images/favicon.ico" />
     <script type="text/javascript"
-            src="${pageContext.request.contextPath}/js/jquery-1.9.1.min.js"></script>
+            src="${pageContext.request.contextPath}/js/jquery2.min.js"></script>
     <script type="text/javascript"
             src="${pageContext.request.contextPath}/js/jquery.SuperSlide.2.1.1.js"></script>
     <script type="text/javascript"
@@ -35,7 +35,7 @@
                         for(var i = 0;i < len;i++){
                             var createTime = "("+returnData[i].createTime.substring(0,10)+")";
                             var str = "<li><span class='zxdt_time'>"+createTime
-                                +"</span><a href='http://localhost:8082/advert/advertInfo?id="
+                                +"</span><a href='${pageContext.request.contextPath}/jsp/admin/advertInfo.jsp?id="
                                 +returnData[i].id+"' target='_blank' title='"+returnData[i].title
                                 +"'>"+returnData[i].title+"</a></li>";
                             $("#zxdt").append(str);
