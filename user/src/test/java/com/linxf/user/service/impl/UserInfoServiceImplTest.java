@@ -43,4 +43,13 @@ public class UserInfoServiceImplTest extends UserApplicationTests {
         System.out.println(user);
     }
 
+    @Test
+    public void updateUser() {
+        //更新信息，先查在set值
+        UserInfo user = userInfoServiceImpl.findById("1554086717367104");
+        user.setAddress("浙江温州");
+        userInfoServiceImpl.updateUserInfo(user);
+        System.out.println(user);
+    }
+
 }
