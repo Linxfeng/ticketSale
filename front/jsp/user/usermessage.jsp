@@ -27,50 +27,42 @@
         }
     </style>
     <script type="text/javascript">
-        function baocun(){
-            var uid = "${sessionScope.loginUser.uid}";
-            var phone = $("#newphone").val();
-            var address = $("#newaddress").val();
-            location.href="${pageContext.request.contextPath}/userController/updateUser.action?uid="+uid+
-                "&phone="+phone+"&address="+address;
-        }
-
-        $(function(){
-            var msg = "${msg}";
-            if(msg != ""){
-                alert(msg);
-            }
-            $('#newphone').blur(function() {
-                var newphone = $("#newphone").val().length;
-                if(newphone != 11){
-                    $("#phone1").html("手机号码长度必须为11位");
-                }else{
-                    $("#phone1").html("");
-                }
-            });
-        })
-
-    </script>
-    <script type="text/javascript">
         $(document).ready(function() { //页面加载执行
             $.ajax({//加载用户信息
                 url : "http://localhost:8081/user/getUserInfo",
                 type : "GET",
-                success : function(returnData) {
-                    if (returnData.data != null) {
-                        user  = returnData.data
+                success : function(data) {
+                    if (data.code == '0000') {
+                        user  = data.data
                         $("#username").text(user.username);
                         $("#phone").text(user.phone);
                         $("#address").text(user.address);
                     } else {
-                        alert(returnData.message);
+                        alert(data.message);
                     }
                 },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                error: function() {
                     alert("出错了，请重试！");
                 }
             });
         })
+        //修改个人信息时设置初始值
+        function setValue(){
+            $("#newname").val($("#username").text());
+            $("#newphone").val($("#phone").text());
+            $("#newaddress").val($("#address").text());
+        }
+        function save(){
+            var username = $("#newname").val();
+            var phone = $("#newphone").val();
+            var address = $("#newaddress").val();
+            var phonevalue = $("#newphone").val().length;
+            if(phonevalue != 11){
+                $("#phone1").html("请填写正确的11位手机号码");
+            }else{
+                $("#phone1").html("");
+            }
+        }
     </script>
 </head>
 
@@ -140,7 +132,7 @@
         <!--contLeft/-->
         <div class="contRight">
             <h1 class="vipName">
-                <span></span> <strong class="vipUp">[点击修改个人信息]</strong>
+                <span></span> <strong class="vipUp" onclick="setValue();">[点击修改个人信息]</strong>
             </h1>
             <table class="vipMy">
                 <tr>
@@ -158,27 +150,28 @@
 
                 </tr>
             </table>
-            <!--vipMy/-->
-            <div class="address">
 
+            <div class="address"> <!--修改个人信息-->
+                <div class="addList">
+                    <label><span class="red"  >* </span>用&nbsp;户&nbsp;名:</label> <input  type="text" id="newname" class="newname"/>
+                </div>
 
                 <div class="addList">
                     <label><span class="red"  >* </span>手机号码:</label> <input  type="text" id="newphone" class="newphone"/>
+                    <span id="phone1" style="color: red; text-align: right;"></span>
                 </div>
-                <div><span id="phone1" style="color: red;font: 12px;text-align: right;"></span></div>
-                <!--addList-->
+
                 <div class="addList">
                     <label><span class="red" >* </span>收货地址:</label> <input id="newaddress"	type="text" />
                 </div>
-                <!--addList-->
 
                 <div class="addList2">
                     <input type="image" src="${pageContext.request.contextPath}/images/baocun.png" width="79" height="30"
-                           onclick="baocun()" />
+                           onclick="save();" />
                 </div>
-                <!--addList2/-->
             </div>
             <!--address/-->
+
         </div>
         <!--contRight/-->
         <div class="clears"></div>
