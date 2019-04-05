@@ -53,15 +53,31 @@
             $("#newaddress").val($("#address").text());
         }
         function save(){
-            var username = $("#newname").val();
-            var phone = $("#newphone").val();
-            var address = $("#newaddress").val();
             var phonevalue = $("#newphone").val().length;
             if(phonevalue != 11){
                 $("#phone1").html("请填写正确的11位手机号码");
+                return;
             }else{
                 $("#phone1").html("");
             }
+            $.ajax({//保存用户修改的信息
+                url : "http://localhost:8081/user/updateInfo",
+                type : "POST",
+                data : {'username': $("#newname").val(),
+                    'address': $("#newaddress").val(),
+                    'phone' : $("#newphone").val()},
+                success : function(data) {
+                    if (data.code == '0000') {
+                        alert(data.message);
+                        window.location.reload();//刷新页面，重新加载信息
+                    } else {
+                        alert(data.message);
+                    }
+                },
+                error: function() {
+                    alert("出错了，请重试！");
+                }
+            });
         }
     </script>
 </head>
