@@ -81,4 +81,8 @@ public class ResponseVo<T> {
         return new ResponseVo(ResponseVoEnum.NO_DATA_FOUND, message, null);
     }
 
+    public static ResponseVo notLoginFailed(String message) {
+        return new ResponseVo(ResponseVoEnum.NOT_LOGGED_IN, message, null);
+    }
+
 }
