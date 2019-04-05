@@ -38,4 +38,10 @@ public interface UserInfoService {
      */
     UserInfo findById(String uid);
 
+    /**
+     * 更新/修改用户信息
+     * @param userInfo
+     */
+    void updateUserInfo(UserInfo userInfo);
+
 }

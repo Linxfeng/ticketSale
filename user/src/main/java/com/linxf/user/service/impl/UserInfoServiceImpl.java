@@ -67,4 +67,13 @@ public class UserInfoServiceImpl implements UserInfoService {
         return optional.get();
     }
 
+    /**
+     * 更新/修改用户信息
+     * @param userInfo
+     */
+    @Override
+    public void updateUserInfo(UserInfo userInfo) {
+        userInfoRepository.save(userInfo);
+    }
+
 }
