@@ -5,6 +5,26 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script type="text/javascript">
+        $(document).ready(function() { //页面加载执行
+            $("#userInfo").click(function() {
+                $.ajax({//校验权限
+                    url : "http://localhost:8081/user/check",
+                    type : "GET",
+                    success : function(data) {
+                        if (data.code == '0000') {
+                            window.open("${pageContext.request.contextPath}/jsp/user/usermessage.jsp");
+                        } else {
+                            alert(data.message);
+                        }
+                    },
+                    error: function(XMLHttpRequest, textStatus, errorThrown) {
+                        alert("出错了，请重试！");
+                    }
+                });
+            });
+        })
+    </script>
 </head>
 <body>
 <div id="page" class="clearfix">
@@ -25,7 +45,7 @@
 
             <li><a href="${pageContext.request.contextPath}/trainController/toSearchRout.action" target="_blank">路线查询</a></li>
 
-            <li><a href="${pageContext.request.contextPath}/jsp/user/usermessage.jsp" target="_blank">个人中心</a></li>
+            <li><a id="userInfo" href="javascript:void(0);">个人中心</a></li>
 
             <li><a href="${pageContext.request.contextPath}/orderController/orderListUi.action" target="_blank">订单中心</a></li>
 
