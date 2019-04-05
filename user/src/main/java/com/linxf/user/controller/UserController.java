@@ -110,7 +110,7 @@ public class UserController {
         response.addHeader("Access-Control-Allow-Origin", "*");//CORS跨域
         try {
             String uid = request.getHeader("uid");
-            Assert.notNull(uid, "登陆失效，请重新登录");
+            if (StringUtils.isBlank(uid)) return ResponseVo.notLoginFailed(null);
             UserInfo userInfo = userInfoService.findById(uid);
             return ResponseVo.success("查询用户信息成功！", userInfo);
         } catch (Exception e) {
@@ -118,5 +118,57 @@ public class UserController {
             return ResponseVo.failed(e.getMessage());
         }
     }
+
+    /**
+     * 校验用户是否登陆，鉴权
+     * @param request
+     * @param response
+     * @return
+     */
+    @GetMapping("/check")
+    public ResponseVo checkPermission(HttpServletRequest request, HttpServletResponse response) {
+        response.addHeader("Access-Control-Allow-Origin", "*");//CORS跨域
+        String uid = request.getHeader("uid");
+        if (StringUtils.isBlank(uid)) return ResponseVo.notLoginFailed(null);
+        String u_token = request.getHeader("u_token");
+        String token = redisCacheUtil.getValue(uid);
+        if (StringUtils.equals(token, u_token))
+            return ResponseVo.success(null);
+        return ResponseVo.failed("登陆失效，请重新登录");
+    }
+
+    /**
+     * 修改用户个人信息
+     * @param userVo
+     * @param request
+     * @param response
+     * @return
+     */
+    @PostMapping("/updateInfo")
+    public ResponseVo updateUserInfo(UserVo userVo, HttpServletRequest request, HttpServletResponse response) {
+        response.addHeader("Access-Control-Allow-Origin", "*");//CORS跨域
+        try {
+            String uid = request.getHeader("uid");
+            if (StringUtils.isBlank(uid)) return ResponseVo.notLoginFailed(null);
+
+            //先根据用户更新的电话号码查询
+            UserInfo userInfo = userInfoService.findByPhone(userVo.getPhone());
+            //如果查不到，则更新用户信息
+            if (userInfo == null) {
+                //TODO
+                return ResponseVo.success("修改成功");
+            } else { //如果查到号码已存在，则判断是否是自己的
+                if (!StringUtils.equals(userInfo.getUid(), uid))
+                    return ResponseVo.failed("修改失败！该手机号码已被其他用户注册");
+                //是自己的号码，则更新信息
+                //TODO
+                return ResponseVo.success("修改成功");
+            }
+        } catch (Exception e) {
+            log.error("UserController.updateUserInfo ERROR:{}", e.getMessage());
+            return ResponseVo.failed(e.getMessage());
+        }
+    }
+
 
 }
