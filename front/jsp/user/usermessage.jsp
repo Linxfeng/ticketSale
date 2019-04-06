@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>用户信息中心</title>
+    <title>用户中心</title>
     <link type="text/css"
           href="${pageContext.request.contextPath }/css/css.css" rel="stylesheet" />
     <link rel="shortcut icon" type="image/x-icon"
@@ -116,8 +116,8 @@
     <!--pnt/-->
     <div class="positions">
         当前位置：<a href="${pageContext.request.contextPath}/">首页</a> &gt;
-        <a href="">用户中心</a> &gt;
-        <a href="">个人信息</a>
+        <a href="${pageContext.request.contextPath}/jsp/user/usermessage.jsp">用户中心</a> &gt;
+        <a href="${pageContext.request.contextPath}/jsp/user/usermessage.jsp">个人信息</a>
     </div>
     <!--positions/-->
     <div class="cont">
