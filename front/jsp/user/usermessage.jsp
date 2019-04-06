@@ -126,8 +126,8 @@
             <dl class="helpNav vipNav">
                 <dt>账户设置</dt>
                 <dd>
-                    <a href="${pageContext.request.contextPath}/userController/tousermessage.action">个人信息</a>
-                    <a href="${pageContext.request.contextPath}/userController/topassword.action">密码修改</a>
+                    <a href="javascript:void(0);" onclick="window.location.reload();">个人信息</a>
+                    <a href="${pageContext.request.contextPath}/jsp/user/password.jsp">密码修改</a>
                 </dd>
                 <dt>信息管理</dt>
                 <dd>
