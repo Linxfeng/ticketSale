@@ -39,6 +39,7 @@ public class UserController {
 
     /**
      * 用户注册
+     *
      * @param userVo
      * @return
      */
@@ -71,6 +72,7 @@ public class UserController {
 
     /**
      * 用户登陆
+     *
      * @param userVo
      * @return
      */
@@ -101,8 +103,7 @@ public class UserController {
 
     /**
      * 获取用户信息
-     * @param request
-     * @param response
+     *
      * @return
      */
     @GetMapping("/getUserInfo")
@@ -121,8 +122,7 @@ public class UserController {
 
     /**
      * 校验用户是否登陆，鉴权
-     * @param request
-     * @param response
+     *
      * @return
      */
     @GetMapping("/check")
@@ -139,9 +139,8 @@ public class UserController {
 
     /**
      * 修改用户个人信息
+     *
      * @param userVo
-     * @param request
-     * @param response
      * @return
      */
     @PostMapping("/updateInfo")
@@ -151,19 +150,32 @@ public class UserController {
             String uid = request.getHeader("uid");
             if (StringUtils.isBlank(uid)) return ResponseVo.notLoginFailed(null);
 
-            //先根据用户更新的电话号码查询
+            //先根据用户填的电话号码查询
             UserInfo userInfo = userInfoService.findByPhone(userVo.getPhone());
-            //如果查不到，则更新用户信息
-            if (userInfo == null) {
-                //TODO
-                return ResponseVo.success("修改成功");
-            } else { //如果查到号码已存在，则判断是否是自己的
-                if (!StringUtils.equals(userInfo.getUid(), uid))
-                    return ResponseVo.failed("修改失败！该手机号码已被其他用户注册");
-                //是自己的号码，则更新信息
-                //TODO
-                return ResponseVo.success("修改成功");
+
+            //如果号码是自己的，且号码没更新，则更新其他信息：用户名，地址
+            if (userInfo != null && StringUtils.equals(userInfo.getUid(), uid)) {
+                if (StringUtils.isNotBlank(userVo.getUsername()))
+                    userInfo.setUsername(userVo.getUsername());
+                if (StringUtils.isNotBlank(userVo.getAddress()))
+                    userInfo.setAddress(userVo.getAddress());
+
+            } else if (userInfo == null) { //根据号码没查到，则根据uid查，并更新信息
+                userInfo = userInfoService.findById(uid);
+                if (userInfo == null) return ResponseVo.notLoginFailed(null);
+                if (StringUtils.isNotBlank(userVo.getUsername()))
+                    userInfo.setUsername(userVo.getUsername());
+                if (StringUtils.isNotBlank(userVo.getAddress()))
+                    userInfo.setAddress(userVo.getAddress());
+                if (StringUtils.isNotBlank(userVo.getPhone()))
+                    userInfo.setPhone(userVo.getPhone());
+
+            } else {//如果查到号码已存在，且不是自己的
+                return ResponseVo.failed("修改失败！该手机号码已被其他用户注册");
             }
+            //更新用户信息
+            userInfoService.updateUserInfo(userInfo);
+            return ResponseVo.success("修改成功");
         } catch (Exception e) {
             log.error("UserController.updateUserInfo ERROR:{}", e.getMessage());
             return ResponseVo.failed(e.getMessage());
