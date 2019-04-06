@@ -182,5 +182,39 @@ public class UserController {
         }
     }
 
+    /**
+     * 修改用户密码
+     *
+     * @param oldpwd
+     * @param newpwd
+     * @return
+     */
+    @PostMapping("/updatePassword")
+    public ResponseVo updatePwd(String oldpwd, String newpwd,
+                                HttpServletRequest request, HttpServletResponse response) {
+        response.addHeader("Access-Control-Allow-Origin", "*");//CORS跨域
+        try {
+            Assert.notNull(oldpwd, "原密码不能为空！");
+            Assert.notNull(newpwd, "新密码不能为空！");
+            Assert.isTrue((newpwd.length() < 12 || newpwd.length() > 4) ,"请输入4-12位的新密码！");
+
+            String uid = request.getHeader("uid");
+            if (StringUtils.isBlank(uid)) return ResponseVo.notLoginFailed(null);
+
+            UserInfo userInfo = userInfoService.findById(uid);
+            if (userInfo == null) return ResponseVo.notLoginFailed(null);
+            if (!StringUtils.equals(userInfo.getPassword(), MD5Util.md5(oldpwd)))
+                return ResponseVo.failed("原密码错误！");
+
+            //更新用户密码
+            userInfo.setPassword(MD5Util.md5(newpwd));//密码MD5加密
+            userInfoService.updateUserInfo(userInfo);
+            return ResponseVo.success("修改成功");
+        } catch (Exception e) {
+            log.error("UserController.updatePwd ERROR:{}", e.getMessage());
+            return ResponseVo.failed(e.getMessage());
+        }
+    }
+
 
 }
