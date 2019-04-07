@@ -67,27 +67,6 @@
         //     });
         // }
 
-        // function f1(){ //姓名校验
-        //     var cardlen = $("#realName").val();
-        //     if(cardlen == ""){
-        //         $("#name1").html("请输入乘客姓名！");
-        //         $("#realName").focus();
-        //     } else {
-        //         $("#card1").html("");
-        //     }
-        // }
-
-        // function a(){ //身份证校验
-        //     var cardlen = $("#cardNumber").val().length;
-        //     if(cardlen!= 18){
-        //         $("#card1").html("身份证号码必须为18位");
-        //         $("#cardNumber").focus();
-        //     } else {
-        //         $("#card1").html("");
-        //     }
-
-        // }
-
         // function delete1(ptr, pid){ //删除
         //     var chr =  document.getElementById(ptr);
         //     var uid = "${sessionScope.loginUser.uid}";
@@ -104,17 +83,49 @@
         //     chr.remove(ptr);
         // }
 
-        // function sub(){ //提交检验
-        //     var realName = $("#realName").val();
-        //     var cardNumber = $("#cardNumber").val();
-        //     if(realName == "" || cardNumber == ""){
-        //         alert("请先输入乘客信息！");
-        //         $("#realName").focus();
-        //         return false;
-        //     } else {
-        //         return true;
-        //     }
-        // }
+        function submit(){ //提交
+            if(checkName() && checkNum()){//校验
+                $.ajax({
+                    url : "http://localhost:8081/passenger/create",
+                    type: "POST",
+                    data:$('#passenger-form').serialize(),
+                    success : function(data) {
+                        if (data.code == '0000') {
+
+                        } else {
+                            alert(data.message);
+                        }
+                    },
+                    error: function() {
+                        alert("出错了，请重试！");
+                    }
+                });
+            } else {
+                return false;
+            }
+        }
+        function checkName(){ //姓名校验
+            var name = $("#realName").val();
+            if(name == null || name == ""){
+                $("#name1").html("请输入乘客真实姓名！");
+                $("#realName").focus();
+                return false;
+            } else {
+                $("#name1").html("");
+                return true;
+            }
+        }
+        function checkNum(){ //身份证校验
+            var cardNum = $("#cardNumber").val();
+            if (cardNum != null && cardNum.length == 18) {
+                $("#card1").html("");
+                return true;
+            } else {
+                $("#card1").html("请输入正确的身份证号码！");
+                $("#cardNumber").focus();
+                return false;
+            }
+        }
     </script>
 </head>
 
@@ -159,17 +170,17 @@
             </dl><!--helpNav/-->
         </div><!--contLeft/-->
         <div class="contRight">
-            <form action="${pageContext.request.contextPath}/userController/addpassenger.action" method="post" name="passenger">
-                <h2 class="oredrName">乘客信息表<span class="green add">[添加乘客]</span></h2>
+            <form id="passenger-form">
+                <h2 class="oredrName">乘客信息<span class="green add">[添加乘客]</span></h2>
                 <div class="address">
                     <div class="addList">
-                        <label><span class="red">* </span>乘客真实姓名:</label>
-                        <input type="text" id="realName" onblur="f1();" name="trueName"/>
+                        <label><span class="red">* </span>乘客姓名:</label>
+                        <input type="text" id="realName" onblur="checkName();" name="trueName"/>
                         <span id="name1" style="color: red; text-align: left;"></span>
                     </div><!--addList-->
                     <div class="addList">
-                        <label><span class="red">* </span>身份证号码:</label>
-                        <input type="text"  id="cardNumber" onblur="a();" name="idCard"/>
+                        <label><span class="red">* </span>身份证号:</label>
+                        <input type="text"  id="cardNumber" onblur="checkNum();" name="idCard"/>
                         <span id="card1" style="color:red; text-align:left;"></span>
                     </div><!--addList-->
                     <div class="addList">
@@ -180,15 +191,14 @@
                         </select>
                     </div><!--addList-->
                     <div class="addList2">
-                        <input type="hidden" value="${sessionScope.loginUser.uid}" name="uid">
-                        <input type="submit" value="保存" onclick="return sub();" width="79" height="30">
+                        <input type="button" value="保存" onclick="submit();" width="80" height="30">
                     </div><!--addList2/-->
                 </div><!--address/-->
             </form>
             <table class="vipAdress" id="showpassenger">
                 <thead>
                 <tr >
-                    <th>乘客真实姓名</th>
+                    <th>乘客姓名</th>
                     <th>身份证号</th>
                     <th>乘客类型</th>
                     <th>操作</th>
