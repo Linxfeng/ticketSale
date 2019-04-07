@@ -25,6 +25,6 @@ public class Passenger {
 
     private Integer role;// 乘客身份：0代表成人票，1代表学生票
 
-    private Integer del;// 是否删除：0代表正常状态，1代表已删除
+    private Integer del = 0;// 是否删除：0代表正常状态，1代表已删除
 
 }
