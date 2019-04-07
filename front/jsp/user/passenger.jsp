@@ -83,7 +83,7 @@
         //     chr.remove(ptr);
         // }
 
-        function submit(){ //提交
+        function submitForm(){ //提交
             if(checkName() && checkNum()){//校验
                 $.ajax({
                     url : "http://localhost:8081/passenger/create",
@@ -91,7 +91,8 @@
                     data:$('#passenger-form').serialize(),
                     success : function(data) {
                         if (data.code == '0000') {
-
+                            alert(data.message);
+                            window.location.reload();//刷新页面，重新加载信息
                         } else {
                             alert(data.message);
                         }
@@ -191,7 +192,7 @@
                         </select>
                     </div><!--addList-->
                     <div class="addList2">
-                        <input type="button" value="保存" onclick="submit();" width="80" height="30">
+                        <input type="button" value="保存" onclick="submitForm();" width="80" height="30">
                     </div><!--addList2/-->
                 </div><!--address/-->
             </form>
