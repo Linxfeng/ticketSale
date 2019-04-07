@@ -34,4 +34,14 @@ public class PassengerServiceImpl implements PassengerService {
         if (!optional.isPresent()) return null;
         return optional.get();
     }
+
+    /**
+     * 新增乘客
+     *
+     * @param passenger
+     */
+    @Override
+    public void createPassenger(Passenger passenger) {
+        passengerRepository.save(passenger);
+    }
 }

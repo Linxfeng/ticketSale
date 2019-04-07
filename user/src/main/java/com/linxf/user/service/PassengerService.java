@@ -17,4 +17,11 @@ public interface PassengerService {
      * @return
      */
     Passenger findPassenger(Passenger passenger);
+
+    /**
+     * 新增乘客
+     *
+     * @param passenger
+     */
+    void createPassenger(Passenger passenger);
 }
