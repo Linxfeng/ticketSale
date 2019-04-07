@@ -3,29 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>用户中心</title>
-    <link type="text/css"
-          href="${pageContext.request.contextPath }/css/css.css" rel="stylesheet" />
-    <link rel="shortcut icon" type="image/x-icon"
-          href="${pageContext.request.contextPath}/images/favicon.ico" />
-    <link rel="icon" type="image/x-icon"
-          href="${pageContext.request.contextPath}/images/favicon.ico" />
-    <script type="text/javascript"
-            src="${pageContext.request.contextPath }/js/jquery2.min.js"></script>
-    <script type="text/javascript"
-            src="${pageContext.request.contextPath }/js/js.js"></script>
-    <link href="${pageContext.request.contextPath}/css/headerlog.css" rel="stylesheet">
-    <style type="text/css">
-        .nav1 li a {
-            display: block;
-            height: 28px;
-            line-height: 28px;
-            color: #fff;
-            font-size: 14px;
-            text-align: center;
-        }
-    </style>
+    <%@ include file="head.jsp" %>
     <script type="text/javascript">
         function submit() {//修改密码
             if (checkPwd() && checkNewPwd() && checkNewPwd2()) {
@@ -106,7 +84,7 @@
 <div class="mianCont">
     <!--pnt/-->
     <div class="positions">
-        当前位置：<a href="${pageContext.request.contextPath}/">首页</a> &gt;
+        当前位置：<a href="${pageContext.request.contextPath}/jsp/main/main.jsp">首页</a> &gt;
         <a href="${pageContext.request.contextPath}/jsp/user/usermessage.jsp">用户中心</a> &gt;
         <a href="${pageContext.request.contextPath}/jsp/user/password.jsp">修改密码</a>
     </div>
@@ -117,13 +95,13 @@
             <dl class="helpNav vipNav">
                 <dt>账户设置</dt>
                 <dd>
-                    <a href="javascript:void(0);" onclick="window.location.reload();">个人信息</a>
-                    <a href="${pageContext.request.contextPath}/jsp/user/password.jsp">密码修改</a>
+                    <a href="${pageContext.request.contextPath}/jsp/user/usermessage.jsp">个人信息</a>
+                    <a href="javascript:void(0);" onclick="window.location.reload();"></a>密码修改</a>
                 </dd>
                 <dt>信息管理</dt>
                 <dd>
                     <a href="${pageContext.request.contextPath}/orderController/orderListUi.action">我的订单</a>
-                    <a href="${pageContext.request.contextPath}/userController/topassenger.action">乘客信息中心</a>
+                    <a href="${pageContext.request.contextPath}/jsp/user/passenger.jsp">乘客信息</a>
                 </dd>
                 <dt>客户服务</dt>
                 <dd>
