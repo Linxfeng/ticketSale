@@ -10,12 +10,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * 乘客Controller
@@ -64,6 +66,26 @@ public class PassengerController {
             return ResponseVo.failed(e.getMessage());
         }
         return ResponseVo.success("操作成功！");
+    }
+
+    /**
+     * 查询乘客列表
+     *
+     * @return
+     */
+    @GetMapping("/passengerList")
+    public ResponseVo passengerList(HttpServletRequest request, HttpServletResponse response) {
+        response.addHeader("Access-Control-Allow-Origin", "*");//CORS跨域
+        List<Passenger> passengerList = null;
+        try {
+            String uid = request.getHeader("uid");
+            if (StringUtils.isBlank(uid)) return ResponseVo.notLoginFailed(null);
+            passengerList = passengerService.listPassenger(uid);
+        } catch (Exception e) {
+            log.error("PassengerController.passengerList ERROR:{}", e.getMessage());
+            return ResponseVo.failed(e.getMessage());
+        }
+        return ResponseVo.success(passengerList);
     }
 
 }
