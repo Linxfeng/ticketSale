@@ -11,7 +11,6 @@ import lombok.Data;
 @Data
 public class PassengerVo {
 
-    @JsonProperty("id")
     private String pid;//乘客id
 
     private String trueName;// 真实姓名
