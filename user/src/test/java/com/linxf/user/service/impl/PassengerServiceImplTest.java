@@ -33,4 +33,10 @@ public class PassengerServiceImplTest extends UserApplicationTests {
         passenger.setRole(PassengerTypeEnum.ADULT.getCode());
         passengerService.createPassenger(passenger);
     }
+
+    @Test
+    public void deletePassenger() {
+        String pid = "1554645635284698";
+        passengerService.deletePassenger(pid);
+    }
 }
