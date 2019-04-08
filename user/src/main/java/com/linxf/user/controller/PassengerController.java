@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -86,6 +87,25 @@ public class PassengerController {
             return ResponseVo.failed(e.getMessage());
         }
         return ResponseVo.success(passengerList);
+    }
+
+    /**
+     * 删除用户下的某一乘客
+     *
+     * @param pid
+     * @return
+     */
+    @PostMapping("/deletePassenger")
+    public ResponseVo deletePassenger(String pid, HttpServletResponse response) {
+        response.addHeader("Access-Control-Allow-Origin", "*");//CORS跨域
+        try {
+            Assert.notNull(pid, "参数不能为空！");
+            passengerService.deletePassenger(pid);
+        } catch (Exception e) {
+            log.error("PassengerController.deletePassenger ERROR:{}", e.getMessage());
+            return ResponseVo.failed(e.getMessage());
+        }
+        return ResponseVo.success("操作成功！");
     }
 
 }
