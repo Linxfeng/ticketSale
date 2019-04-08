@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -44,4 +45,17 @@ public class PassengerServiceImpl implements PassengerService {
     public void createPassenger(Passenger passenger) {
         passengerRepository.save(passenger);
     }
+
+    /**
+     * 查询用户下[有效]乘客列表
+     *
+     * @param uid 用户id
+     * @return
+     */
+    @Override
+    public List<Passenger> listPassenger(String uid) {
+        return passengerRepository.findByUidAndDel(uid, 0);
+    }
+
+
 }

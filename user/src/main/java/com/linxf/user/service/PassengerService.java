@@ -2,6 +2,8 @@ package com.linxf.user.service;
 
 import com.linxf.user.dataobject.Passenger;
 
+import java.util.List;
+
 /**
  * 乘客信息服务
  *
@@ -24,4 +26,13 @@ public interface PassengerService {
      * @param passenger
      */
     void createPassenger(Passenger passenger);
+
+    /**
+     * 查询用户下[有效]乘客列表
+     *
+     * @param uid 用户id
+     * @return
+     */
+    List<Passenger> listPassenger(String uid);
+
 }
