@@ -5,54 +5,41 @@
 <head>
     <%@ include file="head.jsp" %>
     <script type="text/javascript">
-        // $(document).ready(function() {
-        //     var msg = "${resmsg}";
-        //     if(msg != ""){
-        //         alert(msg);
-        //     }
-        //     var uid = "${sessionScope.loginUser.uid}";
-        //     $.ajax({
-        //         url : "${pageContext.request.contextPath }/userController/findPassenger.action",
-        //         type : "POST",
-        //         data : {"uid" : uid},
-        //         success : function(returnData) {
-        //             if (returnData == null) {// 没查询到结果
-        //                 $("#tipmsg").text("未查询到结果！");
-        //             } else {
-        //                 $("#showpassenger").append("<tbody id='tbodyid'>");
-        //                 for (var i = 0; i <returnData.length; i++) {
-        //                     var truename = returnData[i].trueName;
-        //                     var passid =returnData[i].idCard;
-        //                     var role = returnData[i].role;
-        //                     var pid = returnData[i].pid;
-        //                     var role1 =null;
-        //                     if(role==1){/* 当数据库中乘客类型为1时，默认乘客类型为学生，否则默认为成人   */
-        //                         var trHTML = "<tr id="+passid+"><td>"+truename
-        //                             +"</td><td>"+returnData[i].idCard
-        //                             +"</td><td>"+"<select name='role1' id="+pid+"><option value='0' >成人</option><option value='1' selected>学生</option></select>"
-        //                             +"</td><td><span class='green upd'  onclick='delete1(\""+passid
-        //                             +"\""+",\""+pid+"\""+");'>[删除]</span>|<span onclick='updateType(\""+pid
-        //                             +"\""+");'  class='green upd'>[修改]</span></td>"
-        //                             +"</tr>" ;
-        //                         $("#showpassenger").append(trHTML);
-        //                     }else{
-        //                         var trHTML = "<tr id="+passid+"><td>"+truename
-        //                             +"</td><td>"+returnData[i].idCard
-        //                             +"</td><td>"+"<select name='role1' id="+pid+"><option value='0' selected>成人</option><option value='1'>学生</option></select>"
-        //                             +"</td><td><span class='green upd'  onclick='delete1(\""+passid
-        //                             +"\""+",\""+pid+"\""+");'>[删除]</span>|<span onclick='updateType(\""+pid
-        //                             +"\""+");' class='green upd'>[修改]</span>  </td>"
-        //                             +"</tr>" ;
-        //                         $("#showpassenger").append(trHTML);
-        //                     }
-        //                 }
-        //                 $("#showpassenger").append("</tbody>");
-        //             }
-        //         }
-        //     });
-        // })
+        $(document).ready(function() { //页面加载执行
+            $.ajax({//加载用户信息
+                url : "http://localhost:8081/passenger/passengerList",
+                type : "GET",
+                success : function(data) {
+                    if (data.code == '0000') {
+                        passenger  = data.data
+                        if (passenger == null) return;
+                        $("#showpassenger").append("<tbody id='tbodyid'>");
+                        for (var i = 0; i < passenger.length; i++) {
+                            var typeStr = ""; //当数据库中乘客类型为1时，默认乘客类型为学生，否则默认为成人
+                            if (passenger[i].role == 1) {
+                                typeStr = "><option value='0' >成人</option><option value='1' selected>学生</option></select>";
+                            } else {
+                                typeStr = "><option value='0' selected>成人</option><option value='1'>学生</option></select>";
+                            }
+                            var trHTML = "<tr id="+passenger[i].pid+"><td>"+passenger[i].trueName+"</td><td>"
+                                +passenger[i].idCard+"</td><td>"+"<select name='role1' id="+passenger[i].pid
+                                +typeStr+"</td><td><span class='green upd'  onclick='delete1(\""+passenger[i].pid
+                                +"\");'>[删除]</span>|<span onclick='updateType(\""+passenger[i].pid+"\");'  "
+                                +"class='green upd'>[修改]</span></td></tr>";
+                            $("#showpassenger").append(trHTML);
+                        }
+                        $("#showpassenger").append("</tbody>");
+                    } else {
+                        alert(data.message);
+                    }
+                },
+                error: function() {
+                    alert("出错了，请重试！");
+                }
+            });
+        })
 
-        // /*修改乘客类型   */
+        /*修改乘客类型   */
         // function updateType(pid){
         //     var role =document.getElementById(pid).value;
         //     $.ajax({
