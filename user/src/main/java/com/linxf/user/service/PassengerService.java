@@ -35,4 +35,11 @@ public interface PassengerService {
      */
     List<Passenger> listPassenger(String uid);
 
+    /**
+     * 删除乘客-将该乘客设置为无效
+     *
+     * @param pid
+     */
+    void deletePassenger(String pid);
+
 }

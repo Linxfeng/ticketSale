@@ -57,5 +57,19 @@ public class PassengerServiceImpl implements PassengerService {
         return passengerRepository.findByUidAndDel(uid, 0);
     }
 
+    /**
+     * 删除乘客-将该乘客设置为无效
+     *
+     * @param pid
+     */
+    @Override
+    public void deletePassenger(String pid) {
+        Optional<Passenger> optional = passengerRepository.findById(pid);
+        if (!optional.isPresent()) throw new RuntimeException("该乘客不存在！");
+        Passenger passenger = optional.get();
+        passenger.setDel(1);//置为无效
+        passengerRepository.save(passenger);
+    }
+
 
 }
