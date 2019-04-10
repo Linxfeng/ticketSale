@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html >
@@ -22,8 +22,8 @@
                                 typeStr = "><option value='0' selected>成人</option><option value='1'>学生</option></select>";
                             }
                             var trHTML = "<tr id="+passenger[i].pid+"><td>"+passenger[i].trueName+"</td><td>"
-                                +passenger[i].idCard+"</td><td>"+"<select name='role1' id="+passenger[i].pid
-                                +typeStr+"</td><td><span class='green upd'  onclick='delete1(\""+passenger[i].pid
+                                +passenger[i].idCard+"</td><td>"+"<select name='role1' "+typeStr
+                                +"</td><td><span class='green upd'  onclick='delete1(\""+passenger[i].pid
                                 +"\");'>[删除]</span>|<span onclick='updateType(\""+passenger[i].pid+"\");'  "
                                 +"class='green upd'>[修改]</span></td></tr>";
                             $("#showpassenger").append(trHTML);
@@ -38,7 +38,6 @@
                 }
             });
         })
-
         /*修改乘客类型   */
         // function updateType(pid){
         //     var role =document.getElementById(pid).value;
@@ -53,23 +52,26 @@
         //         }
         //     });
         // }
-
-        // function delete1(ptr, pid){ //删除
-        //     var chr =  document.getElementById(ptr);
-        //     var uid = "${sessionScope.loginUser.uid}";
-        //     $.ajax({
-        //         url : "${pageContext.request.contextPath }/userController/deletepassenger.action",
-        //         type : "POST",
-        //         data : {"uid" : uid,"pid":pid},
-        //         success : function(returnData) {
-        //             if (returnData != null) {
-        //                 alert(returnData.msg);
-        //             }
-        //         }
-        //     });
-        //     chr.remove(ptr);
-        // }
-
+        function delete1(pid){ //删除某个乘客
+            if (confirm("是否确认删除？")) {
+                $.ajax({
+                    url : "http://localhost:8081/passenger/deletePassenger",
+                    type : "POST",
+                    data : {"pid" : pid},
+                    success : function(data) {
+                        if (data.code == '0000') {
+                            alert(data.message);
+                            $("#"+pid).remove();
+                        } else {
+                            alert(data.message);
+                        }
+                    },
+                    error: function() {
+                        alert("出错了，请重试！");
+                    }
+                });
+            }
+        }
         function submitForm(){ //提交
             if(checkName() && checkNum()){//校验
                 $.ajax({
