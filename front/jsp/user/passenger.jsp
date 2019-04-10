@@ -22,10 +22,10 @@
                                 typeStr = "><option value='0' selected>成人</option><option value='1'>学生</option></select>";
                             }
                             var trHTML = "<tr id="+passenger[i].pid+"><td>"+passenger[i].trueName+"</td><td>"
-                                +passenger[i].idCard+"</td><td>"+"<select name='role1' "+typeStr
+                                +passenger[i].idCard+"</td><td>"+"<select id='select"+passenger[i].pid+"' name='role1' "+typeStr
                                 +"</td><td><span class='green upd'  onclick='delete1(\""+passenger[i].pid
-                                +"\");'>[删除]</span>|<span onclick='updateType(\""+passenger[i].pid+"\");'  "
-                                +"class='green upd'>[修改]</span></td></tr>";
+                                +"\");'>[删除]</span>|<span onclick='updateType(\""+passenger[i].pid+"\",\""+passenger[i].role+"\");'  "
+                                +"class='green upd' title='只支持修改乘客类型'>[修改]</span></td></tr>";
                             $("#showpassenger").append(trHTML);
                         }
                         $("#showpassenger").append("</tbody>");
@@ -38,20 +38,29 @@
                 }
             });
         })
-        /*修改乘客类型   */
-        // function updateType(pid){
-        //     var role =document.getElementById(pid).value;
-        //     $.ajax({
-        //         url : "${pageContext.request.contextPath }/userController/updateType.action",
-        //         type : "POST",
-        //         data : {"pid":pid,"role":role},
-        //         success : function(returnData) {
-        //             if (returnData != null) {
-        //                 alert(returnData.msg);
-        //             }
-        //         }
-        //     });
-        // }
+        function updateType(pid,role){ //修改乘客类型
+            var type = $("#select"+pid+" option:selected").text();//选中的文本
+            var typeval = $("#select"+pid+" option:selected").val();//选中的值
+            if (role == typeval) {
+                alert("当前乘客的类型已经是"+type);
+                return;
+            }
+            $.ajax({
+                url : "http://localhost:8081/passenger/updateType",
+                type : "POST",
+                data : {"pid" : pid, "role" : typeval},
+                success : function(data) {
+                    if (data.code == '0000') {
+                        alert(data.message);
+                    } else {
+                        alert(data.message);
+                    }
+                },
+                error: function() {
+                    alert("出错了，请重试！");
+                }
+            });
+        }
         function delete1(pid){ //删除某个乘客
             if (confirm("是否确认删除？")) {
                 $.ajax({
