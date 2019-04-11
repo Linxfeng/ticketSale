@@ -37,6 +37,19 @@ public class PassengerServiceImpl implements PassengerService {
     }
 
     /**
+     * 根据pid查询乘客信息
+     *
+     * @param pid
+     * @return
+     */
+    @Override
+    public Passenger findPassengerByPid(String pid) {
+        Optional<Passenger> optional = passengerRepository.findById(pid);
+        if (!optional.isPresent()) return null;
+        return optional.get();
+    }
+
+    /**
      * 新增乘客
      *
      * @param passenger

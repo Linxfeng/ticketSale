@@ -21,6 +21,14 @@ public interface PassengerService {
     Passenger findPassenger(Passenger passenger);
 
     /**
+     * 根据pid查询乘客信息
+     * 
+     * @param pid
+     * @return
+     */
+    Passenger findPassengerByPid(String pid);
+
+    /**
      * 新增乘客
      *
      * @param passenger
