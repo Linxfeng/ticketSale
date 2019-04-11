@@ -38,49 +38,6 @@
                 }
             });
         })
-        function updateType(pid,role){ //修改乘客类型
-            var type = $("#select"+pid+" option:selected").text();//选中的文本
-            var typeval = $("#select"+pid+" option:selected").val();//选中的值
-            if (role == typeval) {
-                alert("当前乘客的类型已经是"+type);
-                return;
-            }
-            $.ajax({
-                url : "http://localhost:8081/passenger/updateType",
-                type : "POST",
-                data : {"pid" : pid, "role" : typeval},
-                success : function(data) {
-                    if (data.code == '0000') {
-                        alert(data.message);
-                    } else {
-                        alert(data.message);
-                    }
-                },
-                error: function() {
-                    alert("出错了，请重试！");
-                }
-            });
-        }
-        function delete1(pid){ //删除某个乘客
-            if (confirm("是否确认删除？")) {
-                $.ajax({
-                    url : "http://localhost:8081/passenger/deletePassenger",
-                    type : "POST",
-                    data : {"pid" : pid},
-                    success : function(data) {
-                        if (data.code == '0000') {
-                            alert(data.message);
-                            $("#"+pid).remove();
-                        } else {
-                            alert(data.message);
-                        }
-                    },
-                    error: function() {
-                        alert("出错了，请重试！");
-                    }
-                });
-            }
-        }
         function submitForm(){ //提交
             if(checkName() && checkNum()){//校验
                 $.ajax({
@@ -123,6 +80,50 @@
                 $("#card1").html("请输入正确的身份证号码！");
                 $("#cardNumber").focus();
                 return false;
+            }
+        }
+        function updateType(pid,role){ //修改乘客类型
+            var type = $("#select"+pid+" option:selected").text();//选中的文本
+            var typeval = $("#select"+pid+" option:selected").val();//选中的值
+            if (role == typeval) {
+                alert("当前乘客的类型已经是"+type);
+                return;
+            }
+            $.ajax({
+                url : "http://localhost:8081/passenger/updateType",
+                type : "POST",
+                data : {"pid" : pid, "role" : typeval},
+                success : function(data) {
+                    if (data.code == '0000') {
+                        alert(data.message);
+                        window.location.reload();//刷新页面，重新加载信息
+                    } else {
+                        alert(data.message);
+                    }
+                },
+                error: function() {
+                    alert("出错了，请重试！");
+                }
+            });
+        }
+        function delete1(pid){ //删除某个乘客
+            if (confirm("是否确认删除？")) {
+                $.ajax({
+                    url : "http://localhost:8081/passenger/deletePassenger",
+                    type : "POST",
+                    data : {"pid" : pid},
+                    success : function(data) {
+                        if (data.code == '0000') {
+                            alert(data.message);
+                            $("#"+pid).remove();
+                        } else {
+                            alert(data.message);
+                        }
+                    },
+                    error: function() {
+                        alert("出错了，请重试！");
+                    }
+                });
             }
         }
     </script>
