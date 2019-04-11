@@ -50,4 +50,11 @@ public interface PassengerService {
      */
     void deletePassenger(String pid);
 
+    /**
+     * 更新乘客信息
+     *
+     * @param passenger
+     */
+    void upsatePassenger(Passenger passenger);
+
 }

@@ -84,5 +84,15 @@ public class PassengerServiceImpl implements PassengerService {
         passengerRepository.save(passenger);
     }
 
+    /**
+     * 更新乘客信息
+     *
+     * @param passenger
+     */
+    @Override
+    public void upsatePassenger(Passenger passenger) {
+        passengerRepository.save(passenger);
+    }
+
 
 }
