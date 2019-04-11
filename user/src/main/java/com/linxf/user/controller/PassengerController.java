@@ -53,7 +53,7 @@ public class PassengerController {
             BeanUtils.copyProperties(passengerVo, passenger);
             passenger.setUid(uid);
 
-            /**这里存在一个bug，同一身份证号的乘客原则上不允许重复添加，但又分学生和成人，这里暂放*/
+            /**这里存在一个bug，同一身份证号的乘客原则上不允许重复添加，但又分学生和成人，这里先这样处理*/
             //先根据乘客信息查询，若该乘客已存在，则提示
             if (passengerService.findPassenger(passenger) != null) {
                 return ResponseVo.failed("该乘客已存在您的乘客列表中");
