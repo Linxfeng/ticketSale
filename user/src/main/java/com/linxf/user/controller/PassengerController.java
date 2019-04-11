@@ -108,4 +108,22 @@ public class PassengerController {
         return ResponseVo.success("操作成功！");
     }
 
+    @PostMapping("/updateType")
+    public ResponseVo updateType(String pid, Integer role, HttpServletResponse response) {
+        response.addHeader("Access-Control-Allow-Origin", "*");//CORS跨域
+        try {
+            Assert.notNull(pid, "参数不能为空！");
+            Assert.notNull(role, "参数不能为空！");
+            Assert.isTrue(role==0 || role==1, "参数有误");
+            Passenger passenger = passengerService.findPassengerByPid(pid);
+            Assert.isTrue(passenger!=null, "未查询到当前乘客信息");
+            passenger.setRole(role);
+            passengerService.upsatePassenger(passenger);
+        } catch (Exception e) {
+            log.error("PassengerController.updateType ERROR:{}", e.getMessage());
+            return ResponseVo.failed(e.getMessage());
+        }
+        return ResponseVo.success("操作成功！");
+    }
+
 }
