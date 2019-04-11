@@ -24,6 +24,12 @@ public class PassengerServiceImplTest extends UserApplicationTests {
     }
 
     @Test
+    public void findPassengerByPid() {
+        Passenger passenger = passengerService.findPassengerByPid("1554645635284698");
+        System.out.println(passenger);
+    }
+
+    @Test
     public void createUser() {
         Passenger passenger = new Passenger();
         passenger.setUid("1554086717367104");
