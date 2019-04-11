@@ -19,6 +19,8 @@
         <module>user</module>
         <module>advert</module>
         <module>common</module>
+        <module>order</module>
+        <module>ticket</module>
     </modules>
     <name>ticketSale</name>
     <description>ticketSale parent project</description>
