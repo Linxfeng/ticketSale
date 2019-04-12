@@ -17,15 +17,14 @@ eureka:
   instance:
     prefer-ip-address: true
 zuul:
-  #È«²¿·şÎñºöÂÔÃô¸ĞÍ·(È«²¿·şÎñ¶¼¿ÉÒÔ´«µİcookie)
+  #å…¨éƒ¨æœåŠ¡å¿½ç•¥æ•æ„Ÿå¤´(å…¨éƒ¨æœåŠ¡éƒ½å¯ä»¥ä¼ é€’cookie)
   sensitive-headers:
   routes:
-    ticket:
-      serviceId: ticket
-      path: /ticketSlae/**
-    #Â·ÓÉ¹æÔò£ºservice-id: ÇëÇóµÄurl
-#    ticket: /ticketSlae/**
-  #²»Ê¹ÓÃzuulÂ·ÓÉµÄurl
+    #è·¯ç”±è§„åˆ™ï¼šservice-id: è¯·æ±‚çš„url
+    user: /user/**
+    order: /order/**
+    advert: /advert/**
+  #ä¸ä½¿ç”¨zuulè·¯ç”±çš„url
 #  ignored-patterns:
 #    - /**/user/login
 
