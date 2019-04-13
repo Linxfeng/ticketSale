@@ -20,19 +20,29 @@ public class RedisCacheUtil {
         stringRedisTemplate.opsForValue().set(key, value);
     }
 
+    public String getValue(String key) {
+        return stringRedisTemplate.opsForValue().get(key);
+    }
+
     /**
      * 为key生成32位uuid并set到redis中，返回该uuid
+     *
      * @param key
      * @return uuid
      */
-    public String setAndReturnUUID(String key){
+    public String setAndReturnUUID(String key) {
         String value = UUIDUtil.get32UUID();
         stringRedisTemplate.opsForValue().set(key, value);
         return value;
     }
 
-    public String getValue(String key){
-        return stringRedisTemplate.opsForValue().get(key);
+    /**
+     * 根据key删除一个缓存值
+     *
+     * @param key
+     */
+    public void remove(String key) {
+        stringRedisTemplate.delete(key);
     }
 
 }
