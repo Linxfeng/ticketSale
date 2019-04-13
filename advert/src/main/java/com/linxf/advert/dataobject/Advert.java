@@ -27,5 +27,5 @@ public class Advert {
 
     private Date createTime;//创建时间
 
-    Integer del = 0; //是否有效，0有效，1失效
+    private Integer del = 0; //是否有效，0有效，1失效
 }
