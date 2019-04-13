@@ -11,10 +11,12 @@ import com.linxf.user.vo.UserVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -33,7 +35,8 @@ public class AdminController {
     private RedisCacheUtil redisCacheUtil;
 
     /**
-     * 用户登陆
+     * 管理员登陆
+     *
      * @param userVo
      * @return
      */
@@ -59,6 +62,25 @@ public class AdminController {
             return ResponseVo.failed(e.getMessage());
         }
         return ResponseVo.success("登陆成功！");
+    }
+
+    /**
+     * 管理员退出登录
+     *
+     * @return
+     */
+    @GetMapping("/logout")
+    public ResponseVo logout(HttpServletRequest request, HttpServletResponse response) {
+        response.addHeader("Access-Control-Allow-Origin", "*");//CORS跨域
+        try {
+            String uid = request.getHeader("uid");
+            Assert.notNull(uid, "未获取到当前登陆信息");
+            redisCacheUtil.remove(uid);
+        } catch (Exception e) {
+            log.error("AdminController.logout ERROR:{}", e.getMessage());
+            return ResponseVo.failed(e.getMessage());
+        }
+        return ResponseVo.success("操作成功！");
     }
 
 }
