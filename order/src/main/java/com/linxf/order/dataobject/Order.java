@@ -27,22 +27,22 @@ public class Order {
 
     private String startStation;// 出发站
 
-    private String endStation;// 到达站
-
     private Date startTime;// 出发时间
+
+    private String endStation;// 到达站
 
     private Date endTime;// 到达时间
 
     private Integer siteType;// 座位类型
 
-    private Double money; // 订单总价
+    private Double amount; // 订单总价
 
-    private Integer otype; // 订单状态
+    private Integer orderStatus; // 订单状态
 
     private Date createTime;// 创建时间
 
     private Date updateTime;// 创建时间
 
-    private Integer del;// 是否删除：0正常，1已删除
+    private Integer del = 0;// 是否删除：0正常，1已删除
 
 }
