@@ -82,7 +82,7 @@
         }
     </script>
 </head>
-
+<body>
 <div class="place"
      style="background:url('${pageContext.request.contextPath }/images/righttop.gif') repeat-x;">
     <span>位置：</span>
