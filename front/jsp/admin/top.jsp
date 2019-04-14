@@ -38,7 +38,7 @@
 
 <body style="background: url('${pageContext.request.contextPath }/images/topbg.gif') repeat-x;">
 <div class="topleft">
-    <a href="${pageContext.request.contextPath }/main.jsp" target="_parent">
+    <a href="${pageContext.request.contextPath }/jsp/main/main.jsp" target="_parent">
         <img src="${pageContext.request.contextPath }/images/logo.png" title="系统首页" /></a>
 </div>
 
