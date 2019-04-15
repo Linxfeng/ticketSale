@@ -4,6 +4,7 @@ package com.linxf.ticket.dataobject;
 import lombok.Data;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.sql.Time;
 
 /**
@@ -15,6 +16,9 @@ import java.sql.Time;
 @Data
 @Entity
 public class Station {
+
+    @Id
+    private String id;//id,没啥用
 
     private String tid;// 车次编号
 
