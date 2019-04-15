@@ -33,7 +33,7 @@ public class Order {
 
     private Date endTime;// 到达时间
 
-    private Integer siteType;// 座位类型
+    private Integer seatType;// 座位类型
 
     private Double amount; // 订单总价
 
