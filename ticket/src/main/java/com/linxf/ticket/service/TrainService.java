@@ -1,6 +1,9 @@
 package com.linxf.ticket.service;
 
+import com.linxf.ticket.dataobject.Station;
 import com.linxf.ticket.dataobject.Train;
+
+import java.util.List;
 
 /**
  * 列车服务
@@ -16,5 +19,13 @@ public interface TrainService {
      * @param train
      */
     void addTrain(Train train);
+
+    /**
+     * 新增车辆以及车站列表信息
+     *
+     * @param train
+     * @param stationList
+     */
+    void addTrain(Train train, List<Station> stationList);
 
 }
