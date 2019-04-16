@@ -28,10 +28,14 @@
         }
         var j = 0;
         function addstation(){
-            var str="<tr><td><input name='stationList["+j+"].name1' type='text' class='dfinput' /></td>"
-                +"<td><input name='stationList["+j+"].time1' type='time' class='dfinput' /></td>"
+            if ($("#name1_"+(j-1)).val() == "") {
+                alert("请先填写完当前的车站信息！");
+                return;
+            }
+            var str="<tr><td><input id='name1_"+j+"' name='stationList["+j+"].name1' type='text' class='dfinput' /></td>"
+                +"<td><input name='stationList["+j+"].time1' type='text' class='dfinput' placeholder='00:00:00'/></td>"
                 +"<td><input name='stationList["+j+"].name2' type='text' class='dfinput' /></td>"
-                +"<td><input name='stationList["+j+"].time2' type='time' class='dfinput' /></td>"
+                +"<td><input name='stationList["+j+"].time2' type='text' class='dfinput' placeholder='00:00:00'/></td>"
                 +"<td><select name='stationList["+j+"].isNextDay' class='dfinput'>"
                 +"<option value='0'>当天到达</option><option value='1'>次日到达</option></select></td>"
                 +"<td><input name='stationList["+j+"].ticket' type='text' class='dfinput' /></td>"
@@ -40,7 +44,7 @@
             $("#addstation").append(str);
         }
         function submitForm(){ //新增车辆提交
-            if(true){//校验
+            if(checkForm()){//校验表单
                 $.ajax({
                     url : "http://localhost:8084/train/addTrain",
                     type: "POST",
@@ -60,6 +64,17 @@
             } else {
                 return false;
             }
+        }
+        function checkForm(){ //校验表单
+            if ($("#tid").val() == null || $("#tid").val() == "") {
+                alert("车辆编号不能为空");
+                return false;
+            }
+            if ($("#trainType option:selected").val() == 0) {
+                alert("请选择车辆类型");
+                return false;
+            }
+            return true;
         }
     </script>
 </head>
@@ -81,10 +96,21 @@
     </div>
     <form id="addTrainForm">
         <ul class="forminfo">
-            <li><label>车辆编号</label><input name="tid" type="text" class="dfinput" /></li>
-            <li><label>车辆类型</label><input name="trainType" type="text" class="dfinput" /></li>
-            <li><label>站点总数</label><input name="stacount" type="text" class="dfinput" /></li>
-            <li><label>车程耗时</label><input name="runtime" type="text" class="dfinput" /></li>
+            <li><label>车辆编号</label><input name="tid" id="tid" type="text" class="dfinput" /></li>
+            <!-- <li><label>车辆类型</label><input name="trainType" type="text" class="dfinput" /></li> -->
+            <li><label>车辆类型</label>
+                <select id="trainType" name="trainType" class="dfinput">
+                    <option value="0">请选择车辆类型</option>
+                    <option value="K-快车">K-快车</option>
+                    <option value="T-特快">T-特快</option>
+                    <option value="G-高铁">G-高铁</option>
+                    <option value="D-动车">D-动车</option>
+                    <option value="Z-直达">Z-直达</option>
+                    <option value="普通列车">普通列车</option>
+                </select>
+            </li>
+            <li><label>站点总数</label><input name="stacount" type="text" class="dfinput" placeholder="选填"/></li>
+            <li><label>车程耗时</label><input name="runtime" type="text" class="dfinput" placeholder="选填"/></li>
             <li><label>座位类型</label><span onclick="addseat();">＋添加座位类型</span></li>
             <table class="tablelist" id="addseat">
                 <thead>
