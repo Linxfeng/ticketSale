@@ -104,4 +104,5 @@
 
 ## 6、设计数据库
 
-开发中...
+一共设计了6张表：用户表user_info, 乘客表passenger, 订单表order, 公共表advert, 列车表train, 车站信息表station
+
