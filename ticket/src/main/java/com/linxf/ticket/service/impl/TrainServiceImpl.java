@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -62,6 +63,19 @@ public class TrainServiceImpl implements TrainService {
         List<Train> trainList = trainRepository.findAll();
         if (trainList == null || trainList.size() == 0) return null;
         return trainList.stream().map(Train::getTid).collect(Collectors.toList());
+    }
+
+    /**
+     * 根据tid查询车辆信息
+     *
+     * @param tid
+     * @return
+     */
+    @Override
+    public Train getTrainInfo(String tid) {
+        Optional<Train> optional = trainRepository.findById(tid);
+        if (!optional.isPresent()) return null;
+        return optional.get();
     }
 
 }

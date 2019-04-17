@@ -35,4 +35,11 @@ public interface TrainService {
      */
     List<String> listTid();
 
+    /**
+     * 根据tid查询车辆信息
+     *
+     * @param tid
+     * @return
+     */
+    Train getTrainInfo(String tid);
 }
