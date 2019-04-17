@@ -25,4 +25,12 @@ public interface StationService {
      * @param stationList
      */
     void addStationList(List<Station> stationList);
+
+    /**
+     * 查询某辆列车的车站列表
+     *
+     * @param tid
+     * @return
+     */
+    List<Station> findListByTid(String tid);
 }

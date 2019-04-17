@@ -44,4 +44,15 @@ public class StationServiceImpl implements StationService {
             this.addStation(station);
         }
     }
+
+    /**
+     * 查询某辆列车的车站列表
+     *
+     * @param tid
+     * @return
+     */
+    @Override
+    public List<Station> findListByTid(String tid) {
+        return stationRepository.findAllByTid(tid);
+    }
 }
