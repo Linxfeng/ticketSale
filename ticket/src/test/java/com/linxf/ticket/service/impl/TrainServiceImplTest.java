@@ -5,6 +5,8 @@ import com.linxf.ticket.dataobject.Train;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 public class TrainServiceImplTest extends TrainApplicationTests {
 
     @Autowired
@@ -29,5 +31,13 @@ public class TrainServiceImplTest extends TrainApplicationTests {
         train.setSaleSum(0);
         train.setDel(0);
         trainService.addTrain(train);
+    }
+
+    @Test
+    public void listTid() {
+        List<String> tidList = trainService.listTid();
+        for (int i = 0; i < tidList.size(); i++) {
+            System.out.println(tidList.get(i));
+        }
     }
 }
