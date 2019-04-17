@@ -4,6 +4,7 @@ import com.linxf.common.utils.TimeUtil;
 import com.linxf.common.vo.ResponseVo;
 import com.linxf.ticket.dataobject.Station;
 import com.linxf.ticket.dataobject.Train;
+import com.linxf.ticket.service.StationService;
 import com.linxf.ticket.service.TrainService;
 import com.linxf.ticket.utils.VerifyParamsUtil;
 import com.linxf.ticket.vo.TrainVo;
@@ -33,6 +34,9 @@ public class TrainController {
 
     @Autowired
     private TrainService trainService;
+
+    @Autowired
+    private StationService stationService;
 
     /**
      * 新增车辆
@@ -100,9 +104,16 @@ public class TrainController {
         response.addHeader("Access-Control-Allow-Origin", "*");//CORS跨域
         Assert.notNull(tid, "参数tid不能为空！");
         try {
+            //获取车辆信息
             Train train = trainService.getTrainInfo(tid);
             if (train == null) return ResponseVo.noDataFailed("未查询到该车辆信息");
-            return ResponseVo.success("查询成功！", train);
+            //查询该列车的车站列表
+            List<Station> stationList = stationService.findListByTid(train.getTid());
+            //封装参数，返回vo
+            TrainVo trainVo = new TrainVo();
+            BeanUtils.copyProperties(train, trainVo);
+            trainVo.setStationList(stationList);
+            return ResponseVo.success("查询成功！", trainVo);
         } catch (Exception e) {
             log.error("TrainController.trainInfo ERROR:{}", e.getMessage());
             return ResponseVo.failed(e.getMessage());
