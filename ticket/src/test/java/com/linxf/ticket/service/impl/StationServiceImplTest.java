@@ -49,4 +49,12 @@ public class StationServiceImplTest extends TrainApplicationTests {
         }
         stationService.addStationList(stationList);
     }
+
+    @Test
+    public void findListByTid() {
+        List<Station> stationList = stationService.findListByTid("D352");
+        for (int i = 0; i < stationList.size(); i++) {
+            System.out.println(stationList.get(i).toString());
+        }
+    }
 }
