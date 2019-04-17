@@ -31,6 +31,10 @@ public class TrainVo {
     private Integer lastTicket3;// 座位余票3
     private Double money3;// 票价涨幅3
 
+    private String driveTime;// 车程耗时-单位:小时
+
+    private Integer stationSum;// 列车途经总站数
+
     private List<Station> stationList;// 车站列表
 
 }
