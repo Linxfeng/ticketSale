@@ -28,4 +28,11 @@ public interface TrainService {
      */
     void addTrain(Train train, List<Station> stationList);
 
+    /**
+     * 获取列车tid列表
+     *
+     * @return
+     */
+    List<String> listTid();
+
 }

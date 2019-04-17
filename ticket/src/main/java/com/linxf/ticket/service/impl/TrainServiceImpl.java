@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 车辆服务
@@ -49,6 +50,18 @@ public class TrainServiceImpl implements TrainService {
         if (stationList != null && stationList.size() != 0) {
             stationService.addStationList(stationList);
         }
+    }
+
+    /**
+     * 获取列车tid列表
+     *
+     * @return
+     */
+    @Override
+    public List<String> listTid() {
+        List<Train> trainList = trainRepository.findAll();
+        if (trainList == null || trainList.size() == 0) return null;
+        return trainList.stream().map(Train::getTid).collect(Collectors.toList());
     }
 
 }
