@@ -10,6 +10,7 @@ import com.linxf.ticket.vo.TrainVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -67,6 +68,24 @@ public class TrainController {
             return ResponseVo.failed(e.getMessage());
         }
         return ResponseVo.success("新增车辆成功！");
+    }
+
+    /**
+     * 获取车辆tid列表
+     *
+     * @return
+     */
+    @GetMapping("/listTid")
+    public ResponseVo listTid(HttpServletResponse response) {
+        response.addHeader("Access-Control-Allow-Origin", "*");//CORS跨域
+        try {
+            List<String> tidList = trainService.listTid();
+            if (tidList == null) return ResponseVo.noDataFailed("未查询到车辆信息");
+            return ResponseVo.success("查询成功！", tidList);
+        } catch (Exception e) {
+            log.error("TrainController.listTid ERROR:{}", e.getMessage());
+            return ResponseVo.failed(e.getMessage());
+        }
     }
 
 
