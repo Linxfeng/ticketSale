@@ -52,7 +52,8 @@
                     success : function(data) {
                         if (data.code == '0000') {
                             alert(data.message);
-                            // window.location.reload();//刷新页面，重新加载信息
+                            //跳转到列车信息页面
+                            window.location.href="../admin/train_info.jsp?tid="+$("#tid").val();
                         } else {
                             alert(data.message);
                         }
