@@ -6,20 +6,26 @@
     <link href="${pageContext.request.contextPath }/css/style2.css" rel="stylesheet" type="text/css" />
     <style type="text/css">
         .toolbar li {
-            background: url('${pageContext.request.contextPath }/images/toolbg.gif')
-            repeat-x;
+            background: url('${pageContext.request.contextPath }/images/toolbg.gif') repeat-x;
         }
         .tablelist th {
-            background: url('${pageContext.request.contextPath }/images/th.gif')
-            repeat-x;
+            background: url('${pageContext.request.contextPath }/images/th.gif') repeat-x;
         }
         .placeul li {
-            background: url('${pageContext.request.contextPath }/images/rlist.gif')
-            no-repeat right;
+            background: url('${pageContext.request.contextPath }/images/rlist.gif') no-repeat right;
         }
     </style>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery2.js"></script>
     <script type="text/javascript">
+        //获取当前url上的参数
+        function getUrlPara() {
+            var url = document.location.toString();
+            var arrUrl = url.split("?");
+            if (arrUrl.length == 1) return "";
+            if (arrUrl[1].split("=").length == 1) return "";
+            return arrUrl[1].split("=")[1];
+        }
+        var urlParam = getUrlPara();//页面url参数
         $(document).ready(function() { //页面加载执行
             $.ajax({ //加载车次编号下拉框
                 url : "http://localhost:8084/train/listTid",
@@ -31,23 +37,9 @@
                             var trHTML = "<option value="+(i+1)+">"+tidList[i]+"</option>";
                             $("#trainTid").append(trHTML);
                         }
-                        // var tid = "${tid}";
-                        // for(var i=0; i<returnData.length; i++){
-                        // 	if(tid == null){//没有指定车次编号
-                        // 		var trHTML = "<option value="+(i+1)+">"
-                        // 				+returnData[i]+"</option>";
-                        // 	} else {//指定了车次编号
-                        // 		if(returnData[i] == tid){
-                        // 			var trHTML = "<option value="+(i+1)
-                        // 					+" selected='selected'>"
-                        // 					+returnData[i]+"</option>";
-                        // 		} else {
-                        // 			var trHTML = "<option value="+(i+1)+">"
-                        // 					+returnData[i]+"</option>";
-                        // 		}
-                        // 	}
-                        // 	$("#trainTid").append(trHTML);
-                        // }
+                        if (urlParam != "") { //指定了车次编号
+                            getTrainList();
+                        }
                     } else {
                         alert(data.message);
                     }
@@ -56,7 +48,6 @@
                     alert("出错了，请重试！");
                 }
             });
-
             //根据所选择的车次编号查询车辆信息
             $('#trainTid').change(function() {
                 getTrainList();
@@ -65,6 +56,10 @@
         function getTrainList() {
             var tid = $("#trainTid").children('option:selected').val();
             var Tid = $("#trainTid").children('option:selected').text();
+            if (urlParam != "") { //指定了车次编号
+                tid=urlParam;
+                Tid=urlParam;
+            }
             if (tid == 0) {
                 $("#tipmsg").text("请选择车次！");
                 var tr = $("#tbodyid").ChildNode
