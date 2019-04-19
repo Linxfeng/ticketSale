@@ -78,4 +78,15 @@ public class TrainServiceImpl implements TrainService {
         return optional.get();
     }
 
+    /**
+     * 根据车辆类型查询车辆列表
+     *
+     * @param trainType
+     * @return
+     */
+    @Override
+    public List<Train> listTrainByType(String trainType) {
+        return trainRepository.findAllByTrainType(trainType);
+    }
+
 }

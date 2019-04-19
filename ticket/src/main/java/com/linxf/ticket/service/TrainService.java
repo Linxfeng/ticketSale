@@ -42,4 +42,12 @@ public interface TrainService {
      * @return
      */
     Train getTrainInfo(String tid);
+
+    /**
+     * 根据车辆类型查询车辆列表
+     *
+     * @param trainType
+     * @return
+     */
+    List<Train> listTrainByType(String trainType);
 }
