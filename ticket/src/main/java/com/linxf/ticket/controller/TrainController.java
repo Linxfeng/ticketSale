@@ -120,6 +120,25 @@ public class TrainController {
         }
     }
 
+    /**
+     * 根据车辆类型查询车辆列表
+     *
+     * @param trainType
+     * @return
+     */
+    @PostMapping("/listTrainByType")
+    public ResponseVo listTrainByType(String trainType, HttpServletResponse response) {
+        response.addHeader("Access-Control-Allow-Origin", "*");//CORS跨域
+        Assert.notNull(trainType, "参数不能为空！");
+        try {
+            List<Train> trainList = trainService.listTrainByType(trainType);
+            return ResponseVo.success("查询成功！", trainList);
+        } catch (Exception e) {
+            log.error("TrainController.listTrainByType ERROR:{}", e.getMessage());
+            return ResponseVo.failed(e.getMessage());
+        }
+    }
+
 
 
 
