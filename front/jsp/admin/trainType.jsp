@@ -14,43 +14,53 @@
     </style>
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery2.js"></script>
     <script type="text/javascript">
+        //获取当前url上的参数
+        function getUrlPara() {
+            var url = document.location.toString();
+            var arrUrl = url.split("?");
+            if (arrUrl.length == 1) return "";
+            if (arrUrl[1].split("=").length == 1) return "";
+            return arrUrl[1].split("=")[1];
+        }
+        var urlParam = getUrlPara();//页面url参数
         $(document).ready(function() { //页面加载执行
-            //页面加载执行-根据所选择的车辆类别显示车辆列表
-            var ttype = "${ttype}";
-            if(ttype == null){//没有指定车辆类别
-
-            } else {//指定了车辆类别
+            //指定了车辆类别
+            if (urlParam != "") {
                 getTrainList();
             }
-
             //根据所选择的车辆类别显示车辆列表
             $('#trainType').change(function() {
                 getTrainList();
             });
         })
-
-        function getTrainList() { //根据所选择的车辆类别显示车辆列表
-            var tid = $('#trainType').children('option:selected').val();
-            if (tid == 0) {
+        //根据所选择的车辆类别显示车辆列表
+        function getTrainList() {
+            var ttype = $('#trainType').children('option:selected').val();
+            if (urlParam != "") ttype=urlParam;
+            if (ttype == 0) {
                 $("#tipmsg").text("请选择车辆类型！");
                 var tr = $("#tbodyid").ChildNode
                 $("#tbodyid").remove(tr);
             } else {
-                var ttype = $('#trainType').children('option:selected').text();
                 $("#tipmsg").text("");
                 var tr = $("#tbodyid").ChildNode;
                 $("#tbodyid").remove(tr);
                 $.ajax({
-                    url : "http://localhost:8081/train/listTrainByType",
+                    url : "http://localhost:8084/train/listTrainByType",
                     type: "POST",
-                    data : {"ttype" : ttype},
+                    data : {"trainType" : ttype},
                     success : function(data) {
                         if (data.code == '0000') {
+                            var trainList = data.data;
+                            if (trainList.length == 0) {
+                                $("#tipmsg").text("该车辆类型暂无车辆信息！");
+                                return;
+                            }
                             $("#trainsale").append("<tbody id='tbodyid'>");
-                            for (var i = 0; i < returnData.length; i++) {
-                                var trainTid = returnData[i].tid;
+                            for (var i = 0; i < trainList.length; i++) {
+                                var trainTid = trainList[i].tid;
                                 var trHTML = "<tr><td>"+trainTid
-                                    +"</td><td>"+returnData[i].ttype+"</td>"
+                                    +"</td><td>"+trainList[i].trainType+"</td>"
                                     +"<td><a href='javascript:void(0);' onclick='toTrainInfo(\""
                                     +trainTid+"\");'>查看车辆信息</a></td>"
                                     +"<td><a href='javascript:void(0);' onclick='seatManage(\""
@@ -68,9 +78,6 @@
                     }
                 });
             }
-        }
-        function modifyTrain(trainTid) {//修改车辆类型
-            alert(trainTid);
         }
         function toTrainInfo(trainTid) {//查看车辆信息
             window.location.href =
@@ -100,12 +107,16 @@
         </ul>
         <ul class="toolbar">
             <li><span></span>
-                <select class="toolbar" id="trainType">
+                <select id="trainType" class="toolbar">
                     <option value="0">请选择车辆类型</option>
-                    <option value="1">T-特快</option>
-                    <option value="2">G-高铁</option>
-                    <option value="3">D-动车</option>
-                </select></li>
+                    <option value="K-快车">K-快车</option>
+                    <option value="T-特快">T-特快</option>
+                    <option value="G-高铁">G-高铁</option>
+                    <option value="D-动车">D-动车</option>
+                    <option value="Z-直达">Z-直达</option>
+                    <option value="普通列车">普通列车</option>
+                </select>
+            </li>
         </ul>
         <ul class="toolbar">
             <li style="border: none;">
