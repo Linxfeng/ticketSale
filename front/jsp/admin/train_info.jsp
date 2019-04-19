@@ -38,6 +38,8 @@
                             $("#trainTid").append(trHTML);
                         }
                         if (urlParam != "") { //指定了车次编号
+                            var trHTML = "<option selected='selected' value="+urlParam+">"+urlParam+"</option>";
+                            $("#trainTid").append(trHTML);
                             getTrainList();
                         }
                     } else {
