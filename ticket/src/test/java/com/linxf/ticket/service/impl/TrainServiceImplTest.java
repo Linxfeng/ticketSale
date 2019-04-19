@@ -40,4 +40,12 @@ public class TrainServiceImplTest extends TrainApplicationTests {
             System.out.println(tidList.get(i));
         }
     }
+
+    @Test
+    public void listTrainByType() {
+        List<Train> trainList = trainService.listTrainByType("D-动车");
+        for (int i = 0; i < trainList.size(); i++) {
+            System.out.println(trainList.get(i).toString());
+        }
+    }
 }
