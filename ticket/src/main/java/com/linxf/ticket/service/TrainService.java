@@ -50,4 +50,11 @@ public interface TrainService {
      * @return
      */
     List<Train> listTrainByType(String trainType);
+
+    /**
+     * 更新车辆信息
+     *
+     * @param train
+     */
+    void updateTrainInfo(Train train);
 }

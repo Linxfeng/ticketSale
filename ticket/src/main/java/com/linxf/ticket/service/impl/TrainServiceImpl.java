@@ -89,4 +89,14 @@ public class TrainServiceImpl implements TrainService {
         return trainRepository.findAllByTrainType(trainType);
     }
 
+    /**
+     * 更新车辆信息
+     *
+     * @param train
+     */
+    @Override
+    public void updateTrainInfo(Train train) {
+        trainRepository.save(train);
+    }
+
 }
