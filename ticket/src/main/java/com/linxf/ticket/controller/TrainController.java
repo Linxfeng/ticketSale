@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -139,7 +140,44 @@ public class TrainController {
         }
     }
 
-
+    /**
+     * 修改车辆座位类型
+     *
+     * @param trainVo
+     * @return
+     */
+    @PostMapping("/updateTrainType")
+    public ResponseVo updateTrainType(TrainVo trainVo, HttpServletResponse response) {
+        response.addHeader("Access-Control-Allow-Origin", "*");//CORS跨域
+        Assert.notNull(trainVo, "参数不能为空！");
+        Assert.notNull(trainVo.getTid(), "参数不能为空！");
+        try {
+            //获取车辆信息
+            Train train = trainService.getTrainInfo(trainVo.getTid());
+            if (train == null) return ResponseVo.noDataFailed("未查询到该车辆信息");
+            if (!StringUtils.isEmpty(trainVo.getSeatType1()) ||
+                    !StringUtils.isEmpty(trainVo.getMoney1())) { // 修改座位类型1
+                train.setSeatType1(trainVo.getSeatType1());
+                train.setMoney1(trainVo.getMoney1());
+            }
+            if (!StringUtils.isEmpty(trainVo.getSeatType2()) ||
+                    !StringUtils.isEmpty(trainVo.getMoney2())) { // 修改座位类型2
+                train.setSeatType2(trainVo.getSeatType2());
+                train.setMoney2(trainVo.getMoney2());
+            }
+            if (!StringUtils.isEmpty(trainVo.getSeatType3()) ||
+                    !StringUtils.isEmpty(trainVo.getMoney3())) { // 修改座位类型3
+                train.setSeatType3(trainVo.getSeatType3());
+                train.setMoney3(trainVo.getMoney3());
+            }
+            //更新车辆信息
+            trainService.updateTrainInfo(train);
+            return ResponseVo.success("修改成功！");
+        } catch (Exception e) {
+            log.error("TrainController.updateTrainType ERROR:{}", e.getMessage());
+            return ResponseVo.failed(e.getMessage());
+        }
+    }
 
 
 }
