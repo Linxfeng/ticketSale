@@ -48,4 +48,13 @@ public class TrainServiceImplTest extends TrainApplicationTests {
             System.out.println(trainList.get(i).toString());
         }
     }
+
+    @Test
+    public void updateTrainInfo() {
+        //获取车辆信息
+        Train train = trainService.getTrainInfo("D2262");
+        train.setMoney1(80d);
+        //更新车辆信息
+        trainService.updateTrainInfo(train);
+    }
 }
