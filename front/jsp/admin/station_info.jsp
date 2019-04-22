@@ -36,7 +36,7 @@
                     if (data.code == '0000') {
                         var tidList = data.data;
                         for(var i=0; i<tidList.length; i++) {
-                            var trHTML = "<option value="+(i+1)+">"+tidList[i]+"</option>";
+                            var trHTML = "<option value="+tidList[i]+">"+tidList[i]+"</option>";
                             $("#trainTid").append(trHTML);
                         }
                         if (urlParam != "") { //指定了车次编号
@@ -83,6 +83,7 @@
                             var stationList = data.data.stationList;
                             $("#stationTable").append("<tbody id='tbodyid'>");
                             for (var i = 0; i < stationList.length; i++){
+                                var sid = stationList[i].id;
                                 var sname1 = stationList[i].name1;
                                 var stime1 = stationList[i].time1;
                                 var sname2 = stationList[i].name2;
@@ -92,7 +93,8 @@
                                     +"<td><input type='text' disabled ='true' class='dfinput' id='name2_"+i+"' name='stationList["+i+"].name2' value="+sname2+"></td>"
                                     +"<td><input type='text' disabled ='true' class='dfinput' id='time2_"+i+"' name='stationList["+i+"].time2' value="+stime2+"></td>"
                                     +"<td><a onclick=\"changehidden(\'name1_"+i+"\'"+",\'time1_"+i+"\',\'name2_"+i+"\',\'time2_"+i+"\',\'tid_"+i+"\');\">修改</a>"
-                                    +"<input type='hidden' disabled ='true' id='tid_"+i+"' name='stationList["+i+"].tid' value="+Tid+"></td></tr>" ;
+                                    +"<input type='hidden' disabled ='true' id='tid_"+i+"' name='stationList["+i+"].tid' value="+Tid+">"
+                                    +"<input type='hidden' name='stationList["+i+"].id' value="+sid+"></td></tr>";
                                 $("#stationTable").append(trHTML);
                             }
                             $("#trainsale").append("</tbody>");
@@ -142,14 +144,14 @@
         function submitForm(){ //修改车站信息提交
             if(checkForm()){//校验表单
                 $.ajax({
-                    url : "http://localhost:8084/station/upsateStation",
+                    url : "http://localhost:8084/station/updateStation",
                     type: "POST",
                     data:$('#stationInfo').serialize(),
                     success : function(data) {
                         if (data.code == '0000') {
-                            alert(data.message);
-                            //跳转到列车信息页面
-                            // window.location.href="../admin/train_info.jsp?tid="+$("#tid").val();
+                            var tid = $("#trainTid").children('option:selected').val();
+                            //刷新本信息页面
+                            window.location.href="../admin/station_info.jsp?tid="+tid;
                         } else {
                             alert(data.message);
                         }
