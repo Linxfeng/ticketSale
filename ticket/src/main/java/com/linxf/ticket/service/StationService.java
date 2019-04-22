@@ -40,4 +40,13 @@ public interface StationService {
      * @param station
      */
     void updateStationInfo(Station station);
+
+    /**
+     * 根据车站id查询单条车站信息
+     *
+     * @param id
+     * @return
+     */
+    Station findStationById(String id);
+
 }

@@ -65,4 +65,15 @@ public class StationServiceImpl implements StationService {
     public void updateStationInfo(Station station) {
         stationRepository.save(station);
     }
+
+    /**
+     * 根据车站id查询单条车站信息
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public Station findStationById(String id) {
+        return stationRepository.getOne(id);
+    }
 }
