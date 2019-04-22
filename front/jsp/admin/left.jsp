@@ -74,10 +74,10 @@
 		<div class="title">
 			<span><img src="${pageContext.request.contextPath }/images/leftico02.png"/></span>站点管理
 		</div>
-		<ul class="menuson">
-			<li><cite></cite><a href="${pageContext.request.contextPath }/trainController/toStationManage.action"
-								target="rightFrame">车辆站点/时间管理</a><i></i></li>
-		</ul>
+        <ul class="menuson">
+            <li><cite></cite><a href="${pageContext.request.contextPath }/jsp/admin/station_info.jsp"
+                                target="rightFrame">车辆站点/时间管理</a><i></i></li>
+        </ul>
 	</dd>
 	<dd>
 		<div class="title">
