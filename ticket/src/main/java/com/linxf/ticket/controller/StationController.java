@@ -58,21 +58,35 @@ public class StationController {
      * @param trainVo
      * @return
      */
-    @PostMapping("/upsateStation")
-    public ResponseVo upsateStation(TrainVo trainVo, HttpServletResponse response) {
+    @PostMapping("/updateStation")
+    public ResponseVo updateStation(TrainVo trainVo, HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");//CORS跨域
         try {
             Assert.notNull(trainVo, "参数不能为空！");
             Assert.notNull(trainVo.getStationList(), "参数不能为空！");
             List<Station> stationList = trainVo.getStationList();
-            for (Station station : stationList) {
+            for (Station station : stationList) { //车站列表逐条更新
                 if (!StringUtils.isEmpty(station.getTid())) {
-
+                    Assert.notNull(station.getId(), "参数不能为空！");
+                    //先查出该条车站信息
+                    Station stationNew = stationService.findStationById(station.getId());
+                    if (stationNew == null)
+                        return ResponseVo.noDataFailed("未查询到该列车的站点信息！");
+                    if (station.getName1() != null)
+                        stationNew.setName1(station.getName1());
+                    if (station.getTime1() != null)
+                        stationNew.setTime1(station.getTime1());
+                    if (station.getName2() != null)
+                        stationNew.setName2(station.getName2());
+                    if (station.getTime2() != null)
+                        stationNew.setTime2(station.getTime2());
+                    //修改该条车站的信息
+                    stationService.updateStationInfo(stationNew);
                 }
             }
-            return ResponseVo.success("查询成功！", trainVo);
+            return ResponseVo.success("操作成功！");
         } catch (Exception e) {
-            log.error("StationController.stationInfo ERROR:{}", e.getMessage());
+            log.error("StationController.updateStation ERROR:{}", e.getMessage());
             return ResponseVo.failed(e.getMessage());
         }
     }
