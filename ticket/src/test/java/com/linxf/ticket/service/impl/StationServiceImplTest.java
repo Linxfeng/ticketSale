@@ -57,4 +57,10 @@ public class StationServiceImplTest extends TrainApplicationTests {
             System.out.println(stationList.get(i).toString());
         }
     }
+
+    @Test
+    public void findStationById() {
+        Station station = stationService.findStationById("1555413202375622");
+        System.out.println(station);
+    }
 }
