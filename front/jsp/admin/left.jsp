@@ -79,16 +79,16 @@
                                 target="rightFrame">车辆站点/时间管理</a><i></i></li>
         </ul>
 	</dd>
-	<dd>
-		<div class="title">
+    <dd>
+        <div class="title">
 				<span><img
-						src="${pageContext.request.contextPath }/images/leftico03.png" /></span>车票管理
-		</div>
-		<ul class="menuson">
-			<li><cite></cite><a href="${pageContext.request.contextPath }/trainController/toStationTicketManage.action"
-								target="rightFrame">站点余票/票价管理</a><i></i></li>
-		</ul>
-	</dd>
+                        src="${pageContext.request.contextPath }/images/leftico03.png"/></span>车票管理
+        </div>
+        <ul class="menuson">
+            <li><cite></cite><a href="${pageContext.request.contextPath }/jsp/admin/station_ticket.jsp"
+                                target="rightFrame">车票数量/价格管理</a><i></i></li>
+        </ul>
+    </dd>
 	<dd>
 		<div class="title">
 				<span><img
