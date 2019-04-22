@@ -66,8 +66,7 @@ public class StationController {
             Assert.notNull(trainVo.getStationList(), "参数不能为空！");
             List<Station> stationList = trainVo.getStationList();
             for (Station station : stationList) { //车站列表逐条更新
-                if (!StringUtils.isEmpty(station.getTid())) {
-                    Assert.notNull(station.getId(), "参数不能为空！");
+                if (!StringUtils.isEmpty(station.getId())) {
                     //先查出该条车站信息
                     Station stationNew = stationService.findStationById(station.getId());
                     if (stationNew == null)
@@ -80,6 +79,10 @@ public class StationController {
                         stationNew.setName2(station.getName2());
                     if (station.getTime2() != null)
                         stationNew.setTime2(station.getTime2());
+                    if (station.getTicket() != null)
+                        stationNew.setTicket(station.getTicket());
+                    if (station.getMoney() != null)
+                        stationNew.setMoney(station.getMoney());
                     //修改该条车站的信息
                     stationService.updateStationInfo(stationNew);
                 }
