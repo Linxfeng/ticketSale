@@ -52,4 +52,29 @@ public class StationController {
         }
     }
 
+    /**
+     * 修改车站信息
+     *
+     * @param trainVo
+     * @return
+     */
+    @PostMapping("/upsateStation")
+    public ResponseVo upsateStation(TrainVo trainVo, HttpServletResponse response) {
+        response.addHeader("Access-Control-Allow-Origin", "*");//CORS跨域
+        try {
+            Assert.notNull(trainVo, "参数不能为空！");
+            Assert.notNull(trainVo.getStationList(), "参数不能为空！");
+            List<Station> stationList = trainVo.getStationList();
+            for (Station station : stationList) {
+                if (!StringUtils.isEmpty(station.getTid())) {
+
+                }
+            }
+            return ResponseVo.success("查询成功！", trainVo);
+        } catch (Exception e) {
+            log.error("StationController.stationInfo ERROR:{}", e.getMessage());
+            return ResponseVo.failed(e.getMessage());
+        }
+    }
+
 }
