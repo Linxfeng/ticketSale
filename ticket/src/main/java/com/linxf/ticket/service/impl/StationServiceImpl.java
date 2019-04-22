@@ -55,4 +55,14 @@ public class StationServiceImpl implements StationService {
     public List<Station> findListByTid(String tid) {
         return stationRepository.findAllByTid(tid);
     }
+
+    /**
+     * 修改单条车站信息
+     *
+     * @param station
+     */
+    @Override
+    public void updateStationInfo(Station station) {
+        stationRepository.save(station);
+    }
 }

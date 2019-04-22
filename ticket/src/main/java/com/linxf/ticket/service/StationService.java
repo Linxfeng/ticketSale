@@ -33,4 +33,11 @@ public interface StationService {
      * @return
      */
     List<Station> findListByTid(String tid);
+
+    /**
+     * 修改单条车站信息
+     *
+     * @param station
+     */
+    void updateStationInfo(Station station);
 }
