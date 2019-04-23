@@ -72,8 +72,8 @@
     <ul class="placeul">
         <li><a href="${pageContext.request.contextPath}/jsp/admin/index1.jsp"
                title="rightFrame">首页</a></li>
-        <li><a href="">广告管理</a></li>
-        <li><a href="">新增广告</a></li>
+        <li><a href="">公告管理</a></li>
+        <li><a href="">新增公告</a></li>
     </ul>
 </div>
 
