@@ -18,7 +18,7 @@ public class AdvertServiceImplTest extends AdvertApplicationTests {
         advert.setTitle("标题");
         advert.setContent("内容");
         advert.setCreateTime(new Date());
-        Advert advert1 = advertService.addAdvert(advert);
-        System.out.println(advert1);
+        advertService.addAdvert(advert);
+        System.out.println(advert);
     }
 }
