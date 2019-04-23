@@ -30,4 +30,11 @@ public interface AdvertService {
      * @param advert
      */
     void addAdvert(Advert advert);
+
+    /**
+     * 删除某条公告
+     *
+     * @param id
+     */
+    void deleteAdvert(Integer id);
 }

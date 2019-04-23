@@ -52,4 +52,16 @@ public class AdvertServiceImpl implements AdvertService {
         advertRepository.save(advert);
     }
 
+    /**
+     * 删除某条公告
+     *
+     * @param id
+     */
+    @Override
+    public void deleteAdvert(Integer id) {
+        Advert advert = this.getAdvertById(id);
+        advert.setDel(1);
+        this.addAdvert(advert);
+    }
+
 }
