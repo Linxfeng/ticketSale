@@ -21,4 +21,9 @@ public class AdvertServiceImplTest extends AdvertApplicationTests {
         advertService.addAdvert(advert);
         System.out.println(advert);
     }
+
+    @Test
+    public void deleteAdvert() {
+        advertService.deleteAdvert(10);
+    }
 }
