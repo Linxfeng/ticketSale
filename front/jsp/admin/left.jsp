@@ -93,11 +93,9 @@
         </div>
         <ul class="menuson">
             <li><cite></cite><a href="${pageContext.request.contextPath }/jsp/admin/addAdver.jsp"
-                                target="rightFrame">发放通知/公告</a><i></i></li>
-        </ul>
-        <ul class="menuson">
+                                target="rightFrame">发布公告</a><i></i></li>
             <li><cite></cite><a href="${pageContext.request.contextPath }/jsp/admin/adverManage.jsp"
-                                target="rightFrame">通知/公告管理</a><i></i></li>
+                                target="rightFrame">公告管理</a><i></i></li>
         </ul>
     </dd>
 </dl>
