@@ -10,6 +10,7 @@ import com.linxf.common.vo.ResponseVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,7 +54,7 @@ public class AdvertController {
     private List<Advert> listAdvertFromRedis() {
         List<Advert> advertList = null;
         String value = redisCacheUtil.getValue(ADVERTLIST0);//先从缓存中取
-        if (StringUtils.isNotBlank(value)) { //如果缓存中有，则转换为list
+        if (StringUtils.isNotBlank(value) && !"null".equals(value)) { //如果缓存中有，则转换为list
             advertList = (List<Advert>) JsonUtil.jsonToObject(value,
                     new TypeReference<List<Advert>>() {
                     });
@@ -76,7 +77,7 @@ public class AdvertController {
             return ResponseVo.failed("参数不能为空");
         Advert advert = null;
         String value = redisCacheUtil.getValue(ADVERTID + id);
-        if (StringUtils.isNotBlank(value)) {
+        if (StringUtils.isNotBlank(value) && !"null".equals(value)) {
             advert = (Advert) JsonUtil.jsonToObject(value, new TypeReference<Advert>() {
             });
         } else {
@@ -101,6 +102,7 @@ public class AdvertController {
             advertService.addAdvert(advert);//新增公告
             //存入缓存
             redisCacheUtil.setValue(ADVERTID + advert.getId(), JsonUtil.toJson(advert));
+            redisCacheUtil.remove(ADVERTLIST0);//新增公告，刷新缓存
             return ResponseVo.success("操作成功！");
         } catch (Exception e) {
             log.error("AdvertController.addAdvert ERROR:{}", e.getMessage());
@@ -124,6 +126,25 @@ public class AdvertController {
             return ResponseVo.success("查询成功", advertList);
         } catch (Exception e) {
             log.error("AdvertController.listAdvert ERROR:{}", e.getMessage());
+            return ResponseVo.failed(e.getMessage());
+        }
+    }
+
+    /**
+     * 删除某条公告
+     *
+     * @param id
+     */
+    @PostMapping("/deleteAdvert")
+    public ResponseVo deleteAdvert(Integer id, HttpServletResponse response) {
+        response.addHeader("Access-Control-Allow-Origin", "*");//CORS跨域
+        try {
+            Assert.notNull(id, "参数不能为空！");
+            advertService.deleteAdvert(id);
+            redisCacheUtil.remove(ADVERTLIST0);//新增公告，刷新缓存
+            return ResponseVo.success("操作成功！");
+        } catch (Exception e) {
+            log.error("AdvertController.deleteAdvert ERROR:{}", e.getMessage());
             return ResponseVo.failed(e.getMessage());
         }
     }
