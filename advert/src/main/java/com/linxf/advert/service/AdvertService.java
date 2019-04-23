@@ -23,4 +23,11 @@ public interface AdvertService {
      * @return
      */
     Advert getAdvertById(Integer id);
+
+    /**
+     * 新增公告
+     *
+     * @param advert
+     */
+    void addAdvert(Advert advert);
 }

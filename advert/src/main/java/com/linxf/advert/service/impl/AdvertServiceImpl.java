@@ -42,4 +42,14 @@ public class AdvertServiceImpl implements AdvertService {
         return optional.get();
     }
 
+    /**
+     * 新增公告
+     *
+     * @param advert
+     */
+    @Override
+    public void addAdvert(Advert advert) {
+        advertRepository.save(advert);
+    }
+
 }
