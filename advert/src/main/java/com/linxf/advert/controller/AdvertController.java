@@ -29,7 +29,6 @@ import java.util.List;
 public class AdvertController {
 
     private static final String ADVERTLIST0 = "advertList0";
-    private static final String ADVERTLIST1 = "advertList1";
     private static final String ADVERTID = "advert_id_";
 
     @Autowired
@@ -39,27 +38,35 @@ public class AdvertController {
     private RedisCacheUtil redisCacheUtil;
 
     /**
-     * 查询所有有效广告列表
+     * 查询所有有效公告列表
      */
     @GetMapping("/showAllAdvert")
     public ResponseVo getAllAdvert(HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");//CORS跨域
+        List<Advert> advertList = listAdvertFromRedis();
+        if (advertList == null || advertList.size() == 0)
+            return ResponseVo.noDataFailed("未查询到公告信息！");
+        return ResponseVo.success("查询成功", advertList);
+    }
+
+    //查询所有有效公告列表
+    private List<Advert> listAdvertFromRedis() {
         List<Advert> advertList = null;
-        //先从缓存中取
-        String value = redisCacheUtil.getValue(ADVERTLIST0);
-        //如果缓存中有，则转换为list，若没有没有则查数据库
-        if (StringUtils.isNotBlank(value)) {
+        String value = redisCacheUtil.getValue(ADVERTLIST0);//先从缓存中取
+        if (StringUtils.isNotBlank(value)) { //如果缓存中有，则转换为list
             advertList = (List<Advert>) JsonUtil.jsonToObject(value,
-                    new TypeReference<List<Advert>>() {});
-        } else {
+                    new TypeReference<List<Advert>>() {
+                    });
+        } else { //没有没有则查数据库
             advertList = advertService.getAllAdvert(0);
             redisCacheUtil.setValue(ADVERTLIST0, JsonUtil.toJson(advertList));
         }
-        return ResponseVo.success("查询成功", advertList);
+        return advertList;
     }
 
     /**
      * 查询单个advert信息
+     *
      * @param id
      */
     @PostMapping("/advertInfo")
@@ -68,12 +75,13 @@ public class AdvertController {
         if (id == null || id == 0)
             return ResponseVo.failed("参数不能为空");
         Advert advert = null;
-        String value = redisCacheUtil.getValue(ADVERTID+id);
+        String value = redisCacheUtil.getValue(ADVERTID + id);
         if (StringUtils.isNotBlank(value)) {
-            advert = (Advert) JsonUtil.jsonToObject(value, new TypeReference<Advert>() {});
+            advert = (Advert) JsonUtil.jsonToObject(value, new TypeReference<Advert>() {
+            });
         } else {
             advert = advertService.getAdvertById(id);
-            redisCacheUtil.setValue(ADVERTID+id, JsonUtil.toJson(advert));
+            redisCacheUtil.setValue(ADVERTID + id, JsonUtil.toJson(advert));
         }
         if (advert == null) return ResponseVo.noDataFailed("未查询到当前公告信息");
         return ResponseVo.success("查询成功", advert);
@@ -92,10 +100,30 @@ public class AdvertController {
             advert.setCreateTime(new Date());
             advertService.addAdvert(advert);//新增公告
             //存入缓存
-            redisCacheUtil.setValue(ADVERTID+advert.getId(), JsonUtil.toJson(advert));
+            redisCacheUtil.setValue(ADVERTID + advert.getId(), JsonUtil.toJson(advert));
             return ResponseVo.success("操作成功！");
         } catch (Exception e) {
             log.error("AdvertController.addAdvert ERROR:{}", e.getMessage());
+            return ResponseVo.failed(e.getMessage());
+        }
+    }
+
+    /**
+     * 查询所有广告列表-包括失效
+     */
+    @GetMapping("/listAdvert")
+    public ResponseVo listAdvert(HttpServletResponse response) {
+        response.addHeader("Access-Control-Allow-Origin", "*");//CORS跨域
+        try {
+            List<Advert> advertList = listAdvertFromRedis();//查询所有有效公告列表
+            List<Advert> advertDelList = advertService.getAllAdvert(1);
+            if (advertDelList != null && advertDelList.size() != 0)
+                advertList.addAll(advertDelList);
+            if (advertList == null || advertList.size() == 0)
+                return ResponseVo.noDataFailed("未查询到公告信息！");
+            return ResponseVo.success("查询成功", advertList);
+        } catch (Exception e) {
+            log.error("AdvertController.listAdvert ERROR:{}", e.getMessage());
             return ResponseVo.failed(e.getMessage());
         }
     }
