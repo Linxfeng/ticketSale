@@ -46,10 +46,11 @@ public class AdvertServiceImpl implements AdvertService {
      * 新增公告
      *
      * @param advert
+     * @return
      */
     @Override
-    public void addAdvert(Advert advert) {
-        advertRepository.save(advert);
+    public Advert addAdvert(Advert advert) {
+        return advertRepository.save(advert);
     }
 
 }
