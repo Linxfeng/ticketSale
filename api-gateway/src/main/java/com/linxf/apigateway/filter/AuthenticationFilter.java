@@ -8,6 +8,8 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.PRE_TYPE;
 
@@ -20,7 +22,15 @@ import static org.springframework.cloud.netflix.zuul.filters.support.FilterConst
 public class AuthenticationFilter extends ZuulFilter {
 
     @Autowired
+    private AuthProperties authProperties;
+
+    @Autowired
     private RedisCacheUtil redisCacheUtil;
+
+    /**
+     * 需要鉴权的url集合
+     */
+    private List<String> urls;
 
     @Override
     public String filterType() {
@@ -29,12 +39,22 @@ public class AuthenticationFilter extends ZuulFilter {
 
     @Override
     public int filterOrder() {
-        return 0;
+        return 0; //过滤器优先级
     }
 
+    /**
+     * 读取配置，获取需要鉴权的url
+     */
     @Override
     public boolean shouldFilter() {
-        return true;
+        this.urls = Arrays.asList(authProperties.getUrl());
+        RequestContext context = RequestContext.getCurrentContext();
+        HttpServletRequest request = context.getRequest();
+        String url = request.getRequestURI();//获取当前请求的url
+        if (urls.contains(url)) { //url是否在配置内
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -62,8 +82,8 @@ public class AuthenticationFilter extends ZuulFilter {
             }
         } else {
             context.setSendZuulResponse(false); //不路由
-            context.setResponseStatusCode(400);
-            context.setResponseBody("Access Denied! No Login");
+            context.setResponseStatusCode(401);
+            context.setResponseBody("{'code':'0006','message':'Access Denied! No Login'}");
             context.set("isSuccess", false);
         }
         return null;
