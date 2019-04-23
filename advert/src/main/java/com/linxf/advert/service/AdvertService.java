@@ -28,7 +28,6 @@ public interface AdvertService {
      * 新增公告
      *
      * @param advert
-     * @return
      */
-    Advert addAdvert(Advert advert);
+    void addAdvert(Advert advert);
 }
