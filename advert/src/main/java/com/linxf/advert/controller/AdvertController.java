@@ -3,6 +3,7 @@ package com.linxf.advert.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.linxf.advert.dataobject.Advert;
 import com.linxf.advert.service.AdvertService;
+import com.linxf.advert.utils.VerifyParamsUtil;
 import com.linxf.common.utils.JsonUtil;
 import com.linxf.common.utils.RedisCacheUtil;
 import com.linxf.common.vo.ResponseVo;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -75,6 +77,27 @@ public class AdvertController {
         }
         if (advert == null) return ResponseVo.noDataFailed("未查询到当前公告信息");
         return ResponseVo.success("查询成功", advert);
+    }
+
+    /**
+     * 新增公告
+     *
+     * @param advert
+     */
+    @PostMapping("/addAdvert")
+    public ResponseVo addAdvert(Advert advert, HttpServletResponse response) {
+        response.addHeader("Access-Control-Allow-Origin", "*");//CORS跨域
+        try {
+            new VerifyParamsUtil().validAdvert(advert);//校验参数
+            advert.setCreateTime(new Date());
+            advertService.addAdvert(advert);//新增公告
+            //存入缓存
+            redisCacheUtil.setValue(ADVERTID+advert.getId(), JsonUtil.toJson(advert));
+            return ResponseVo.success("操作成功！");
+        } catch (Exception e) {
+            log.error("AdvertController.addAdvert ERROR:{}", e.getMessage());
+            return ResponseVo.failed(e.getMessage());
+        }
     }
 
 }
