@@ -73,4 +73,9 @@ public class OrderServiceImplTest extends OrderApplicationTests {
     public void cancelOrder() {
         orderService.cancelOrder("1554086717367123");
     }
+
+    @Test
+    public void updateOrderStatus() {
+        orderService.updateOrderStatus("1554086717367123", 1);
+    }
 }
