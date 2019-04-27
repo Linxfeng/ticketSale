@@ -52,4 +52,15 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> listOrderByStatus(String uid, Integer orderStatus) {
         return orderRepository.findAllByUidAndOrderStatus(uid, orderStatus);
     }
+
+    /**
+     * 根据订单id查询订单信息
+     *
+     * @param oid
+     * @return
+     */
+    @Override
+    public Order findOrderById(String oid) {
+        return orderRepository.getOne(oid);
+    }
 }

@@ -35,4 +35,12 @@ public interface OrderService {
      * @return
      */
     List<Order> listOrderByStatus(String uid, Integer orderStatus);
+
+    /**
+     * 根据订单id查询订单信息
+     *
+     * @param oid
+     * @return
+     */
+    Order findOrderById(String oid);
 }
