@@ -6,6 +6,8 @@ import com.linxf.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * 订单服务
  *
@@ -26,5 +28,16 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void createOrder(Order order) {
         orderRepository.save(order);
+    }
+
+    /**
+     * 查询用户订单列表
+     *
+     * @param uid
+     * @return
+     */
+    @Override
+    public List<Order> listOrderByUid(String uid) {
+        return orderRepository.findAllByUid(uid);
     }
 }

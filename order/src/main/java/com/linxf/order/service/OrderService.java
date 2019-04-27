@@ -2,6 +2,8 @@ package com.linxf.order.service;
 
 import com.linxf.order.dataobject.Order;
 
+import java.util.List;
+
 /**
  * 订单服务
  *
@@ -17,4 +19,11 @@ public interface OrderService {
      */
     void createOrder(Order order);
 
+    /**
+     * 查询用户订单列表
+     *
+     * @param uid
+     * @return
+     */
+    List<Order> listOrderByUid(String uid);
 }
