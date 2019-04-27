@@ -62,4 +62,10 @@ public class OrderServiceImplTest extends OrderApplicationTests {
             System.out.println("null");
         }
     }
+
+    @Test
+    public void findOrderById() {
+        Order order = orderService.findOrderById("1554086717367123");
+        System.out.println(order);
+    }
 }
