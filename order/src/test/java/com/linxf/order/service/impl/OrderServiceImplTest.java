@@ -1,5 +1,6 @@
 package com.linxf.order.service.impl;
 import java.util.Date;
+import java.util.List;
 
 import com.linxf.common.utils.UUIDUtil;
 import com.linxf.order.OrderApplicationTests;
@@ -36,5 +37,17 @@ public class OrderServiceImplTest extends OrderApplicationTests {
         order.setUpdateTime(new Date());
         order.setDel(0);
         orderService.createOrder(order);
+    }
+
+    @Test
+    public void listOrderByUid() {
+        List<Order> orderList = orderService.listOrderByUid("1554086717367104");
+        if (orderList != null) {
+            for (int i = 0; i < orderList.size(); i++) {
+                System.out.println(orderList.get(i).toString());
+            }
+        } else {
+            System.out.println("null");
+        }
     }
 }
