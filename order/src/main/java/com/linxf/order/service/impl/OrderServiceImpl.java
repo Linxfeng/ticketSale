@@ -77,4 +77,18 @@ public class OrderServiceImpl implements OrderService {
         order.setDel(1);
         orderRepository.save(order);
     }
+
+    /**
+     * 更新订单状态
+     *
+     * @param oid
+     * @param orderStatus
+     */
+    @Override
+    public void updateOrderStatus(String oid, Integer orderStatus) {
+        Order order = this.findOrderById(oid);
+        Assert.isTrue(order != null, "未查询到该订单");
+        order.setOrderStatus(orderStatus);
+        orderRepository.save(order);
+    }
 }

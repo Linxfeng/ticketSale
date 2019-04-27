@@ -50,4 +50,12 @@ public interface OrderService {
      * @param oid
      */
     void cancelOrder(String oid);
+
+    /**
+     * 更新订单状态
+     *
+     * @param oid
+     * @param orderStatus
+     */
+    void updateOrderStatus(String oid, Integer orderStatus);
 }
