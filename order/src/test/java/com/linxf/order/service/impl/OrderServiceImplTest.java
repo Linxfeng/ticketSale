@@ -68,4 +68,9 @@ public class OrderServiceImplTest extends OrderApplicationTests {
         Order order = orderService.findOrderById("1554086717367123");
         System.out.println(order);
     }
+
+    @Test
+    public void cancelOrder() {
+        orderService.cancelOrder("1554086717367123");
+    }
 }
