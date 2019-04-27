@@ -20,4 +20,13 @@ public interface OrderRepository extends JpaRepository<Order, String> {
      * @return
      */
     List<Order> findAllByUid(String uid);
+
+    /**
+     * 根据用户id和订单状态查询订单列表
+     *
+     * @param uid
+     * @param orderStatus
+     * @return
+     */
+    List<Order> findAllByUidAndOrderStatus(String uid, Integer orderStatus);
 }
