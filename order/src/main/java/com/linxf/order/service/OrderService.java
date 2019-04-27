@@ -43,4 +43,11 @@ public interface OrderService {
      * @return
      */
     Order findOrderById(String oid);
+
+    /**
+     * 取消订单
+     *
+     * @param oid
+     */
+    void cancelOrder(String oid);
 }

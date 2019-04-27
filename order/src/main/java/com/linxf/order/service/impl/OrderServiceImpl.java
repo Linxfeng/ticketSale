@@ -5,6 +5,7 @@ import com.linxf.order.repository.OrderRepository;
 import com.linxf.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.List;
 
@@ -62,5 +63,18 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order findOrderById(String oid) {
         return orderRepository.getOne(oid);
+    }
+
+    /**
+     * 取消订单
+     *
+     * @param oid
+     */
+    @Override
+    public void cancelOrder(String oid) {
+        Order order = this.findOrderById(oid);
+        Assert.isTrue(order != null, "未查询到该订单");
+        order.setDel(1);
+        orderRepository.save(order);
     }
 }
