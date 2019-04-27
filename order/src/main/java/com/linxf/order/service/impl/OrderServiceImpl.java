@@ -40,4 +40,16 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> listOrderByUid(String uid) {
         return orderRepository.findAllByUid(uid);
     }
+
+    /**
+     * 根据订单状态-查询用户订单列表
+     *
+     * @param uid
+     * @param orderStatus
+     * @return
+     */
+    @Override
+    public List<Order> listOrderByStatus(String uid, Integer orderStatus) {
+        return orderRepository.findAllByUidAndOrderStatus(uid, orderStatus);
+    }
 }
