@@ -50,4 +50,16 @@ public class OrderServiceImplTest extends OrderApplicationTests {
             System.out.println("null");
         }
     }
+
+    @Test
+    public void listOrderByStatus() {
+        List<Order> orderList = orderService.listOrderByStatus("1554086717367104", 0);
+        if (orderList != null) {
+            for (int i = 0; i < orderList.size(); i++) {
+                System.out.println(orderList.get(i).toString());
+            }
+        } else {
+            System.out.println("null");
+        }
+    }
 }
