@@ -205,7 +205,7 @@ public class TrainController {
 
             // 从缓存中获取直达车列表，若不存在则去数据库查
             String trainList1 = redisCacheUtil.getValue(gokey);
-            if (StringUtils.isEmpty(trainList1) && !"null".equals(trainList1)) {// 缓存中有,从缓存中获取
+            if (!StringUtils.isEmpty(trainList1) && !"null".equals(trainList1)) {// 缓存中有,从缓存中获取
                 trainList = (List<TrainVo>) JsonUtil.jsonToObject(trainList1,
                         new TypeReference<List<TrainVo>>() {
                         });
