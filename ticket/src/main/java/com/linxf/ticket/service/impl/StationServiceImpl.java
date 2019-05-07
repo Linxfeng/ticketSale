@@ -76,4 +76,34 @@ public class StationServiceImpl implements StationService {
     public Station findStationById(String id) {
         return stationRepository.getOne(id);
     }
+
+    /**
+     * 查询直达车车次列表
+     *
+     * @param name1 出发站
+     * @param name2 达到站
+     * @return
+     */
+    @Override
+    public List<String> goStraightRoute(String name1, String name2) {
+        //先查询所有包含始发站的列车
+        List<String> tidList1 = stationRepository.findTidByName1(name1);
+        //先查询所有包含达到站的列车
+        List<String> tidList2 = stationRepository.findTidByName2(name2);
+        //求交集
+        tidList1.retainAll(tidList2);
+        return tidList1;
+    }
+
+    /**
+     * 查询换乘车车次列表
+     *
+     * @param name1 出发站
+     * @param name2 达到站
+     * @return
+     */
+    @Override
+    public List<String> goChangeRoute(String name1, String name2) {
+        return null;
+    }
 }

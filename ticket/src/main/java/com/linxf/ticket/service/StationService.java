@@ -49,4 +49,22 @@ public interface StationService {
      */
     Station findStationById(String id);
 
+    /**
+     * 查询直达车车次列表
+     *
+     * @param name1 出发站
+     * @param name2 达到站
+     * @return
+     */
+    List<String> goStraightRoute(String name1, String name2);
+
+    /**
+     * 查询换乘车车次列表
+     *
+     * @param name1 出发站
+     * @param name2 达到站
+     * @return
+     */
+    List<String> goChangeRoute(String name1, String name2);
+
 }
