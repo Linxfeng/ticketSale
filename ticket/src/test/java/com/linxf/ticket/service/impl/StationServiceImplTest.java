@@ -63,4 +63,12 @@ public class StationServiceImplTest extends TrainApplicationTests {
         Station station = stationService.findStationById("1555413202375622");
         System.out.println(station);
     }
+
+    @Test
+    public void goStraightRoute() {
+        List<String> tidList = stationService.goStraightRoute("上海", "杭州");
+        for (int i = 0; i < tidList.size(); i++) {
+            System.out.println(tidList.get(i));
+        }
+    }
 }
