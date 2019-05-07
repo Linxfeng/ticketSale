@@ -3,6 +3,7 @@ package com.linxf.ticket.service.impl;
 import com.linxf.common.utils.UUIDUtil;
 import com.linxf.ticket.TrainApplicationTests;
 import com.linxf.ticket.dataobject.Station;
+import com.linxf.ticket.vo.TrainVo;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -66,7 +67,7 @@ public class StationServiceImplTest extends TrainApplicationTests {
 
     @Test
     public void goStraightRoute() {
-        List<String> tidList = stationService.goStraightRoute("上海", "杭州");
+        List<TrainVo> tidList = stationService.goStraightRoute("北京", "杭州");
         for (int i = 0; i < tidList.size(); i++) {
             System.out.println(tidList.get(i));
         }
