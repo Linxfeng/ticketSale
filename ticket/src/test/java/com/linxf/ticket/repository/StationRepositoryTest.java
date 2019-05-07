@@ -1,6 +1,7 @@
 package com.linxf.ticket.repository;
 
 import com.linxf.ticket.TrainApplicationTests;
+import com.linxf.ticket.dataobject.Station;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -20,6 +21,12 @@ public class StationRepositoryTest extends TrainApplicationTests {
                 System.out.println(tid);
             }
         System.out.println("null");
+    }
+
+    @Test
+    public void findByTidAndName1() {
+        Station station = stationRepository.findByTidAndName1("D352", "上海");
+        System.out.println(station);
     }
 
 }
