@@ -1,5 +1,8 @@
 package com.linxf.ticket.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.linxf.common.utils.JsonUtil;
+import com.linxf.common.utils.RedisCacheUtil;
 import com.linxf.common.utils.TimeUtil;
 import com.linxf.common.vo.ResponseVo;
 import com.linxf.ticket.dataobject.Station;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,6 +42,9 @@ public class TrainController {
 
     @Autowired
     private StationService stationService;
+
+    @Autowired
+    private RedisCacheUtil redisCacheUtil;
 
     /**
      * 新增车辆
@@ -58,10 +65,10 @@ public class TrainController {
             List<Station> stationList = trainVo.getStationList();
             if (stationList != null && stationList.get(0) != null) { //有车站信息
                 Time startTime = stationList.get(0).getTime1();
-                Time endTime = stationList.get(stationList.size()-1).getTime2();
+                Time endTime = stationList.get(stationList.size() - 1).getTime2();
                 String driveTime = String.valueOf(TimeUtil.diffHour(startTime, endTime));
                 train.setDriveTime(driveTime);//车程耗时，单位：小时
-                train.setStationSum(stationList.size()+1);
+                train.setStationSum(stationList.size() + 1);
             } else { //无车站信息
                 train.setDriveTime("0");
                 train.setStationSum(0);
@@ -175,6 +182,43 @@ public class TrainController {
             return ResponseVo.success("修改成功！");
         } catch (Exception e) {
             log.error("TrainController.updateTrainType ERROR:{}", e.getMessage());
+            return ResponseVo.failed(e.getMessage());
+        }
+    }
+
+    /**
+     * 根据出发站和到达站查询直达路线
+     *
+     * @param name1
+     * @param name2
+     * @return
+     */
+    @PostMapping("/goSearch")
+    public ResponseVo goSearch(String name1, String name2, HttpServletResponse response) {
+        response.addHeader("Access-Control-Allow-Origin", "*");//CORS跨域
+        try {
+            Assert.notNull(name1, "出发城市不能为空！");
+            Assert.notNull(name2, "到达城市不能为空！");
+
+            List<TrainVo> trainList = new ArrayList<>();//返回结果
+            String gokey = name1 + "-" + name2 + "-直达";//缓存的key
+
+            // 从缓存中获取直达车列表，若不存在则去数据库查
+            String trainList1 = redisCacheUtil.getValue(gokey);
+            if (StringUtils.isEmpty(trainList1) && !"null".equals(trainList1)) {// 缓存中有,从缓存中获取
+                trainList = (List<TrainVo>) JsonUtil.jsonToObject(trainList1,
+                        new TypeReference<List<TrainVo>>() {
+                        });
+            } else {// 缓存中没有,从数据库查
+                trainList = stationService.goStraightRoute(name1, name2);
+                if (trainList == null || trainList.size() == 0)
+                    return ResponseVo.noDataFailed("未查询到符合条件的直达路线");
+                // 将查询结果存入缓存
+                redisCacheUtil.setValue(gokey, JsonUtil.toJson(trainList));
+            }
+            return ResponseVo.success("查询成功！", trainList);
+        } catch (Exception e) {
+            log.error("TrainController.goSearch ERROR:{}", e.getMessage());
             return ResponseVo.failed(e.getMessage());
         }
     }
