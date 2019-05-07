@@ -2,6 +2,8 @@ package com.linxf.ticket.repository;
 
 import com.linxf.ticket.dataobject.Station;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -20,4 +22,13 @@ public interface StationRepository extends JpaRepository<Station, String> {
      * @return
      */
     List<Station> findAllByTid(String tid);
+
+    /**
+     * 根据出发站查询所有车次列表
+     *
+     * @param name1
+     * @return
+     */
+    @Query(value = "SELECT DISTINCT tid FROM station WHERE name1=:name1", nativeQuery = true)
+    List<String> findTidByName1(@Param("name1") String name1);
 }
