@@ -1,6 +1,7 @@
 package com.linxf.ticket.service;
 
 import com.linxf.ticket.dataobject.Station;
+import com.linxf.ticket.vo.TrainVo;
 
 import java.util.List;
 
@@ -56,7 +57,7 @@ public interface StationService {
      * @param name2 达到站
      * @return
      */
-    List<String> goStraightRoute(String name1, String name2);
+    List<TrainVo> goStraightRoute(String name1, String name2);
 
     /**
      * 查询换乘车车次列表
@@ -65,6 +66,6 @@ public interface StationService {
      * @param name2 达到站
      * @return
      */
-    List<String> goChangeRoute(String name1, String name2);
+    List<TrainVo> goChangeRoute(String name1, String name2);
 
 }
