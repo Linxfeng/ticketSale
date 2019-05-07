@@ -31,4 +31,13 @@ public interface StationRepository extends JpaRepository<Station, String> {
      */
     @Query(value = "SELECT DISTINCT tid FROM station WHERE name1=:name1", nativeQuery = true)
     List<String> findTidByName1(@Param("name1") String name1);
+
+    /**
+     * 根据到达站查询所有车次列表
+     *
+     * @param name2
+     * @return
+     */
+    @Query(value = "SELECT DISTINCT tid FROM station WHERE name2=:name2", nativeQuery = true)
+    List<String> findTidByName2(@Param("name2") String name2);
 }
