@@ -24,6 +24,16 @@ public interface StationRepository extends JpaRepository<Station, String> {
     List<Station> findAllByTid(String tid);
 
     /**
+     * 根据出发站和车次查询一条车站信息
+     *
+     * @param tid
+     * @param name1
+     * @return
+     */
+    @Query(value = "SELECT * FROM station WHERE tid=:tid AND name1=:name1", nativeQuery = true)
+    Station findByTidAndName1(@Param("tid") String tid, @Param("name1") String name1);
+
+    /**
      * 根据出发站查询所有车次列表
      *
      * @param name1
