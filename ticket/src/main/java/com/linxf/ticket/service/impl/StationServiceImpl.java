@@ -105,6 +105,12 @@ public class StationServiceImpl implements StationService {
             Train train = trainService.getTrainInfo(tid);
             TrainVo trainVo = new TrainVo();
             BeanUtils.copyProperties(train, trainVo);
+            //计算区间车程-时间差
+            Long hour = (stationList.get(stationList.size() - 1).getTime2().getTime()
+                    - stationList.get(0).getTime1().getTime());
+            Long lev = 3600000l;//毫秒级转换为小时级，保留一位小数
+            trainVo.setDriveTime(String.format("%.1f", (hour.doubleValue()/lev.doubleValue())));
+            trainVo.setStationSum(stationList.size());
             trainVo.setStationList(stationList);
             trainList.add(trainVo);
         }
