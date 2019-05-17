@@ -72,15 +72,17 @@
                     data: {"name1": sname1, "name2": sname2},
                     success: function (data) {
                         if (data.code == '0000') {
+                            $("#trainListDiv").empty();//先删除之前显示的列表，再显示新查询的结果
                             var trainList = data.data;
                             for (var i = 0; i < trainList.length; i++) {
                                 var train = trainList[i];
+                                var s = train.stationList.length;
                                 var trHTML = "<!-- 表头 --><ul class='list-inline bor-bottom-solid-1'><li class='w-percentage-20'>"
                                     + "<strong class='rmb orange-f60 font16'>" + train.tid + "</strong></li><li class='w-percentage-20  font16'>"
-                                    + train.stationList[0].name1 + "&nbsp;—&nbsp;" + train.stationList[1].name2 + "</li><li class='w-percentage-25  font16'>"
-                                    + train.stationList[0].time1 + "&nbsp;—&nbsp;" + train.stationList[1].time2 + "</li><li class='w-percentage-25'>共 "
-                                    + train.stationSum + " 站</li><li><button type='button' class='btn btn-danger btn-sm' onClick='toBuy(\""
-                                    + train.tid + "," + train.stationList[0].name1 + "," + train.stationList[1].name2 + "\");'>购票</button></li></ul><!-- 表头结束 -->"
+                                    + train.stationList[0].name1 + "&nbsp;-&nbsp;" + train.stationList[s-1].name2 + "</li><li class='w-percentage-25  font16'>"
+                                    + train.stationList[0].time1 + "&nbsp;-&nbsp;" + train.stationList[s-1].time2 + "</li><li class='w-percentage-25'>共 "
+                                    + train.stationSum + " 站 / 耗时"+train.driveTime+"小时</li><li><button type='button' class='btn btn-danger btn-sm' onClick='toBuy(\""
+                                    + train.tid + "," + train.stationList[0].name1 + "," + train.stationList[s-1].name2 + "\");'>购票</button></li></ul><!-- 表头结束 -->"
                                     + "<!-- 表BODY --><div class='collapse ' id='collapseExample2' style='display: block;'><div class='hangbanlist-body ' "
                                     + "style='background-color: #FEFCFC;'><ul class='list-inline'><li class='w-percentage-20'>座位类型/余票</li><li class='w-percentage-20'>"
                                     + train.seatType1 + "：" + train.lastTicket1 + "票</li><li class='w-percentage-25'>" + train.seatType2 + "：" + train.lastTicket2 + "票</li>"
@@ -177,14 +179,14 @@
         <div class="form-group mar-left-10">
             <label>出发城市：</label>
             <input type="text" class="form-control"
-                   style="width: 85px;" id="startStation" value="苏州" name="name1">
+                   style="width: 85px;" id="startStation" value="北京" name="name1">
         </div>
         <div class="form-group">
             <label>&nbsp;&nbsp;</label>
         </div>
         <div class="form-group">
             <label>到达城市：</label>
-            <input type="text" class="form-control" style="width: 85px;" id="endStation" value="南京" name="name2">
+            <input type="text" class="form-control" style="width: 85px;" id="endStation" value="上海" name="name2">
         </div>
         <div class="form-group mar-left-10">
             <label>出发日期：</label>
@@ -213,7 +215,9 @@
 <!-- 列表开始 -->
 <div class="container mar-bottom-30" id="routListDiv" hidden>
     <div class="hangbanlist">
-        <div id="trainListDiv"></div>
+        <div id="trainListDiv">
+
+        </div>
         <!-- 分页 -->
         <!-- <div class=" pull-right ">
         <ul class="pagination">
