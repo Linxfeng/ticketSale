@@ -65,11 +65,12 @@
         function goSearch() {
             var sname1 = $("#startStation").val();
             var sname2 = $("#endStation").val();
+            var ttype = $('#dropAirlines').children('option:selected').val();
             if (checkStation(sname1, sname2) && checkDate()) {//校验参数
                 $.ajax({
                     url: "http://localhost:8084/train/goSearch",
                     type: "POST",
-                    data: {"name1": sname1, "name2": sname2},
+                    data: {"name1": sname1, "name2": sname2, "ttype": ttype},
                     success: function (data) {
                         if (data.code == '0000') {
                             $("#trainListDiv").empty();//先删除之前显示的列表，再显示新查询的结果
@@ -196,12 +197,12 @@
             <label>车型：</label>
             <select id="dropAirlines" class="form-control" style="width: 120px;">
                 <option value="0">请选择</option>
-                <option value="K-快车">K-快车</option>
-                <option value="T-特快">T-特快</option>
-                <option value="G-高铁">G-高铁</option>
-                <option value="D-动车">D-动车</option>
-                <option value="Z-直达">Z-直达</option>
-                <option value="普通列车">普通列车</option>
+                <option value="K">K-快车</option>
+                <option value="T">T-特快</option>
+                <option value="G">G-高铁</option>
+                <option value="D">D-动车</option>
+                <option value="Z">Z-直达</option>
+                <option value="0">普通列车</option>
             </select>
         </div>&nbsp;&nbsp;&nbsp;&nbsp;
         <button type="button" class="btn btn-danger btn-sm" onclick="goSearch();">直达车查询</button>
