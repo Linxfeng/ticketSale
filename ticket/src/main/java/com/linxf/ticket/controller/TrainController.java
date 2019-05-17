@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 列车Controller
@@ -194,7 +196,7 @@ public class TrainController {
      * @return
      */
     @PostMapping("/goSearch")
-    public ResponseVo goSearch(String name1, String name2, HttpServletResponse response) {
+    public ResponseVo goSearch(String name1, String name2, String ttype, HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");//CORS跨域
         try {
             Assert.notNull(name1, "出发城市不能为空！");
@@ -216,11 +218,29 @@ public class TrainController {
                 // 将查询结果存入缓存
                 redisCacheUtil.setValue(gokey, JsonUtil.toJson(trainList));
             }
-            return ResponseVo.success("查询成功！", trainList);
+            //过滤，返回指定类型的车辆
+            List<TrainVo> data = this.filterTrainList(trainList, ttype);
+            if (CollectionUtils.isEmpty(data))
+                return ResponseVo.noDataFailed("未查询到符合条件的列车");
+            return ResponseVo.success("查询成功！", data);
         } catch (Exception e) {
             log.error("TrainController.goSearch ERROR:{}", e.getMessage());
             return ResponseVo.failed(e.getMessage());
         }
+    }
+
+    /**
+     * 根据车辆类型过滤车辆列表
+     *
+     * @param trainList 车辆列表
+     * @param type      车辆类型
+     * @return
+     */
+    private List<TrainVo> filterTrainList(List<TrainVo> trainList, String type) {
+        if (CollectionUtils.isEmpty(trainList)) return null;
+        if (StringUtils.isEmpty(type) || "0".equals(type)) return trainList;
+        return trainList.stream().filter(trainVo ->
+                trainVo.getTid().contains(type)).collect(Collectors.toList());
     }
 
 
