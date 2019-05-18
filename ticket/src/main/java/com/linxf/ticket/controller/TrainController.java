@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Time;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -189,37 +188,30 @@ public class TrainController {
     }
 
     /**
-     * 根据出发站和到达站查询直达路线
+     * 直达车查询
+     * -根据出发站和到达站查询直达路线
      *
-     * @param name1
-     * @param name2
+     * @param name1 出发城市
+     * @param name2 到达城市
+     * @param type  车辆类型
      * @return
      */
     @PostMapping("/goSearch")
-    public ResponseVo goSearch(String name1, String name2, String ttype, HttpServletResponse response) {
+    public ResponseVo goSearch(String name1, String name2, String type, HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");//CORS跨域
         try {
-            Assert.notNull(name1, "出发城市不能为空！");
-            Assert.notNull(name2, "到达城市不能为空！");
-
-            List<TrainVo> trainList = new ArrayList<>();//返回结果
             String gokey = name1 + "-" + name2 + "-直达";//缓存的key
-
             // 从缓存中获取直达车列表，若不存在则去数据库查
-            String trainList1 = redisCacheUtil.getValue(gokey);
-            if (!StringUtils.isEmpty(trainList1) && !"null".equals(trainList1)) {// 缓存中有,从缓存中获取
-                trainList = (List<TrainVo>) JsonUtil.jsonToObject(trainList1,
-                        new TypeReference<List<TrainVo>>() {
-                        });
-            } else {// 缓存中没有,从数据库查
+            List<TrainVo> trainList = this.checkAndQueryChace(name1, name2, gokey);
+            if (CollectionUtils.isEmpty(trainList)) {// 缓存中没有,从数据库查
                 trainList = stationService.goStraightRoute(name1, name2);
-                if (trainList == null || trainList.size() == 0)
+                if (CollectionUtils.isEmpty(trainList))
                     return ResponseVo.noDataFailed("未查询到符合条件的直达路线");
                 // 将查询结果存入缓存
                 redisCacheUtil.setValue(gokey, JsonUtil.toJson(trainList));
             }
             //过滤，返回指定类型的车辆
-            List<TrainVo> data = this.filterTrainList(trainList, ttype);
+            List<TrainVo> data = this.filterTrainList(trainList, type);
             if (CollectionUtils.isEmpty(data))
                 return ResponseVo.noDataFailed("未查询到符合条件的列车");
             return ResponseVo.success("查询成功！", data);
@@ -227,6 +219,59 @@ public class TrainController {
             log.error("TrainController.goSearch ERROR:{}", e.getMessage());
             return ResponseVo.failed(e.getMessage());
         }
+    }
+
+    /**
+     * 换乘车查询
+     * -根据出发站和到达站查询换乘路线
+     *
+     * @param name1 出发城市
+     * @param name2 到达城市
+     * @param type  车辆类型
+     * @return
+     */
+    @PostMapping("/changeSearch")
+    public ResponseVo changeSearch(String name1, String name2, String type, HttpServletResponse response) {
+        response.addHeader("Access-Control-Allow-Origin", "*");//CORS跨域
+        try {
+            String changekey = name1 + "-" + name2 + "-换乘";//缓存的key
+            // 从缓存中获取换乘车列表，若不存在则去数据库查
+            List<TrainVo> trainList = this.checkAndQueryChace(name1, name2, changekey);
+            if (CollectionUtils.isEmpty(trainList)) {// 缓存中没有,从数据库查
+                trainList = stationService.goChangeRoute(name1, name2);
+                if (CollectionUtils.isEmpty(trainList))
+                    return ResponseVo.noDataFailed("未查询到符合条件的直达路线");
+                // 将查询结果存入缓存
+                redisCacheUtil.setValue(changekey, JsonUtil.toJson(trainList));
+            }
+            //过滤，返回指定类型的车辆
+            List<TrainVo> data = this.filterTrainList(trainList, type);
+            if (CollectionUtils.isEmpty(data))
+                return ResponseVo.noDataFailed("未查询到符合条件的列车");
+            return ResponseVo.success("查询成功！", data);
+        } catch (Exception e) {
+            log.error("TrainController.changeSearch ERROR:{}", e.getMessage());
+            return ResponseVo.failed(e.getMessage());
+        }
+    }
+
+    /**
+     * 从缓存中获取路线列表
+     *
+     * @param name1 出发城市
+     * @param name2 到达城市
+     * @param key   缓存中的key
+     * @return
+     */
+    private List<TrainVo> checkAndQueryChace(String name1, String name2, String key) {
+        Assert.notNull(name1, "出发城市不能为空！");
+        Assert.notNull(name2, "到达城市不能为空！");
+        String trainList = redisCacheUtil.getValue(key);
+        if (!StringUtils.isEmpty(trainList) && !"null".equals(trainList))
+            return (List<TrainVo>) JsonUtil.jsonToObject(trainList,
+                    new TypeReference<List<TrainVo>>() {
+                    });
+        return null;
     }
 
     /**
