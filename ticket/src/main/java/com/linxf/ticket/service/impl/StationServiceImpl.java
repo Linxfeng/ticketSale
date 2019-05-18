@@ -99,7 +99,7 @@ public class StationServiceImpl implements StationService {
         List<String> tidList1 = stationRepository.findTidByName1(name1);
         for (String tid : tidList1) {
             //查询该列车的车站信息：出发站-到达站
-            List<Station> stationList = this.findStationList(tid, name1, name2, new ArrayList<>());
+            List<Station> stationList = this.filterStationList(tid, name1, name2, new ArrayList<>());
             if (stationList == null || stationList.size() == 0) return null;
             //获取车辆信息，封装返回参数
             Train train = trainService.getTrainInfo(tid);
@@ -109,7 +109,7 @@ public class StationServiceImpl implements StationService {
             Long hour = (stationList.get(stationList.size() - 1).getTime2().getTime()
                     - stationList.get(0).getTime1().getTime());
             Long lev = 3600000l;//毫秒级转换为小时级，保留一位小数
-            trainVo.setDriveTime(String.format("%.1f", (hour.doubleValue()/lev.doubleValue())));
+            trainVo.setDriveTime(String.format("%.1f", (hour.doubleValue() / lev.doubleValue())));
             trainVo.setStationSum(stationList.size());
             trainVo.setStationList(stationList);
             trainList.add(trainVo);
@@ -120,14 +120,36 @@ public class StationServiceImpl implements StationService {
     /**
      * 递归调用，查找车站列表：出发站-到达站
      */
-    private List<Station> findStationList(String tid, String name1, String name2, List<Station> stationList) {
-        Station station = stationRepository.findByTidAndName1(tid, name1);
-        if (station == null) return null;
+//    private List<Station> findStationList(String tid, String name1, String name2, List<Station> stationList) {
+//        Station station = stationRepository.findByTidAndName1(tid, name1);
+//        if (station == null) return null;
+//        stationList.add(station);//符合条件的车站列表
+//        if (name2.equals(station.getName2()))
+//            return stationList;
+//        //递归调用，找到所有符合条件的车站
+//        return this.findStationList(tid, station.getName2(), name2, stationList);
+//    }
+
+    /**
+     * 递归调用，查找车站列表：
+     * 1、用户出发站-车辆终点站
+     * 2、车辆始发站-用户到达站
+     * 3、用户出发站-用户到达站
+     */
+    private List<Station> filterStationList(String tid, String name1, String name2, List<Station> stationList) {
+        Station station = null;
+        if (name2 == null) station = stationRepository.findByTidAndName1(tid, name1);//1、用户出发站-车辆终点站
+        if (name1 == null) station = stationRepository.findByTidAndName2(tid, name2);//2、车辆始发站-用户到达站
+        //3、用户出发站-用户到达站
+        if (name1 != null && name2 != null) station = stationRepository.findByTidAndName1(tid, name1);
+        if (station == null) return stationList;
         stationList.add(station);//符合条件的车站列表
-        if (name2.equals(station.getName2()))
-            return stationList;
+        if (name1 != null && name2 != null && name2.equals(station.getName2())) return stationList;
         //递归调用，找到所有符合条件的车站
-        return this.findStationList(tid, station.getName2(), name2, stationList);
+        if (name2 == null) name1 = station.getName2();//1、用户出发站-车辆终点站
+        if (name1 == null) name2 = station.getName1();//2、车辆始发站-用户到达站
+        if (name1 != null && name2 != null) name1 = station.getName2();//3、用户出发站-用户到达站
+        return this.filterStationList(tid, name1, name2, stationList);
     }
 
     /**
@@ -139,6 +161,20 @@ public class StationServiceImpl implements StationService {
      */
     @Override
     public List<TrainVo> goChangeRoute(String name1, String name2) {
-        return null;
+        List<TrainVo> trainList = new ArrayList<>();//返回结果
+        //查询所有包含出发站的列车
+        List<String> tidList1 = stationRepository.findTidByName1(name1);
+        //查询所有包含到达站的列车
+        List<String> tidList2 = stationRepository.findTidByName2(name2);
+
+        for (String tid : tidList1) {//出发站车站列表
+            //查询该列车的车站信息：出发站-到达站
+            List<Station> stationList1 = this.filterStationList(tid, name1, name2, new ArrayList<>());
+        }
+        for (String tid : tidList2) {//到达站车站列表
+            //查询该列车的车站信息：出发站-到达站
+            List<Station> stationList2 = this.filterStationList(tid, name1, name2, new ArrayList<>());
+        }
+        return trainList;
     }
 }
