@@ -11,9 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author lintao
@@ -118,17 +121,71 @@ public class StationServiceImpl implements StationService {
     }
 
     /**
-     * 递归调用，查找车站列表：出发站-到达站
+     * 查询换乘车车次列表
+     *
+     * @param name1 出发站
+     * @param name2 达到站
+     * @return
      */
-//    private List<Station> findStationList(String tid, String name1, String name2, List<Station> stationList) {
-//        Station station = stationRepository.findByTidAndName1(tid, name1);
-//        if (station == null) return null;
-//        stationList.add(station);//符合条件的车站列表
-//        if (name2.equals(station.getName2()))
-//            return stationList;
-//        //递归调用，找到所有符合条件的车站
-//        return this.findStationList(tid, station.getName2(), name2, stationList);
-//    }
+    @Override
+    public List<Map<String, Object>> goChangeRoute(String name1, String name2) {
+        List<Map<String, Object>> trainList = new ArrayList<>();//返回结果
+        //查询所有包含出发站的列车
+        List<String> tidList1 = stationRepository.findTidByName1(name1);
+        if (CollectionUtils.isEmpty(tidList1)) return null;
+        //查询所有包含到达站的列车
+        List<String> tidList2 = stationRepository.findTidByName2(name2);
+        if (CollectionUtils.isEmpty(tidList2)) return null;
+        if (tidList2.size() > tidList1.size()) {
+            tidList2.removeAll(tidList1);
+        } else {
+            tidList1.removeAll(tidList2);
+        }
+        //遍历车次
+        for (String tid1 : tidList1) {
+            //查询该列车的车站信息：用户出发站出发站-终点站
+            List<Station> stationList1 = this.filterStationList(tid1, name1, null, new ArrayList<>());
+            if (CollectionUtils.isEmpty(stationList1)) continue;
+            if (stationList1.get(0).getName2().equals(name2)) continue;// 直达车排除掉
+            // 遍历符合到达站条件的车次编号列表
+            List<Map<String, Object>> resultList1 = getNeedList(tidList2, tid1, name2, stationList1, name1);
+            if (CollectionUtils.isEmpty(resultList1)) continue;
+            resultList1.forEach(map1 -> trainList.add(map1));
+        }
+        return trainList;
+    }
+
+    /**
+     * 遍历符合到达站条件的车次编号列表
+     */
+    private List<Map<String, Object>> getNeedList(List<String> tidList2, String tid1, String name2,
+                                                  List<Station> stationList1, String name1) {
+        List<Map<String, Object>> mapList = new ArrayList<>();
+        Map<String, Object> map = new HashMap<>();
+        for (String tid2 : tidList2) {
+            if (tid1.equals(tid2)) continue;//排除直达车
+            // 根据车次编号获取车站列表信息：列车始发站-用户到达站
+            List<Station> stationList2 = this.filterStationList(tid2, null, name2, new ArrayList<>());
+            if (CollectionUtils.isEmpty(stationList2)) continue;
+            if (stationList2.get(0).getName1().equals(name1)) break;//排除直达车
+            // 寻找列车1和列车2的交接点
+            String station = this.getChangeStation(stationList1, stationList2);
+            if (station == null) continue;
+            // 根据编号获取车辆信息
+            TrainVo trainVo1 = new TrainVo();
+            TrainVo trainVo2 = new TrainVo();
+            BeanUtils.copyProperties(trainService.getTrainInfo(tid1), trainVo1);
+            BeanUtils.copyProperties(trainService.getTrainInfo(tid2), trainVo2);
+            trainVo1.setStationList(stationList1);
+            trainVo2.setStationList(stationList2);
+            // 返回换乘情况下的换乘车次和换乘车站
+            map.put("changeStation", station);// 返回换乘站
+            map.put("train1", trainVo1);// 换乘车辆1
+            map.put("train2", trainVo2);// 换乘车辆2
+            mapList.add(map);
+        }
+        return mapList;
+    }
 
     /**
      * 递归调用，查找车站列表：
@@ -153,28 +210,17 @@ public class StationServiceImpl implements StationService {
     }
 
     /**
-     * 查询换乘车车次列表
-     *
-     * @param name1 出发站
-     * @param name2 达到站
-     * @return
+     * 寻找列车1和列车2的交接点--换乘站
      */
-    @Override
-    public List<TrainVo> goChangeRoute(String name1, String name2) {
-        List<TrainVo> trainList = new ArrayList<>();//返回结果
-        //查询所有包含出发站的列车
-        List<String> tidList1 = stationRepository.findTidByName1(name1);
-        //查询所有包含到达站的列车
-        List<String> tidList2 = stationRepository.findTidByName2(name2);
-
-        for (String tid : tidList1) {//出发站车站列表
-            //查询该列车的车站信息：出发站-到达站
-            List<Station> stationList1 = this.filterStationList(tid, name1, name2, new ArrayList<>());
+    private String getChangeStation(List<Station> stationList1, List<Station> stationList2) {
+        for (Station station1 : stationList1) {
+            for (Station station2 : stationList2) {
+                String sname1 = station1.getName2();
+                String sname2 = station2.getName1();
+                if (sname1.equals(sname2)) return station1.getName2();
+            }
         }
-        for (String tid : tidList2) {//到达站车站列表
-            //查询该列车的车站信息：出发站-到达站
-            List<Station> stationList2 = this.filterStationList(tid, name1, name2, new ArrayList<>());
-        }
-        return trainList;
+        return null;
     }
+
 }

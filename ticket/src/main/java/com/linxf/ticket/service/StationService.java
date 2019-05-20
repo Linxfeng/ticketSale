@@ -4,6 +4,7 @@ import com.linxf.ticket.dataobject.Station;
 import com.linxf.ticket.vo.TrainVo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 车站服务
@@ -66,6 +67,6 @@ public interface StationService {
      * @param name2 达到站
      * @return
      */
-    List<TrainVo> goChangeRoute(String name1, String name2);
+    List<Map<String, Object>> goChangeRoute(String name1, String name2);
 
 }
