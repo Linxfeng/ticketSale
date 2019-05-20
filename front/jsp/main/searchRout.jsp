@@ -82,8 +82,8 @@
                                     + "<strong class='rmb orange-f60 font16'>" + train.tid + "</strong></li><li class='w-percentage-20  font16'>"
                                     + train.stationList[0].name1 + "&nbsp;-&nbsp;" + train.stationList[s-1].name2 + "</li><li class='w-percentage-25  font16'>"
                                     + train.stationList[0].time1 + "&nbsp;-&nbsp;" + train.stationList[s-1].time2 + "</li><li class='w-percentage-25'>共 "
-                                    + train.stationSum + " 站 / 耗时"+train.driveTime+"小时</li><li><button type='button' class='btn btn-danger btn-sm' onClick='toBuy(\""
-                                    + train.tid + "," + train.stationList[0].name1 + "," + train.stationList[s-1].name2 + "\");'>购票</button></li></ul><!-- 表头结束 -->"
+                                    + train.stationSum + " 站 / 耗时"+train.driveTime+"小时</li><li><button type='button' class='btn btn-danger btn-sm' onClick='toBuy("
+                                    + train.tid + "," + sname1 + "," + sname2 + ");'>购票</button></li></ul><!-- 表头结束 -->"
                                     + "<!-- 表BODY --><div class='collapse ' id='collapseExample2' style='display: block;'><div class='hangbanlist-body ' "
                                     + "style='background-color: #FEFCFC;'><ul class='list-inline'><li class='w-percentage-20'>座位类型/余票</li><li class='w-percentage-20'>"
                                     + train.seatType1 + "：" + train.lastTicket1 + "票</li><li class='w-percentage-25'>" + train.seatType2 + "：" + train.lastTicket2 + "票</li>"
@@ -174,9 +174,25 @@
         }
 
         function toBuy(tid, sname1, sname2) { //购票
-            var startDay = $("#startDay").val();
-            window.location.href = "${pageContext.request.contextPath}/orderController/toOrderInfo.action?tid="
-                + tid + "&sname1=" + sname1 + "&sname2=" + sname2 + "&type=1" + "&startDay=" + startDay;
+            if (checkStation(sname1, sname2) && checkDate()) {//校验参数
+                var startDay = $("#startDay").val();
+                var orderVo = {"tid": tid, "startStation": sname1, "endStation": sname2, "startTime": startDay};
+                $.ajax({
+                    url : "http://localhost:8083/order/submitOrder",
+                    type: "POST",
+                    data: orderVo,
+                    success : function(data) {
+                        if (data.code == '0000') {
+                            alert(data.message);
+                        } else {
+                            alert(data.message);
+                        }
+                    },
+                    error: function() {
+                        alert("出错了，请重试！");
+                    }
+                });
+            }
         }
 
         //校验出发/到达城市
@@ -275,6 +291,7 @@
         <div id="trainListDiv">
 
         </div>
+
         <!-- 分页 -->
         <!-- <div class=" pull-right ">
         <ul class="pagination">
