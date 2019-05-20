@@ -111,10 +111,66 @@
         }
 
         function changeSearch() { //换乘车查询
-            // var sname1 = $("#startStation").val();
-            // var sname2 = $("#endStation").val();
-            // window.location.href = "${pageContext.request.contextPath }/trainController/changeSearch.action?sname1="
-            // 		+sname1+"&sname2="+sname2;
+            var sname1 = $("#startStation").val();
+            var sname2 = $("#endStation").val();
+            var ttype = $('#dropAirlines').children('option:selected').val();
+            if (checkStation(sname1, sname2) && checkDate()) {//校验参数
+                $.ajax({
+                    url: "http://localhost:8084/train/changeSearch",
+                    type: "POST",
+                    data: {"name1": sname1, "name2": sname2, "ttype": ttype},
+                    success : function(data) {
+                        if (data.code == '0000') {
+                            $("#trainListDiv").empty();//先删除之前显示的列表，再显示新查询的结果
+                            var trainList = data.data;
+                            for (var i = 0; i < trainList.length; i++) {
+                                var train1 = trainList[i].train1;
+                                var train2 = trainList[i].train2;
+                                var station = trainList[i].changeStation;
+                                var s1 = train1.stationList.length;
+                                var s2 = train2.stationList.length;
+                                var trHTML = "<ul class='list-inline bor-bottom-solid-1'><li class='w-percentage-20'><strong class='rmb font16'>换乘路线：</strong>"
+                                    +"</li><li class='w-percentage-20  font16'><strong class='rmb font16'>"+sname1+"&nbsp;—&nbsp;"+sname2
+                                    +"</strong></li><li class='w-percentage-25  font16'><strong class='rmb font16'>"
+                                    +train1.stationList[0].time1+"&nbsp;—&nbsp;"+train2.stationList[s2-1].time2+"</strong></li><li class='w-percentage-20  font16'>"
+                                    +"<strong class='rmb font16'>共 "+(s1+s2-2)+" 站</strong></li><li class='font16'><strong class='rmb font16'>换乘站： "+station
+                                    +"</strong></li></ul><!-- 表头 --><ul class='list-inline bor-bottom-solid-1'>"
+                                    +"<li class='w-percentage-20'><strong class='rmb orange-f60 font16'>"+train1.tid+"</strong></li><li class='w-percentage-20  font16'>"
+                                    +sname1+"&nbsp;—&nbsp;"+station+"</li><li class='w-percentage-25  font16'>"+train1.stationList[0].time1+"&nbsp;—&nbsp;"
+                                    +train1.stationList[s1-1].time2+"</li><li class='w-percentage-25  font16'>共 "+(s1-1)+" 站&nbsp;&nbsp;</li>"
+                                    +"<li><button type='button' class='btn btn-danger btn-sm' onClick='toBuy('"+train2.tid+"');'>购票</button></li></ul>"
+                                    +"<!-- 表头结束 --><!-- 表BODY --><div class='collapse ' id='collapseExample2' style='display: block;'><div class='hangbanlist-body ' "
+                                    +"style='background-color: #FEFCFC;'><ul class='list-inline'><li class='w-percentage-20'>座位类型/余票</li><li class='w-percentage-20'>"
+                                    +train1.seatType1+"： "+train1.lastTicket1+"票</li><li class='w-percentage-25'>"+train1.seatType2+"： "+train1.lastTicket2+"票</li>"
+                                    +"<li class='w-percentage-25'>"+train1.seatType3+"： "+train1.lastTicket3+"票</li><li class='pull-right'>&nbsp;</li></ul><ul class='list-inline'>"
+                                    +"<li class='w-percentage-20'>普通票价/<spanclass='rmb orange-f60'>优惠价</span></li><li class='w-percentage-20'>￥"+train1.money1
+                                    +" / <strongclass='rmb orange-f60'>￥"+(train1.money1 * 0.75)+"</strong></li><li class='w-percentage-25'>￥"+train1.money2
+                                    +" / <strongclass='rmb orange-f60'>￥"+(train1.money2 * 0.75)+"</strong></li><li class='w-percentage-25 '>￥"+train1.money3
+                                    +" / <strongclass='rmb orange-f60'>￥"+(train1.money3 * 0.75)+"</strong></li><li class='pull-right'>&nbsp;</li></ul></div></div>"
+                                    +"<!-- 表BODY 结束 --><!-- 表头 --><!-- 换乘车 --><ul class='list-inline bor-bottom-solid-1'><li class='w-percentage-20'>"
+                                    +"<strong class='rmb orange-f60 font16'>"+train2.tid+"</strong></li><li class='w-percentage-20  font16'>"+station
+                                    +"&nbsp;—&nbsp;"+sname2+"</li><li class='w-percentage-25  font16'>"+train2.stationList[0].time1+"&nbsp;—&nbsp;"+train2.stationList[s2-1].time2
+                                    +"</li><li class='w-percentage-25'>共 "+(s2-1)+" 站</li><li><button type='button' class='btn btn-danger btn-sm'onClick='toBuy('"
+                                    +train2.tid+"');'>购票</button></li></ul><!-- 表头结束 --><!-- 表BODY --><div class='collapse ' id='collapseExample2' style='display: block;'>"
+                                    +"<div class='hangbanlist-body ' style='background-color: #FEFCFC;'><ul class='list-inline'><li class='w-percentage-20'>座位类型/余票</li>"
+                                    +"<li class='w-percentage-20'>"+train2.seatType1+"："+train2.lastTicket1+"票</li><li class='w-percentage-25'>"+train2.seatType2+"："+train2.lastTicket2
+                                    +"票</li><li class='w-percentage-25'>"+train2.seatType3+"："+train2.lastTicket3+"票</li><li class='pull-right'>&nbsp;</li></ul><ul class='list-inline'>"
+                                    +"<li class='w-percentage-20'>普通票价/<spanclass='rmb orange-f60'>优惠价</span></li><li class='w-percentage-20'>￥"+train2.money1
+                                    +" / <strongclass='rmb orange-f60'>￥"+(train2.money1 * 0.75)+"</strong></li><li class='w-percentage-25'>￥"+train2.money2
+                                    +" / <strongclass='rmb orange-f60'>￥"+(train2.money2 * 0.75)+"</strong></li><li class='w-percentage-25 '>￥"+train2.money3
+                                    +" / <strongclass='rmb orange-f60'>￥"+(train2.money3 * 0.75)+"</strong></li><li class='pull-right'>&nbsp;</li></ul></div></div><!-- 表BODY 结束 -->";
+                                $("#trainListDiv").append(trHTML);
+                            }
+                            $("#routListDiv").removeAttr("hidden");//显示列表
+                        } else {
+                            alert(data.message);
+                        }
+                    },
+                    error: function() {
+                        alert("出错了，请重试！");
+                    }
+                });
+            }
         }
 
         function toBuy(tid, sname1, sname2) { //购票
