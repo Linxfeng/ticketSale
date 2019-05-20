@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Time;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -202,7 +203,7 @@ public class TrainController {
         try {
             String gokey = name1 + "-" + name2 + "-直达";//缓存的key
             // 从缓存中获取直达车列表，若不存在则去数据库查
-            List<TrainVo> trainList = this.checkAndQueryChace(name1, name2, gokey);
+            List<TrainVo> trainList = (List<TrainVo>) this.checkAndQueryChace(name1, name2, gokey);
             if (CollectionUtils.isEmpty(trainList)) {// 缓存中没有,从数据库查
                 trainList = stationService.goStraightRoute(name1, name2);
                 if (CollectionUtils.isEmpty(trainList))
@@ -236,19 +237,16 @@ public class TrainController {
         try {
             String changekey = name1 + "-" + name2 + "-换乘";//缓存的key
             // 从缓存中获取换乘车列表，若不存在则去数据库查
-            List<TrainVo> trainList = this.checkAndQueryChace(name1, name2, changekey);
+            List<Map<String, Object>> trainList = (List<Map<String, Object>>) this.checkAndQueryChace(name1, name2, changekey);
             if (CollectionUtils.isEmpty(trainList)) {// 缓存中没有,从数据库查
-                trainList = stationService.goChangeRoute(name1, name2);
+                trainList = stationService.goChangeRoute(name1, name2);//查询换乘车信息
                 if (CollectionUtils.isEmpty(trainList))
-                    return ResponseVo.noDataFailed("未查询到符合条件的直达路线");
-                // 将查询结果存入缓存
-                redisCacheUtil.setValue(changekey, JsonUtil.toJson(trainList));
+                    return ResponseVo.noDataFailed("未查询到符合条件的换乘路线");
+                redisCacheUtil.setValue(changekey, JsonUtil.toJson(trainList));// 将查询结果存入缓存
             }
-            //过滤，返回指定类型的车辆
-            List<TrainVo> data = this.filterTrainList(trainList, type);
-            if (CollectionUtils.isEmpty(data))
-                return ResponseVo.noDataFailed("未查询到符合条件的列车");
-            return ResponseVo.success("查询成功！", data);
+            if (CollectionUtils.isEmpty(trainList))
+                return ResponseVo.noDataFailed("未查询到符合条件的换乘路线");
+            return ResponseVo.success("查询成功！", trainList);
         } catch (Exception e) {
             log.error("TrainController.changeSearch ERROR:{}", e.getMessage());
             return ResponseVo.failed(e.getMessage());
@@ -263,14 +261,14 @@ public class TrainController {
      * @param key   缓存中的key
      * @return
      */
-    private List<TrainVo> checkAndQueryChace(String name1, String name2, String key) {
+    private Object checkAndQueryChace(String name1, String name2, String key) {
         Assert.notNull(name1, "出发城市不能为空！");
         Assert.notNull(name2, "到达城市不能为空！");
+        Assert.isTrue(!name1.equals(name2), "出发城市与到达城市不能相同！");
         String trainList = redisCacheUtil.getValue(key);
         if (!StringUtils.isEmpty(trainList) && !"null".equals(trainList))
-            return (List<TrainVo>) JsonUtil.jsonToObject(trainList,
-                    new TypeReference<List<TrainVo>>() {
-                    });
+            return JsonUtil.jsonToObject(trainList, new TypeReference<List<TrainVo>>() {
+            });
         return null;
     }
 
