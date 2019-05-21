@@ -175,8 +175,13 @@
 
         function toBuy(tid, sname1, sname2) { //购票
             if (checkStation(sname1, sname2) && checkDate()) {//校验参数
+                //1、调用用户服务，查询乘客列表，选择乘客
+                var pid = "";
+                //2、调用列车服务，查询后台每种座位类型的余票，只能购买余票不为0的座位，弹出座位选择框
+                var seatType = 0;
+                //3、调用订单服务，传参，生成订单
                 var startDay = $("#startDay").val();
-                var orderVo = {"tid": tid, "startStation": sname1, "endStation": sname2, "startTime": startDay};
+                var orderVo = {"pid": pid, "tid": tid, "startStation": sname1, "endStation": sname2, "startTime": startDay, "seatType": seatType};
                 $.ajax({
                     url : "http://localhost:8083/order/submitOrder",
                     type: "POST",
