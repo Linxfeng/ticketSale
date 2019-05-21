@@ -14,6 +14,8 @@ import java.util.Date;
 @Data
 public class OrderVo {
 
+    private String pid;// 乘客id
+
     @NotEmpty(message = "车次编号不能为空")
     private String tid;// 车次编号
 
@@ -21,8 +23,14 @@ public class OrderVo {
     private String startStation;// 出发站
 
     @NotEmpty(message = "出发日期不能为空")
-    private Date startTime;// 出发日期
+    private Date startTime;// 出发时间
 
     @NotEmpty(message = "到达站不能为空")
     private String endStation;// 到达站
+
+    private Date endTime;// 到达时间
+
+    @NotEmpty(message = "座位类型不能为空")
+    private Integer seatType;// 座位类型
+
 }
